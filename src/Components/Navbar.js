@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Header() {
+export default function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <header className="z-10 text-gray-200 dark:bg-gray-900">
+    <div className="z-10 text-gray-200 dark:bg-gray-900">
       <nav
         className="mx-7 text-lg flex items-center max-w-full p-6 lg:px-8"
         aria-label="Global"
@@ -36,6 +36,6 @@ export default function Header() {
           </button>
         </div>
       </nav>
-    </header>
+    </div>
   );
 }

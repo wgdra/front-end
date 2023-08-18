@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 
 export default function Register(props) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,10 +21,10 @@ export default function Register(props) {
 
   const checkValidateEmail = () => {
     if (!isEmail) {
-      return <span className="text-xs text-red-500">*bắt buộc</span>;
+      return <span className="text-xs text-red-500 ml-1">*bắt buộc</span>;
     } else {
       return (
-        <span>
+        <span className="ml-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -39,11 +41,41 @@ export default function Register(props) {
       );
     }
   };
+
+  const checkRePassword = () => {
+    if (password.length === rePassword.length && password !== rePassword) {
+      return <span className="text-xs text-red-500 ml-1">*chưa chính xác</span>;
+    } else if (
+      rePassword.length > 0 &&
+      password.length === rePassword.length &&
+      password === rePassword
+    ) {
+      return (
+        <span className="ml-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5 text-[#0ea5e9]"
+          >
+            <path
+              fillRule="evenodd"
+              d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </span>
+      );
+    }
+  };
+
   //Handle
   const handleRegister = () => {
     //
     if (!isEmail) {
       return toast.error("Email không hợp lệ");
+    } else if (password.length > 0 && password !== rePassword) {
+      return toast.error("Mật khẩu không hợp lệ");
     } else {
       toast.success("Đăng ký thành công");
       return navigate("/login");
@@ -59,14 +91,13 @@ export default function Register(props) {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Đăng ký tài khoản
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6">
                 <div>
                   <label
                     for="email"
                     className="flex mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Email
-                    {checkValidateEmail()}
+                    Email {checkValidateEmail()}
                   </label>
                   <input
                     type="email"
@@ -91,15 +122,15 @@ export default function Register(props) {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div>
                   <label
                     for="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="flex mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Nhập lại Mật khẩu
+                    Nhập lại mật khẩu {checkRePassword()}
                   </label>
                   <input
                     type="password"
@@ -107,7 +138,7 @@ export default function Register(props) {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    onChange={(e) => setRePassword(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center justify-between mb-4">
