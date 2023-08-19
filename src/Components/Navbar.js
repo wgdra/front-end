@@ -13,7 +13,7 @@ export default function Navbar() {
           MANAGEROOM
         </NavLink>
         <div className="w-3/5">
-          <NavLink to="/manage-room" className="mr-10 font-semibold leading-6">
+          <NavLink to="/" className="mr-10 font-semibold leading-6">
             Trang Chủ
           </NavLink>
           <NavLink to="/" className="mr-10 font-semibold leading-6">

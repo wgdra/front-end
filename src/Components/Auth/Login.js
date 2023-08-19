@@ -9,7 +9,7 @@ export default function Login() {
   const handleLogin = () => {
     //
     toast.success("Đăng nhập thành công");
-    navigate("/");
+    navigate("/manage");
   };
 
   return (
