@@ -1,0 +1,130 @@
+{
+  "manage-room": [
+    {
+      "id": 1,
+      "room": [
+        {
+          "id": 1,
+          "room_id": "H101",
+          "name": "Phòng 101",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 2,
+          "room_id": "H102",
+          "name": "Phòng 102",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 3,
+          "room_id": "H103",
+          "name": "Phòng 103",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 4,
+          "room_id": "H104",
+          "name": "Phòng 104",
+          "note": "Giữ gìn vệ sinh"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "room": [
+        {
+          "id": 1,
+          "room_id": "H201",
+          "name": "Phòng 201",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 2,
+          "room_id": "H202",
+          "name": "Phòng 202",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 3,
+          "room_id": "H203",
+          "name": "Phòng 203",
+          "note": "Giữ gìn vệ sinh"
+        },
+        {
+          "id": 4,
+          "room_id": "H204",
+          "name": "Phòng 204",
+          "note": "Giữ gìn vệ sinh"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "room": [
+        {
+          "id": 1,
+          "room_id": "H301",
+          "name": "Phòng 301",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 2,
+          "room_id": "H302",
+          "name": "Phòng 302",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 3,
+          "room_id": "H303",
+          "name": "Phòng 303",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 4,
+          "room_id": "H304",
+          "name": "Phòng 304",
+          "note": "Ra ngoài nhớ tắt điện"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "room": [
+        {
+          "id": 1,
+          "room_id": "H401",
+          "name": "Phòng 401",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 2,
+          "room_id": "H402",
+          "name": "Phòng 402",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 3,
+          "room_id": "H403",
+          "name": "Phòng 403",
+          "note": "Ra ngoài nhớ tắt điện"
+        },
+        {
+          "id": 4,
+          "room_id": "H404",
+          "name": "Phòng 404",
+          "note": "Ra ngoài nhớ tắt điện"
+        }
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
