@@ -8,14 +8,16 @@ import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 export default function Modal(props) {
-  const { open, setOpen, name } = props;
+  const { open, setOpen, name, dataRoom, inforUser, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
   const DataModalRoom = () => {
     if (name === "add-room") {
       return <ModalAddRoom open={open} setOpen={setOpen} />;
     } else if (name === "delete-room") {
-      return <ModalDeleteRoom open={open} setOpen={setOpen} />;
+      return (
+        <ModalDeleteRoom open={open} setOpen={setOpen} dataRoom={dataRoom} />
+      );
     } else if (name === "update-room") {
       return <ModalUpdateRoom open={open} setOpen={setOpen} />;
     }
@@ -23,9 +25,22 @@ export default function Modal(props) {
 
   const DataModalUser = () => {
     if (name === "add-user") {
-      return <ModalAddUser open={open} setOpen={setOpen} />;
+      return (
+        <ModalAddUser
+          open={open}
+          setOpen={setOpen}
+          fetchDataUser={fetchDataUser}
+        />
+      );
     } else if (name === "delete-user") {
-      return <ModalDeleteUser open={open} setOpen={setOpen} />;
+      return (
+        <ModalDeleteUser
+          open={open}
+          setOpen={setOpen}
+          inforUser={inforUser}
+          fetchDataUser={fetchDataUser}
+        />
+      );
     } else if (name === "update-user") {
       return <ModalUpdateUser open={open} setOpen={setOpen} />;
     }

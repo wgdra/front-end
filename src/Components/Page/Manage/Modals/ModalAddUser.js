@@ -1,20 +1,24 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { postDataUser } from "../../../../services/apiService";
 
 export default function ModalAddUser(props) {
-  const { setOpen } = props;
+  const { setOpen, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
-  const [id, setId] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [subject, setSubject] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleAddUser = () => {
+  const handleAddUser = async () => {
+    await postDataUser(userId, fullName, subject, role, email, phoneNumber);
     toast.success("Thêm mới thành công");
     setOpen(false);
+    fetchDataUser();
   };
   return (
     <>
@@ -28,7 +32,7 @@ export default function ModalAddUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            onChange={(e) => setId(e.target.value)}
+            onChange={(e) => setUserId(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -39,7 +43,18 @@ export default function ModalAddUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block mb-2" htmlFor="roomname">
+            Bộ Môn
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="roomname"
+            type="text"
+            onChange={(e) => setSubject(e.target.value)}
           />
         </div>
         <div className="mb-5">

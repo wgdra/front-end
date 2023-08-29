@@ -1,18 +1,16 @@
 import { useRef } from "react";
-import { useState } from "react";
 import { toast } from "react-toastify";
+import { deleteDataUser } from "../../../../services/apiService";
 
 export default function ModalDeleteUser(props) {
-  const { open, setOpen } = props;
-
-  const [id, setId] = useState("");
-  const [userName, setUserName] = useState("");
-
+  const { open, setOpen, inforUser, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
-  const handleDeleteUser = () => {
-    toast.error(`Đã xóa ${userName}`);
+  const handleDeleteUser = async () => {
+    await deleteDataUser(inforUser.id);
+    toast.error(`Đã xóa ${inforUser.full_name}`);
     setOpen(false);
+    fetchDataUser();
   };
   return (
     <>
@@ -26,7 +24,7 @@ export default function ModalDeleteUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            placeholder="H111"
+            placeholder={inforUser.user_id}
             disabled
           />
         </div>
@@ -38,7 +36,7 @@ export default function ModalDeleteUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="username"
             type="text"
-            placeholder="Nguyen Van A"
+            placeholder={inforUser.full_name}
             disabled
           />
         </div>

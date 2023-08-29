@@ -13,7 +13,7 @@ export default function ManageRoom() {
 
   console.log();
   //Handle
-  const handleShowHide = () => {
+  const handleShowHide = (index) => {
     setShow((show) => !show);
   };
 
@@ -38,11 +38,10 @@ export default function ManageRoom() {
         {listRoom && listRoom.length > 0 ? (
           listRoom.map((item, index) => {
             return (
-              <>
+              <div key={index}>
                 <span
                   className="flex items-center cursor-pointer"
-                  onClick={() => handleShowHide()}
-                  key={index}
+                  onClick={() => handleShowHide(index)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,22 +59,22 @@ export default function ManageRoom() {
                   </svg>
                   Tầng {item.id}
                 </span>
-                {show === true
-                  ? item.room.map((data, index) => {
-                      console.log(data);
-                      return (
-                        <ul key={index} className="ml-10">
+                <ul className="ml-10">
+                  {show === true
+                    ? item.room.map((data, index) => {
+                        return (
                           <li
+                            key={index}
                             className="cursor-pointer"
                             onClick={() => setDataRoom(data)}
                           >
                             {data.name}
                           </li>
-                        </ul>
-                      );
-                    })
-                  : ""}
-              </>
+                        );
+                      })
+                    : ""}
+                </ul>
+              </div>
             );
           })
         ) : (
@@ -153,7 +152,7 @@ export default function ManageRoom() {
             />
           </svg>
 
-          <span className="font-semibold">PHÒNG 101</span>
+          <span className="font-semibold">{dataRoom.name}</span>
         </div>
 
         <div className="p-5 font-bold">
@@ -216,7 +215,7 @@ export default function ManageRoom() {
           </div>
         </div>
       </div>
-      <Modal open={open} setOpen={setOpen} name={btnName} />
+      <Modal open={open} setOpen={setOpen} name={btnName} dataRoom={dataRoom} />
     </div>
   );
 }

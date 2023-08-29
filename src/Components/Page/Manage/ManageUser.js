@@ -1,77 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modals/Modal";
+import { getDataUser } from "../../../services/apiService";
+import InforUser from "./InforUser";
 
 export default function ManageUser() {
   const [open, setOpen] = useState(false);
   const [btnName, setBtnName] = useState("");
 
-  const [id, setId] = useState("");
-  const [userName, setUserName] = useState("");
-  const [note, setNote] = useState("");
+  const [dataUser, setDataUser] = useState([]);
+  const [inforUser, setInforUser] = useState([]);
 
   //Handle
+  const handleModal = (name) => {
+    setOpen(true);
+    setBtnName(name);
+  };
+
+  //Api
+  useEffect(() => {
+    fetchDataUser();
+  }, []);
+
+  const fetchDataUser = async () => {
+    let res = await getDataUser();
+    setDataUser(res);
+  };
 
   const listUser = () => {
     return (
       <ul className="border-t-2 border-primary ">
-        <li className="flex items-center my-2 ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 mr-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Nguyễn Văn A
-        </li>
-        <li className="flex items-center mb-2 ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 mr-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Nguyễn Văn A
-        </li>
-        <li className="flex items-center mb-2 ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 mr-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Nguyễn Văn A
-        </li>
+        {dataUser && dataUser.length > 0 ? (
+          dataUser.map((item, index) => {
+            return (
+              <li
+                className="flex items-center my-2 ml-2 cursor-pointer"
+                key={index}
+                onClick={() => setInforUser(item)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5 mr-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {item.full_name}
+              </li>
+            );
+          })
+        ) : (
+          <span>Not Data</span>
+        )}
       </ul>
     );
-  };
-
-  const handleModal = (name) => {
-    setOpen(true);
-    setBtnName(name);
   };
 
   return (
@@ -142,7 +130,7 @@ export default function ManageUser() {
           </svg>
 
           <span className="font-semibold">
-            THÔNG TIN GIẢNG VIÊN - {userName}
+            THÔNG TIN GIẢNG VIÊN - {inforUser.full_name}
           </span>
         </div>
 
@@ -173,59 +161,7 @@ export default function ManageUser() {
           </div>
 
           <div className="mt-10">
-            <form className="text-gray-900 text-lg bg-white shadow-md rounded px-8 py-16 mb-20">
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold" htmlFor="id">
-                  Mã Giảng Viên
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  id="id"
-                  placeholder="225"
-                  disabled
-                />
-              </div>
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold">Tên Giảng Viên</label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  placeholder="Nguyễn Văn A"
-                  disabled
-                />
-              </div>
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold">Bộ Môn</label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  placeholder="Toán P1"
-                  disabled
-                />
-              </div>
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold">Chức vụ</label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  placeholder="Trưởng bộ môn"
-                  disabled
-                />
-              </div>
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold">Email</label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  placeholder="nguyena@gmail.com"
-                  disabled
-                />
-              </div>
-              <div className="mb-5 flex items-center justify-between">
-                <label className="font-bold">Số Điện Thoại</label>
-                <input
-                  className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
-                  placeholder="0988888888"
-                  disabled
-                />
-              </div>
-            </form>
+            <InforUser inforUser={inforUser} />
             <div className="flex justify-end">
               <button
                 name="update-user"
@@ -258,7 +194,13 @@ export default function ManageUser() {
           </div>
         </div>
       </div>
-      <Modal open={open} setOpen={setOpen} name={btnName} />
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        name={btnName}
+        inforUser={inforUser}
+        fetchDataUser={fetchDataUser}
+      />
     </div>
   );
 }

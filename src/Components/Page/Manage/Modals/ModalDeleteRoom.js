@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function ModalDeleteRoom(props) {
-  const { open, setOpen } = props;
+  const { open, setOpen, dataRoom } = props;
 
   const [id, setId] = useState("");
   const [roomName, setRoomName] = useState("");
@@ -11,7 +11,7 @@ export default function ModalDeleteRoom(props) {
   const cancelButtonRef = useRef(null);
 
   const handleDeleteRoom = () => {
-    toast.error(`Đã xóa phòng ${roomName}`);
+    toast.error(`Đã xóa ${dataRoom.name}`);
     setOpen(false);
   };
   return (
@@ -26,7 +26,7 @@ export default function ModalDeleteRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            placeholder="H101"
+            placeholder={dataRoom.room_id}
             disabled
           />
         </div>
@@ -38,7 +38,7 @@ export default function ModalDeleteRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            placeholder="101"
+            placeholder={dataRoom.name}
             disabled
           />
         </div>
