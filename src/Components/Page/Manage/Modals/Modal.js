@@ -13,7 +13,7 @@ export default function Modal(props) {
 
   const DataModalRoom = () => {
     if (name === "add-room") {
-      return <ModalAddRoom open={open} setOpen={setOpen} />;
+      return <ModalAddRoom open={open} setOpen={setOpen} dataRoom={dataRoom} />;
     } else if (name === "delete-room") {
       return (
         <ModalDeleteRoom open={open} setOpen={setOpen} dataRoom={dataRoom} />

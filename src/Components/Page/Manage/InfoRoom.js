@@ -1,5 +1,5 @@
 const InforRoom = (props) => {
-  const { dataRoom } = props;
+  const { data } = props;
 
   return (
     <>
@@ -12,7 +12,7 @@ const InforRoom = (props) => {
             className="shadow appearance-none border rounded w-2/3 py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            placeholder={dataRoom.room_id}
+            placeholder={data?.id}
             disabled
           />
         </div>
@@ -24,19 +24,7 @@ const InforRoom = (props) => {
             className="shadow appearance-none border rounded w-2/3 py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            placeholder={dataRoom.name}
-            disabled
-          />
-        </div>
-        <div className="">
-          <label className="block font-bold mb-2" htmlFor="note">
-            Ghi Chú (bắt buộc nhập trước khi thay đổi)
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="note"
-            type="text"
-            placeholder={dataRoom.note}
+            placeholder={data?.classroom_name}
             disabled
           />
         </div>

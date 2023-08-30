@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modals/Modal";
-import { getDataRoom } from "../../../services/apiService";
+import { getAllClassrooms, getOneClassroom } from "../../../services/apiService";
 import InforRoom from "./InfoRoom";
 
 export default function ManageRoom() {
@@ -11,69 +11,52 @@ export default function ManageRoom() {
   const [listRoom, setListRoom] = useState("");
   const [dataRoom, setDataRoom] = useState("");
 
-  console.log();
   //Handle
   const handleShowHide = (index) => {
     setShow((show) => !show);
   };
 
   const handleModal = (name) => {
+    console.log('name', name);
     setOpen(true);
     setBtnName(name);
   };
 
-  //Api
+  // Api
   useEffect(() => {
     fetchListRoom();
   }, []);
 
   const fetchListRoom = async () => {
-    let res = await getDataRoom();
+    let res = await getAllClassrooms();
     setListRoom(res);
   };
+
+
+  const [isShowData, setIsShowData] = useState(false)
+  const [data, setData] = useState()
+
+  const handleClassroom = async (id) => {
+    setIsShowData(true)
+    const dataClassroom = await getOneClassroom(id)
+    setData(dataClassroom)
+  }
+
+  console.log('data', data);
 
   const showListRoom = () => {
     return (
       <>
-        {listRoom && listRoom.length > 0 ? (
-          listRoom.map((item, index) => {
+        {listRoom && listRoom.length ? (
+          listRoom.map((item) => {
             return (
-              <div key={index}>
+              <div key={item.id}>
                 <span
                   className="flex items-center cursor-pointer"
-                  onClick={() => handleShowHide(index)}
+                  onClick={() => handleClassroom(item.id)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 mr-1"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  Tầng {item.id}
+                  {item.classroom_name}
                 </span>
-                <ul className="ml-10">
-                  {show === true
-                    ? item.room.map((data, index) => {
-                        return (
-                          <li
-                            key={index}
-                            className="cursor-pointer"
-                            onClick={() => setDataRoom(data)}
-                          >
-                            {data.name}
-                          </li>
-                        );
-                      })
-                    : ""}
-                </ul>
               </div>
             );
           })
@@ -158,7 +141,7 @@ export default function ManageRoom() {
         <div className="p-5 font-bold">
           <div className="flex justify-between">
             <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
-            <button
+            {/* <button
               name="delete-room"
               className="flex items-center text-white border border-red-600 bg-red-600 rounded-lg px-3 py-2 mb-5"
               onClick={(e) => handleModal(e.target.name)}
@@ -178,12 +161,13 @@ export default function ManageRoom() {
                 />
               </svg>
               Xóa phòng
-            </button>
+            </button> */}
           </div>
 
-          <div className="mt-10">
-            <InforRoom dataRoom={dataRoom} />
-            <div className="flex justify-end">
+
+          {isShowData && data && <div className="mt-10">
+            <InforRoom data={data} />
+            {/* <div className="flex justify-end">
               <button
                 name="update-room"
                 className="flex items-center text-white border border-yellow-600 bg-yellow-600 rounded-lg px-3 py-2 mb-5"
@@ -205,14 +189,9 @@ export default function ManageRoom() {
                 </svg>
                 Chỉnh sửa
               </button>
-              {/* <button
-                className="flex justify-center w-20 text-white border border-gray-600 bg-gray-600 rounded-lg px-3 py-2 mb-5 mx-5"
-                onClick={() => handleCancel()}
-              >
-                Hủy
-              </button> */}
-            </div>
+            </div> */}
           </div>
+          }
         </div>
       </div>
       <Modal open={open} setOpen={setOpen} name={btnName} dataRoom={dataRoom} />
