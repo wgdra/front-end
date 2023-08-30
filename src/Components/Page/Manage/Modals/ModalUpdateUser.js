@@ -1,20 +1,32 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { putDataUser } from "../../../../services/apiService";
 
 export default function ModalUpdateUser(props) {
-  const { setOpen } = props;
+  const { setOpen, inforUser, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
-  const [id, setId] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("");
+  const [subject, setSubject] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleUpdateUser = () => {
+  const handleUpdateUser = async () => {
+    await putDataUser(
+      inforUser.id,
+      userId,
+      fullName,
+      subject,
+      role,
+      email,
+      phoneNumber
+    );
     toast.success("Chỉnh sửa thành công");
     setOpen(false);
+    fetchDataUser();
   };
   return (
     <>
@@ -28,7 +40,8 @@ export default function ModalUpdateUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            onChange={(e) => setId(e.target.value)}
+            placeholder={inforUser.user_id}
+            onChange={(e) => setUserId(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -39,7 +52,20 @@ export default function ModalUpdateUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            onChange={(e) => setUserName(e.target.value)}
+            placeholder={inforUser.full_name}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block mb-2" htmlFor="roomname">
+            Bộ Môn
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="roomname"
+            type="text"
+            placeholder={inforUser.subject}
+            onChange={(e) => setSubject(e.target.value)}
           />
         </div>
         <div className="mb-5">
@@ -50,6 +76,7 @@ export default function ModalUpdateUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
+            placeholder={inforUser.role}
             onChange={(e) => setRole(e.target.value)}
           />
         </div>
@@ -60,7 +87,8 @@ export default function ModalUpdateUser(props) {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
-            type="text"
+            type="email"
+            placeholder={inforUser.email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -71,7 +99,8 @@ export default function ModalUpdateUser(props) {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
-            type="text"
+            type="number"
+            placeholder={inforUser.phonenumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>

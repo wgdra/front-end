@@ -131,31 +131,12 @@
   ],
   "user": [
     {
-      "user_id": "HY15",
-      "full_name": "Trần Thị Hoàng Yến",
-      "subject": "Maketing",
-      "role": "Trưởng Phòng",
-      "email": "yentr34@gmail.com",
-      "phonenumber": "0359212032",
-      "id": 2
-    },
-    {
-      "user_id": "DS11",
-      "full_name": "Nguyễn Danh Sơn",
-      "subject": "Giải Tích 1",
-      "role": "Giảng Viên",
-      "email": "danhson@gmail.com",
-      "phonenumber": "0986635478",
-      "id": 3
-    },
-    {
-      "user_id": "NT12",
-      "full_name": "Nguyễn Ngọc Toàn",
-      "subject": "Tin Học",
-      "role": "Giảng Viên",
+      "user_id": "NT13",
+      "full_name": "Nguyen Ngoc Toan",
+      "subject": "Tin",
+      "role": "Giang Vien",
       "email": "ngoctoan@gmail.com",
-      "phonenumber": "0987758862",
-      "delay": 3000,
+      "phonenumber": "0988657435",
       "id": 4
     }
   ]

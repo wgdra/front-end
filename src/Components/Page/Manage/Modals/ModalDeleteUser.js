@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { deleteDataUser } from "../../../../services/apiService";
 
 export default function ModalDeleteUser(props) {
-  const { open, setOpen, inforUser, fetchDataUser } = props;
+  const { setOpen, inforUser, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
   const handleDeleteUser = async () => {

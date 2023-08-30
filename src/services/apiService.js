@@ -19,9 +19,26 @@ const postDataUser = (userId, fullName, subject, role, email, phoneNumber) => {
     phonenumber: phoneNumber,
   });
 };
-
 const deleteDataUser = (id) => {
   return instance.delete(`/user/${id}`);
 };
+const putDataUser = (
+  id,
+  userId,
+  fullName,
+  subject,
+  role,
+  email,
+  phoneNumber
+) => {
+  return instance.put(`/user/${id}`, {
+    user_id: userId,
+    full_name: fullName,
+    subject: subject,
+    role: role,
+    email: email,
+    phonenumber: phoneNumber,
+  });
+};
 
-export { getDataRoom, getDataUser, postDataUser, deleteDataUser };
+export { getDataRoom, getDataUser, postDataUser, deleteDataUser, putDataUser };

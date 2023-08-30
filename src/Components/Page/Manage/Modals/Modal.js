@@ -35,14 +35,20 @@ export default function Modal(props) {
     } else if (name === "delete-user") {
       return (
         <ModalDeleteUser
-          open={open}
           setOpen={setOpen}
           inforUser={inforUser}
           fetchDataUser={fetchDataUser}
         />
       );
     } else if (name === "update-user") {
-      return <ModalUpdateUser open={open} setOpen={setOpen} />;
+      return (
+        <ModalUpdateUser
+          open={open}
+          setOpen={setOpen}
+          inforUser={inforUser}
+          fetchDataUser={fetchDataUser}
+        />
+      );
     }
   };
   return (
