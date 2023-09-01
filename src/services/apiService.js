@@ -2,12 +2,29 @@ import instance from "../utils/axiosCustomize";
 
 //Data Room
 const getDataRoom = () => {
-  return instance.get(`/manage-room?${Date.now()}`);
+  return instance.get(`/classrooms?${Date.now()}`);
+};
+
+const postDataRoom = (classroomName, note) => {
+  return instance.post(`/classrooms?${Date.now()}`, {
+    classroom_name: classroomName,
+    note: note,
+  });
+};
+
+const deleteRoom = (id) => {
+  return instance.delete(`/classrooms/${id}`);
+};
+
+const putDataRoom = (id, classroomName) => {
+  return instance.post(`/classrooms/${id}`, {
+    classroom_name: classroomName,
+  });
 };
 
 //Data User
 const getDataUser = () => {
-  return instance.get(`/user?${Date.now()}`);
+  return instance.get(`/user`);
 };
 const postDataUser = (userId, fullName, subject, role, email, phoneNumber) => {
   return instance.post("/user", {
@@ -41,4 +58,13 @@ const putDataUser = (
   });
 };
 
-export { getDataRoom, getDataUser, postDataUser, deleteDataUser, putDataUser };
+export {
+  getDataRoom,
+  postDataRoom,
+  deleteRoom,
+  putDataRoom,
+  getDataUser,
+  postDataUser,
+  deleteDataUser,
+  putDataUser,
+};

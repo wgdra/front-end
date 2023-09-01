@@ -1,35 +1,26 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { postDataRoom } from "../../../../services/apiService";
 
 export default function ModalAddRoom(props) {
-  const { setOpen } = props;
+  const { setOpen, fetchListRoom } = props;
 
-  const [id, setId] = useState("");
-  const [roomName, setRoomName] = useState("");
+  const [classroomName, setClassroomName] = useState("");
   const [note, setNote] = useState("");
 
   const cancelButtonRef = useRef(null);
 
-  const handleAddRoom = () => {
+  const handleAddRoom = async () => {
+    await postDataRoom(classroomName, note);
     toast.success("Thêm phòng thành công");
     setOpen(false);
+    fetchListRoom();
   };
   return (
     <>
       <h1 className="text-xl font-bold mb-2">Thêm phòng mới</h1>
       <form className="text-gray-900 text-lg font-medium bg-white shadow-md rounded p-8">
-        <div className="mb-8">
-          <label className="block mb-2" htmlFor="id">
-            Mã Phòng
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="id"
-            type="text"
-            onChange={(e) => setId(e.target.value)}
-          />
-        </div>
         <div className="mb-8">
           <label className="block mb-2" htmlFor="roomname">
             Tên Phòng
@@ -38,21 +29,10 @@ export default function ModalAddRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            onChange={(e) => setRoomName(e.target.value)}
+            onChange={(e) => setClassroomName(e.target.value)}
           />
         </div>
-        <div className="mb-8">
-          <label className="block mb-2" htmlFor="id">
-            Tầng
-          </label>
-          <input
-            className="shadow appearance-none border font-bold rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="id"
-            type="text"
-            placeholder="1"
-            disabled
-          />
-        </div>
+
         <div className="">
           <label className="block mb-2" htmlFor="note">
             Ghi Chú (bắt buộc nhập trước khi thay đổi)

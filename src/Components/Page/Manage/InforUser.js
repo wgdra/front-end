@@ -9,7 +9,7 @@ const InforUser = (props) => {
         <input
           className="shadow appearance-none border rounded w-4/5 py-2 px-3 leading-tight"
           id="id"
-          placeholder={inforUser.user_id}
+          placeholder={inforUser.id}
           disabled
         />
       </div>

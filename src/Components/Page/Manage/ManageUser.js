@@ -130,7 +130,7 @@ export default function ManageUser() {
           </svg>
 
           <span className="font-semibold">
-            THÔNG TIN GIẢNG VIÊN - {inforUser.full_name}
+            THÔNG TIN GIẢNG VIÊN - {inforUser?.full_name?.toUpperCase()}
           </span>
         </div>
 

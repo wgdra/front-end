@@ -1,19 +1,21 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { putDataRoom } from "../../../../services/apiService";
 
 export default function ModalUpdateRoom(props) {
-  const { setOpen } = props;
+  const { setOpen, dataRoom, fetchListRoom } = props;
 
-  const [id, setId] = useState("");
-  const [roomName, setRoomName] = useState("");
+  const [classroomName, setClassroomName] = useState("");
   const [note, setNote] = useState("");
 
   const cancelButtonRef = useRef(null);
 
-  const handleUpdateRoom = () => {
+  const handleUpdateRoom = async () => {
+    await putDataRoom(dataRoom.id, classroomName, note);
     toast.warning("Cập nhật thành công");
     setOpen(false);
+    fetchListRoom();
   };
   return (
     <>
@@ -27,7 +29,8 @@ export default function ModalUpdateRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            onChange={(e) => setId(e.target.value)}
+            placeholder={dataRoom.id}
+            disabled
           />
         </div>
         <div className="mb-10">
@@ -38,7 +41,7 @@ export default function ModalUpdateRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            onChange={(e) => setRoomName(e.target.value)}
+            onChange={(e) => setClassroomName(e.target.value)}
           />
         </div>
         <div className="">

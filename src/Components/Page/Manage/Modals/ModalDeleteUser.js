@@ -6,6 +6,7 @@ export default function ModalDeleteUser(props) {
   const { setOpen, inforUser, fetchDataUser } = props;
   const cancelButtonRef = useRef(null);
 
+  console.log(inforUser);
   const handleDeleteUser = async () => {
     await deleteDataUser(inforUser.id);
     toast.error(`Đã xóa ${inforUser.full_name}`);
@@ -24,7 +25,7 @@ export default function ModalDeleteUser(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            placeholder={inforUser.user_id}
+            placeholder={inforUser.id}
             disabled
           />
         </div>

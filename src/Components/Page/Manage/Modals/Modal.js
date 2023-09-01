@@ -8,18 +8,36 @@ import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 export default function Modal(props) {
-  const { open, setOpen, name, dataRoom, inforUser, fetchDataUser } = props;
+  const {
+    open,
+    setOpen,
+    name,
+    dataRoom,
+    inforUser,
+    fetchListRoom,
+    fetchDataUser,
+  } = props;
   const cancelButtonRef = useRef(null);
 
   const DataModalRoom = () => {
     if (name === "add-room") {
-      return <ModalAddRoom open={open} setOpen={setOpen} />;
+      return <ModalAddRoom setOpen={setOpen} fetchListRoom={fetchListRoom} />;
     } else if (name === "delete-room") {
       return (
-        <ModalDeleteRoom open={open} setOpen={setOpen} dataRoom={dataRoom} />
+        <ModalDeleteRoom
+          setOpen={setOpen}
+          dataRoom={dataRoom}
+          fetchListRoom={fetchListRoom}
+        />
       );
     } else if (name === "update-room") {
-      return <ModalUpdateRoom open={open} setOpen={setOpen} />;
+      return (
+        <ModalUpdateRoom
+          setOpen={setOpen}
+          dataRoom={dataRoom}
+          fetchListRoom={fetchListRoom}
+        />
+      );
     }
   };
 
@@ -43,7 +61,6 @@ export default function Modal(props) {
     } else if (name === "update-user") {
       return (
         <ModalUpdateUser
-          open={open}
           setOpen={setOpen}
           inforUser={inforUser}
           fetchDataUser={fetchDataUser}

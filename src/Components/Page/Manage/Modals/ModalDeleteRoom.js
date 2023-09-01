@@ -1,18 +1,17 @@
 import { useRef } from "react";
-import { useState } from "react";
 import { toast } from "react-toastify";
+import { deleteRoom } from "../../../../services/apiService";
 
 export default function ModalDeleteRoom(props) {
-  const { open, setOpen, dataRoom } = props;
-
-  const [id, setId] = useState("");
-  const [roomName, setRoomName] = useState("");
+  const { setOpen, dataRoom, fetchListRoom } = props;
 
   const cancelButtonRef = useRef(null);
 
-  const handleDeleteRoom = () => {
-    toast.error(`Đã xóa ${dataRoom.name}`);
+  const handleDeleteRoom = async () => {
+    await deleteRoom(dataRoom.id);
+    toast.error(`Đã xóa ${dataRoom.classroom_name}`);
     setOpen(false);
+    fetchListRoom();
   };
   return (
     <>
@@ -26,7 +25,7 @@ export default function ModalDeleteRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="id"
             type="text"
-            placeholder={dataRoom.room_id}
+            placeholder={dataRoom.id}
             disabled
           />
         </div>
@@ -38,7 +37,7 @@ export default function ModalDeleteRoom(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="roomname"
             type="text"
-            placeholder={dataRoom.name}
+            placeholder={dataRoom.classroom_name}
             disabled
           />
         </div>

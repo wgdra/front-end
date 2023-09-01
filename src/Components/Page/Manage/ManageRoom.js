@@ -4,17 +4,15 @@ import { getDataRoom } from "../../../services/apiService";
 import InforRoom from "./InfoRoom";
 
 export default function ManageRoom() {
-  const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [btnName, setBtnName] = useState("");
 
   const [listRoom, setListRoom] = useState("");
   const [dataRoom, setDataRoom] = useState("");
 
-  console.log();
   //Handle
-  const handleShowHide = (index) => {
-    setShow((show) => !show);
+  const handleClickRoom = (data) => {
+    setDataRoom(data);
   };
 
   const handleModal = (name) => {
@@ -41,7 +39,7 @@ export default function ManageRoom() {
               <div key={index}>
                 <span
                   className="flex items-center cursor-pointer"
-                  onClick={() => handleShowHide(index)}
+                  onClick={() => handleClickRoom(item)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -57,23 +55,8 @@ export default function ManageRoom() {
                       d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Tầng {item.id}
+                  {item.classroom_name}
                 </span>
-                <ul className="ml-10">
-                  {show === true
-                    ? item.room.map((data, index) => {
-                        return (
-                          <li
-                            key={index}
-                            className="cursor-pointer"
-                            onClick={() => setDataRoom(data)}
-                          >
-                            {data.name}
-                          </li>
-                        );
-                      })
-                    : ""}
-                </ul>
               </div>
             );
           })
@@ -152,7 +135,9 @@ export default function ManageRoom() {
             />
           </svg>
 
-          <span className="font-semibold">{dataRoom.name}</span>
+          <span className="font-semibold">
+            {dataRoom?.classroom_name?.toUpperCase()}
+          </span>
         </div>
 
         <div className="p-5 font-bold">
@@ -215,7 +200,13 @@ export default function ManageRoom() {
           </div>
         </div>
       </div>
-      <Modal open={open} setOpen={setOpen} name={btnName} dataRoom={dataRoom} />
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        name={btnName}
+        dataRoom={dataRoom}
+        fetchListRoom={fetchListRoom}
+      />
     </div>
   );
 }
