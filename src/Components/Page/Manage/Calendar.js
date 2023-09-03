@@ -1,5 +1,5 @@
 const Calendar = (props) => {
-  const { isOption } = props;
+  const { isOption } = props
 
   return (
     <>
@@ -10,57 +10,31 @@ const Calendar = (props) => {
               <span className="xl:block lg:block md:block sm:block hidden text-red-500">
                 Chủ nhật
               </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Sun
-              </span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Sun</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 2
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Mon
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 2</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Mon</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 3
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Tue
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 3</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Tue</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 4
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Wed
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 4</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Wed</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 5
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Thu
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 5</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Thu</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 6
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Fri
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 6</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Fri</span>
             </th>
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
-              <span className="xl:block lg:block md:block sm:block hidden">
-                Thứ 7
-              </span>
-              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                Sat
-              </span>
+              <span className="xl:block lg:block md:block sm:block hidden">Thứ 7</span>
+              <span className="xl:hidden lg:hidden md:hidden sm:hidden block">Sat</span>
             </th>
           </tr>
         </thead>
@@ -377,7 +351,7 @@ const Calendar = (props) => {
         </tbody>
       </table>
     </>
-  );
-};
+  )
+}
 
-export default Calendar;
+export default Calendar

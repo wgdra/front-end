@@ -1,0 +1,13 @@
+node_modules
+
+./package.json
+
+./package-lock.json
+
+./pnpm-lock.yaml
+
+./README.md
+
+./tailwind.config.js
+
+./prettier.config.js

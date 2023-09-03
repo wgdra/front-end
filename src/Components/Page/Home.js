@@ -1,4 +1,4 @@
-import Background from "../../assets/background-image.png";
+import Background from '../../assets/background-image.png'
 
 export default function Home() {
   return (
@@ -7,5 +7,5 @@ export default function Home() {
         <img className="w-screen h-screen" src={Background} />
       </div>
     </>
-  );
+  )
 }

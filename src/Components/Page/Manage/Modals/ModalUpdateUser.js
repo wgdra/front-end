@@ -1,33 +1,25 @@
-import { useRef } from "react";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { putDataUser } from "../../../../services/apiService";
+import { useRef } from 'react'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { putDataUser } from '../../../../services/apiService'
 
 export default function ModalUpdateUser(props) {
-  const { setOpen, inforUser, fetchDataUser } = props;
-  const cancelButtonRef = useRef(null);
+  const { setOpen, inforUser, fetchDataUser } = props
+  const cancelButtonRef = useRef(null)
 
-  const [userId, setUserId] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [role, setRole] = useState("");
-  const [subject, setSubject] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userId, setUserId] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [role, setRole] = useState('')
+  const [subject, setSubject] = useState('')
+  const [email, setEmail] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   const handleUpdateUser = async () => {
-    await putDataUser(
-      inforUser.id,
-      userId,
-      fullName,
-      subject,
-      role,
-      email,
-      phoneNumber
-    );
-    toast.success("Chỉnh sửa thành công");
-    setOpen(false);
-    fetchDataUser();
-  };
+    await putDataUser(inforUser.id, userId, fullName, subject, role, email, phoneNumber)
+    toast.success('Chỉnh sửa thành công')
+    setOpen(false)
+    fetchDataUser()
+  }
   return (
     <>
       <h1 className="text-xl font-bold mb-2">Chỉnh Sửa</h1>
@@ -123,5 +115,5 @@ export default function ModalUpdateUser(props) {
         </button>
       </div>
     </>
-  );
+  )
 }

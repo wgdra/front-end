@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
-import Modal from "./Modals/Modal";
-import { getDataUser } from "../../../services/apiService";
-import InforUser from "./InforUser";
+import { useEffect, useState } from 'react'
+import Modal from './Modals/Modal'
+import { getDataUser } from '../../../services/apiService'
+import InforUser from './InforUser'
 
 export default function ManageUser() {
-  const [open, setOpen] = useState(false);
-  const [btnName, setBtnName] = useState("");
+  const [open, setOpen] = useState(false)
+  const [btnName, setBtnName] = useState('')
 
-  const [dataUser, setDataUser] = useState([]);
-  const [inforUser, setInforUser] = useState([]);
+  const [dataUser, setDataUser] = useState([])
+  const [inforUser, setInforUser] = useState([])
 
   //Handle
   const handleModal = (name) => {
-    setOpen(true);
-    setBtnName(name);
-  };
+    setOpen(true)
+    setBtnName(name)
+  }
 
   //Api
   useEffect(() => {
-    fetchDataUser();
-  }, []);
+    fetchDataUser()
+  }, [])
 
   const fetchDataUser = async () => {
-    let res = await getDataUser();
-    setDataUser(res);
-  };
+    let res = await getDataUser()
+    setDataUser(res)
+  }
 
   const listUser = () => {
     return (
@@ -53,14 +53,14 @@ export default function ManageUser() {
                 </svg>
                 {item.full_name}
               </li>
-            );
+            )
           })
         ) : (
           <span>Not Data</span>
         )}
       </ul>
-    );
-  };
+    )
+  }
 
   return (
     <div className="flex h-full ">
@@ -97,11 +97,7 @@ export default function ManageUser() {
               stroke="currentColor"
               className="w-5 h-5"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v12m6-6H6"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
             </svg>
             Thêm mới
           </button>
@@ -150,11 +146,7 @@ export default function ManageUser() {
                 stroke="currentColor"
                 className="w-5 h-5"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
               Xóa giảng viên
             </button>
@@ -202,5 +194,5 @@ export default function ManageUser() {
         fetchDataUser={fetchDataUser}
       />
     </div>
-  );
+  )
 }

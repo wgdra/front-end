@@ -1,16 +1,16 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Login() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  console.log(location);
+  console.log(location)
   const handleLogin = () => {
     //
-    toast.success("Đăng nhập thành công");
-    navigate("/manage");
-  };
+    toast.success('Đăng nhập thành công')
+    navigate('/manage')
+  }
 
   return (
     <div>
@@ -66,10 +66,7 @@ export default function Login() {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label
-                        for="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
+                      <label for="remember" className="text-gray-500 dark:text-gray-300">
                         Lưu mật khẩu
                       </label>
                     </div>
@@ -82,19 +79,15 @@ export default function Login() {
                   </a>
                 </div>
                 <div className="text-gray-200 text-end">
-                  <button className="btn" onClick={() => navigate("/")}>
+                  <button className="btn" onClick={() => navigate('/')}>
                     Hủy
                   </button>
-                  <button
-                    type="submit"
-                    className="btn mx-2"
-                    onClick={() => handleLogin()}
-                  >
+                  <button type="submit" className="btn mx-2" onClick={() => handleLogin()}>
                     Đăng Nhập
                   </button>
                 </div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Bạn chưa có tài khoản?{" "}
+                  Bạn chưa có tài khoản?{' '}
                   <Link
                     to="/register"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -108,5 +101,5 @@ export default function Login() {
         </div>
       </section>
     </div>
-  );
+  )
 }

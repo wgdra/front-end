@@ -1,14 +1,11 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div className="z-10 text-gray-200 dark:bg-gray-900">
-      <nav
-        className="mx-7 text-lg flex items-center max-w-full p-6 lg:px-8"
-        aria-label="Global"
-      >
+      <nav className="mx-7 text-lg flex items-center max-w-full p-6 lg:px-8" aria-label="Global">
         <NavLink className="w-1/5 text-center font-semibold" to="/">
           MANAGEROOM
         </NavLink>
@@ -22,20 +19,14 @@ export default function Navbar() {
           <NavLink className="font-semibold leading-6">Liên Hệ</NavLink>
         </div>
         <div className="w-1/5 text-center">
-          <button
-            className="btn text-base mx-3.5"
-            onClick={() => navigate("/register")}
-          >
+          <button className="btn text-base mx-3.5" onClick={() => navigate('/register')}>
             Đăng Ký
           </button>
-          <button
-            className="btn text-base mx-3.5"
-            onClick={() => navigate("/login")}
-          >
+          <button className="btn text-base mx-3.5" onClick={() => navigate('/login')}>
             Đăng Nhập
           </button>
         </div>
       </nav>
     </div>
-  );
+  )
 }

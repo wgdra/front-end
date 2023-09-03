@@ -1,25 +1,25 @@
-import { useRef } from "react";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { postDataUser } from "../../../../services/apiService";
+import { useRef } from 'react'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { postDataUser } from '../../../../services/apiService'
 
 export default function ModalAddUser(props) {
-  const { setOpen, fetchDataUser } = props;
-  const cancelButtonRef = useRef(null);
+  const { setOpen, fetchDataUser } = props
+  const cancelButtonRef = useRef(null)
 
-  const [userId, setUserId] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [subject, setSubject] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userId, setUserId] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [subject, setSubject] = useState('')
+  const [role, setRole] = useState('')
+  const [email, setEmail] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   const handleAddUser = async () => {
-    await postDataUser(userId, fullName, subject, role, email, phoneNumber);
-    toast.success("Thêm mới thành công");
-    setOpen(false);
-    fetchDataUser();
-  };
+    await postDataUser(userId, fullName, subject, role, email, phoneNumber)
+    toast.success('Thêm mới thành công')
+    setOpen(false)
+    fetchDataUser()
+  }
   return (
     <>
       <h1 className="text-xl font-bold mb-2">Thêm Giảng Viên</h1>
@@ -109,5 +109,5 @@ export default function ModalAddUser(props) {
         </button>
       </div>
     </>
-  );
+  )
 }

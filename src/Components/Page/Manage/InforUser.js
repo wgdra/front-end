@@ -1,5 +1,5 @@
 const InforUser = (props) => {
-  const { inforUser } = props;
+  const { inforUser } = props
   return (
     <form className="text-gray-900 text-lg bg-white shadow-md rounded px-8 py-16 mb-20">
       <div className="mb-5 flex items-center justify-between">
@@ -54,7 +54,7 @@ const InforUser = (props) => {
         />
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default InforUser;
+export default InforUser

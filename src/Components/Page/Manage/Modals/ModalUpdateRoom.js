@@ -1,22 +1,22 @@
-import { useRef } from "react";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { putDataRoom } from "../../../../services/apiService";
+import { useRef } from 'react'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { putDataRoom } from '../../../../services/apiService'
 
 export default function ModalUpdateRoom(props) {
-  const { setOpen, dataRoom, fetchListRoom } = props;
+  const { setOpen, dataRoom, fetchListRoom } = props
 
-  const [classroomName, setClassroomName] = useState("");
-  const [note, setNote] = useState("");
+  const [classroomName, setClassroomName] = useState('')
+  const [note, setNote] = useState('')
 
-  const cancelButtonRef = useRef(null);
+  const cancelButtonRef = useRef(null)
 
   const handleUpdateRoom = async () => {
-    await putDataRoom(dataRoom.id, classroomName, note);
-    toast.success("Cập nhật thành công haha");
-    setOpen(false);
-    fetchListRoom();
-  };
+    await putDataRoom(dataRoom.id, classroomName, note)
+    toast.success('Cập nhật thành công haha')
+    setOpen(false)
+    fetchListRoom()
+  }
   return (
     <>
       <h1 className="text-xl font-bold mb-2">Chỉnh sửa thông tin</h1>
@@ -74,5 +74,5 @@ export default function ModalUpdateRoom(props) {
         </button>
       </div>
     </>
-  );
+  )
 }

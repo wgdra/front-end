@@ -1,37 +1,28 @@
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { NavLink } from "react-router-dom";
+import { Fragment } from 'react'
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { NavLink } from 'react-router-dom'
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ')
 }
 export default function NavManage() {
   return (
     <div className="z-10 text-gray-200 dark:bg-gray-900">
-      <nav
-        className="text-lg flex items-center max-w-full p-6 lg:px-8"
-        aria-label="Global"
-      >
+      <nav className="text-lg flex items-center max-w-full p-6 lg:px-8" aria-label="Global">
         <NavLink className="w-1/5 text-center font-semibold" to="/">
           MANAGEROOM
         </NavLink>
 
         <div className="w-3/5 flex">
-          <NavLink
-            to="/manage/room-register"
-            className="mr-10 font-semibold leading-6"
-          >
+          <NavLink to="/manage/room-register" className="mr-10 font-semibold leading-6">
             Đăng Ký Phòng Dạy
           </NavLink>
           <Menu as="div" className="relative">
             <div>
               <Menu.Button className="flex items-center justify-evenly font-semibold leading-6">
                 Quản Lý
-                <ChevronDownIcon
-                  className="ml-2 h-5 w-5 text-gray-200"
-                  aria-hidden="true"
-                />
+                <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-200" aria-hidden="true" />
               </Menu.Button>
             </div>
             <Transition
@@ -50,10 +41,8 @@ export default function NavManage() {
                       <NavLink
                         to="/manage/manage-room"
                         className={classNames(
-                          active
-                            ? "dark:bg-gray-900 text-gray-200"
-                            : "text-gray-200",
-                          "block px-4 my-2 py-3 text-sm"
+                          active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                          'block px-4 my-2 py-3 text-sm'
                         )}
                       >
                         Quản lý phòng
@@ -65,10 +54,8 @@ export default function NavManage() {
                       <NavLink
                         to="/manage/manage-user"
                         className={classNames(
-                          active
-                            ? "dark:bg-gray-900 text-gray-200"
-                            : "text-gray-200",
-                          "block px-4 my-2 py-3 text-sm"
+                          active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                          'block px-4 my-2 py-3 text-sm'
                         )}
                       >
                         Quản lý giảng viên
@@ -84,10 +71,7 @@ export default function NavManage() {
           <div className="flex items-center justify-center">
             <Menu.Button className="flex items-center justify-evenly font-semibold leading-6">
               Tài Khoản
-              <ChevronDownIcon
-                className="ml-2 h-5 w-5 text-gray-200"
-                aria-hidden="true"
-              />
+              <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-200" aria-hidden="true" />
             </Menu.Button>
           </div>
           <Transition
@@ -106,10 +90,8 @@ export default function NavManage() {
                     <NavLink
                       to="/profile"
                       className={classNames(
-                        active
-                          ? "dark:bg-gray-900 text-gray-200"
-                          : "text-gray-200",
-                        "block px-4 my-2 py-3 text-sm"
+                        active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                        'block px-4 my-2 py-3 text-sm'
                       )}
                     >
                       Hồ sơ
@@ -121,10 +103,8 @@ export default function NavManage() {
                     <NavLink
                       to="/"
                       className={classNames(
-                        active
-                          ? "dark:bg-gray-900 text-gray-200"
-                          : "text-gray-200",
-                        "block px-4 my-2 py-3 text-sm"
+                        active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                        'block px-4 my-2 py-3 text-sm'
                       )}
                     >
                       Đăng xuất
@@ -137,5 +117,5 @@ export default function NavManage() {
         </Menu>
       </nav>
     </div>
-  );
+  )
 }

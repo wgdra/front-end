@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState } from 'react'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Register(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [rePassword, setRePassword] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   //Validate
   const validateEmail = (email) => {
@@ -15,13 +15,13 @@ export default function Register(props) {
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-  const isEmail = validateEmail(email);
+      )
+  }
+  const isEmail = validateEmail(email)
 
   const checkValidateEmail = () => {
     if (!isEmail) {
-      return <span className="text-xs text-red-500 ml-1">*bắt buộc</span>;
+      return <span className="text-xs text-red-500 ml-1">*bắt buộc</span>
     } else {
       return (
         <span className="ml-1">
@@ -38,13 +38,13 @@ export default function Register(props) {
             />
           </svg>
         </span>
-      );
+      )
     }
-  };
+  }
 
   const checkRePassword = () => {
     if (password.length === rePassword.length && password !== rePassword) {
-      return <span className="text-xs text-red-500 ml-1">*chưa chính xác</span>;
+      return <span className="text-xs text-red-500 ml-1">*chưa chính xác</span>
     } else if (
       rePassword.length > 0 &&
       password.length === rePassword.length &&
@@ -65,22 +65,22 @@ export default function Register(props) {
             />
           </svg>
         </span>
-      );
+      )
     }
-  };
+  }
 
   //Handle
   const handleRegister = () => {
     //
     if (!isEmail) {
-      return toast.error("Email không hợp lệ");
+      return toast.error('Email không hợp lệ')
     } else if (password.length > 0 && password !== rePassword) {
-      return toast.error("Mật khẩu không hợp lệ");
+      return toast.error('Mật khẩu không hợp lệ')
     } else {
-      toast.success("Đăng ký thành công");
-      return navigate("/login");
+      toast.success('Đăng ký thành công')
+      return navigate('/login')
     }
-  };
+  }
 
   return (
     <div>
@@ -153,11 +153,8 @@ export default function Register(props) {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label
-                        for="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
-                        Bạn đồng ý với tất cả{" "}
+                      <label for="remember" className="text-gray-500 dark:text-gray-300">
+                        Bạn đồng ý với tất cả{' '}
                         <a
                           href="#"
                           className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -169,7 +166,7 @@ export default function Register(props) {
                   </div>
                 </div>
                 <div className="text-gray-200 text-end">
-                  <button className="btn" onClick={() => navigate("/")}>
+                  <button className="btn" onClick={() => navigate('/')}>
                     Hủy
                   </button>
                   <button className="btn mx-2" onClick={() => handleRegister()}>
@@ -177,7 +174,7 @@ export default function Register(props) {
                   </button>
                 </div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Bạn đã có tài khoản?{" "}
+                  Bạn đã có tài khoản?{' '}
                   <Link
                     to="/login"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -191,5 +188,5 @@ export default function Register(props) {
         </div>
       </section>
     </div>
-  );
+  )
 }

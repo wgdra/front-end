@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Calendar from "./Calendar";
+import { useState } from 'react'
+import Calendar from './Calendar'
 
 export default function RoomRegister() {
-  const [isOption, setIsOption] = useState("Aug");
+  const [isOption, setIsOption] = useState('Aug')
 
   const handleChangeOption = (value) => {
-    setIsOption(value);
-  };
+    setIsOption(value)
+  }
   return (
     <>
       <header className="w-full">
@@ -57,5 +57,5 @@ export default function RoomRegister() {
         <Calendar isOption={isOption} />
       </div>
     </>
-  );
+  )
 }
