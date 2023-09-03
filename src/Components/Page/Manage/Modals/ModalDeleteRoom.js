@@ -1,48 +1,23 @@
-import { useRef } from "react";
-import { toast } from "react-toastify";
-import { deleteRoom } from "../../../../services/apiService";
+import { useRef } from 'react'
+import { toast } from 'react-toastify'
+import { deleteRoom } from '../../../../services/apiService'
 
 export default function ModalDeleteRoom(props) {
-  const { setOpen, dataRoom, fetchListRoom } = props;
+  const { setOpen, dataRoom, fetchListRoom, setIsShowData } = props
 
-  const cancelButtonRef = useRef(null);
+  const cancelButtonRef = useRef(null)
 
   const handleDeleteRoom = async () => {
-    await deleteRoom(dataRoom.id);
-    toast.error(`Đã xóa ${dataRoom.classroom_name}`);
-    setOpen(false);
-    fetchListRoom();
-  };
+    await deleteRoom(dataRoom.id)
+    toast.error(`Đã xóa ${dataRoom.classroom_name}`)
+    setIsShowData(false)
+    setOpen(false)
+    fetchListRoom()
+  }
   return (
     <>
-      <h1 className="text-xl font-bold mb-2">Xóa Phòng Này?</h1>
-      <form className="text-gray-900 text-lg font-medium bg-white shadow-md rounded px-8 py-10">
-        <div className="mb-10">
-          <label className="block mb-2" htmlFor="id">
-            Mã Phòng
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
-            id="id"
-            type="text"
-            placeholder={dataRoom.id}
-            disabled
-          />
-        </div>
-        <div className="mb-10">
-          <label className="block mb-2" htmlFor="roomname">
-            Tên Phòng
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="roomname"
-            type="text"
-            placeholder={dataRoom.classroom_name}
-            disabled
-          />
-        </div>
-      </form>
-      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+      <h1 className="text-xl font-bold mb-2 text-center">Xóa {dataRoom.classroom_name}?</h1>
+      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
         <button
           type="button"
           className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
@@ -60,5 +35,5 @@ export default function ModalDeleteRoom(props) {
         </button>
       </div>
     </>
-  );
+  )
 }

@@ -13,7 +13,7 @@ export default function ModalUpdateRoom(props) {
 
   const handleUpdateRoom = async () => {
     await putDataRoom(dataRoom.id, classroomName, note);
-    toast.warning("Cập nhật thành công");
+    toast.success("Cập nhật thành công haha");
     setOpen(false);
     fetchListRoom();
   };

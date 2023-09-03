@@ -1,82 +1,48 @@
-import { Fragment, useRef } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import ModalAddRoom from "./ModalAddRoom";
-import ModalDeleteRoom from "./ModalDeleteRoom";
-import ModalUpdateRoom from "./ModalUpdateRoom";
-import ModalAddUser from "./ModalAddUser";
-import ModalUpdateUser from "./ModalUpdateUser";
-import ModalDeleteUser from "./ModalDeleteUser";
+import { Fragment, useRef } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import ModalAddRoom from './ModalAddRoom'
+import ModalDeleteRoom from './ModalDeleteRoom'
+import ModalAddUser from './ModalAddUser'
+import ModalUpdateUser from './ModalUpdateUser'
+import ModalDeleteUser from './ModalDeleteUser'
 
 export default function Modal(props) {
-  const {
-    open,
-    setOpen,
-    name,
-    dataRoom,
-    inforUser,
-    fetchListRoom,
-    fetchDataUser,
-  } = props;
-  const cancelButtonRef = useRef(null);
+  const { open, setOpen, name, dataRoom, inforUser, fetchListRoom, fetchDataUser, setIsShowData } =
+    props
+  const cancelButtonRef = useRef(null)
 
-  const DataModalRoom = () => {
-    if (name === "add-room") {
-      return <ModalAddRoom setOpen={setOpen} fetchListRoom={fetchListRoom} />;
-    } else if (name === "delete-room") {
-      return (
-        <ModalDeleteRoom
-          setOpen={setOpen}
-          dataRoom={dataRoom}
-          fetchListRoom={fetchListRoom}
-        />
-      );
-    } else if (name === "update-room") {
-      return (
-        <ModalUpdateRoom
-          setOpen={setOpen}
-          dataRoom={dataRoom}
-          fetchListRoom={fetchListRoom}
-        />
-      );
+  const DataModal = () => {
+    switch (name) {
+      case 'add-room':
+        return <ModalAddRoom setOpen={setOpen} fetchListRoom={fetchListRoom} />
+      case 'delete-room':
+        return (
+          <ModalDeleteRoom
+            setIsShowData={setIsShowData}
+            setOpen={setOpen}
+            dataRoom={dataRoom}
+            fetchListRoom={fetchListRoom}
+          />
+        )
+      case 'add-user':
+        return <ModalAddUser open={open} setOpen={setOpen} fetchDataUser={fetchDataUser} />
+      case 'delete-user':
+        return (
+          <ModalDeleteUser setOpen={setOpen} inforUser={inforUser} fetchDataUser={fetchDataUser} />
+        )
+      case 'update-user':
+        return (
+          <ModalUpdateUser setOpen={setOpen} inforUser={inforUser} fetchDataUser={fetchDataUser} />
+        )
+      default:
+        return
     }
-  };
+  }
 
-  const DataModalUser = () => {
-    if (name === "add-user") {
-      return (
-        <ModalAddUser
-          open={open}
-          setOpen={setOpen}
-          fetchDataUser={fetchDataUser}
-        />
-      );
-    } else if (name === "delete-user") {
-      return (
-        <ModalDeleteUser
-          setOpen={setOpen}
-          inforUser={inforUser}
-          fetchDataUser={fetchDataUser}
-        />
-      );
-    } else if (name === "update-user") {
-      return (
-        <ModalUpdateUser
-          setOpen={setOpen}
-          inforUser={inforUser}
-          fetchDataUser={fetchDataUser}
-        />
-      );
-    }
-  };
   return (
     <>
       <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
-        >
+        <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -101,8 +67,7 @@ export default function Modal(props) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative p-5 w-80 transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  {DataModalRoom()}
-                  {DataModalUser()}
+                  {DataModal()}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -110,5 +75,5 @@ export default function Modal(props) {
         </Dialog>
       </Transition.Root>
     </>
-  );
+  )
 }
