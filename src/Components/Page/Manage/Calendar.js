@@ -3,7 +3,7 @@ const Calendar = (props) => {
 
   return (
     <>
-      <table className="w-full">
+      <table className="w-full h-[80vh]">
         <thead className="">
           <tr className="bg-white border-b-2 border-primary">
             <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-base text-xs">
@@ -40,30 +40,6 @@ const Calendar = (props) => {
         </thead>
         <tbody>
           <tr className="text-center bg-white h-20">
-            <td className="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300">
-              <div className="flex flex-col h-40 xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
-                <div className="top h-5 w-full">
-                  <span className="text-gray-500">1</span>
-                </div>
-                <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer"></div>
-              </div>
-            </td>
-            <td className="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300">
-              <div className="flex flex-col h-40 xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
-                <div className="top h-5 w-full">
-                  <span className="text-gray-500">2</span>
-                </div>
-                <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer"></div>
-              </div>
-            </td>
-            <td className="border p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300">
-              <div className="flex flex-col h-40 xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
-                <div className="top h-5 w-full">
-                  <span className="text-gray-500">3</span>
-                </div>
-                <div className="bottom flex-grow h-30 py-1 w-full cursor-pointer"></div>
-              </div>
-            </td>
             <td className="border bg-gray-100 p-1 h-40 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 overflow-auto transition cursor-pointer duration-500 ease hover:bg-gray-300 ">
               <div className="flex flex-col h-40 xl:w-40 lg:w-30 md:w-30 sm:w-full w-10 mx-auto overflow-hidden">
                 <div className="top h-5 w-full">

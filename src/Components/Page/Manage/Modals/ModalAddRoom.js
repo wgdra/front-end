@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { postDataRoom } from '../../../../services/apiService'
 import clsx from 'clsx'
@@ -56,9 +55,7 @@ export default function ModalAddRoom(props) {
         noValidate
       >
         <div className="mb-8">
-          <label className="block mb-2" htmlFor="roomname">
-            Tên Phòng
-          </label>
+          <label className="block mb-2">Tên Phòng</label>
           <InputWithValidation
             name="classroomName"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -68,10 +65,8 @@ export default function ModalAddRoom(props) {
         </div>
 
         <div className="">
-          <label className="block mb-2" htmlFor="note">
-            Ghi Chú (bắt buộc nhập trước khi thay đổi)
-          </label>
-          <input
+          <label className="block mb-2">Ghi Chú</label>
+          <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="note"
             type="text"
@@ -87,9 +82,9 @@ export default function ModalAddRoom(props) {
             Hủy
           </button>
           <button
+            id="contact-submit"
             type="submit"
             name="contact-send"
-            id="contact-submit"
             className={clsx(
               'inline-flex w-full justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 sm:ml-3 sm:w-auto'
             )}

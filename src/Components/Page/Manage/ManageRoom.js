@@ -3,7 +3,7 @@ import Modal from './Modals/Modal'
 import { getDataRoom, putDataRoom } from '../../../services/apiService'
 import InforRoom from './InfoRoom'
 import { Button } from '../../ui/Button'
-import { SvgInfo, SvgMinus, SvgPencilUpdate, SvgPlus } from '../../ui/Svg'
+import { SvgInfo, SvgList, SvgMinus, SvgPencilUpdate, SvgPlus } from '../../ui/Svg'
 import { toast } from 'react-toastify'
 
 export default function ManageRoom() {
@@ -15,6 +15,7 @@ export default function ManageRoom() {
   const [dataRoom, setDataRoom] = useState('')
 
   const [isShowData, setIsShowData] = useState(false)
+  const [isUpdate, setIsUpdate] = useState(false)
 
   // Handle
   const handleClickRoom = (data) => {
@@ -28,7 +29,7 @@ export default function ManageRoom() {
     setBtnName(name)
   }
 
-  //Api
+  // Api
   useEffect(() => {
     fetchListRoom()
   }, [])
@@ -39,7 +40,7 @@ export default function ManageRoom() {
   }
 
   const showListRoom = () => {
-    if (!listRoom) return <span>Loading...</span>
+    if (!listRoom) return <span className="text-primary">Loading...</span>
 
     return (
       <>
@@ -63,34 +64,18 @@ export default function ManageRoom() {
     )
   }
 
-  console.log('lít', listRoom)
-  const [isUpdate, setIsUpdate] = useState(false)
-
   const handleUpdateRoom = async () => {
-    await putDataRoom(dataRoom.id, dataRoom.classroom_name)
+    await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
     toast.success('Cập nhật thành công')
     setIsUpdate(false)
     fetchListRoom()
   }
 
   return (
-    <div className="flex min-h-full pb-20">
+    <div className="flex h-[80vh]">
       <div className="w-1/3 mr-10 border bg-white border-primary">
         <div className="flex items-center h-12 px-5 text-gray-200 text-lg bg-primary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 mr-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
-            />
-          </svg>
+          <SvgList />
           <span className="font-semibold">DANH SÁCH</span>
         </div>
         <div className="p-5 font-bold">
@@ -115,9 +100,8 @@ export default function ManageRoom() {
         </div>
 
         <div className="p-5 font-bold">
-          <div className="flex justify-between">
-            <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
-          </div>
+          <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
+
           {isShowData && (
             <>
               <div className="mt-10">

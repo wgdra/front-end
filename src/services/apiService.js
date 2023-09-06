@@ -5,9 +5,10 @@ const getDataRoom = () => {
   return instance.get(`/classrooms`)
 }
 
-const postDataRoom = (classroomName) => {
+const postDataRoom = (classroomName, note) => {
   return instance.post(`/classrooms)`, {
     classroom_name: classroomName,
+    note: note,
   })
 }
 
@@ -15,9 +16,10 @@ const deleteRoom = (id) => {
   return instance.delete(`/classrooms/${id}`)
 }
 
-const putDataRoom = (id, classroomName) => {
+const putDataRoom = (id, classroomName, note) => {
   return instance.post(`/classrooms/${id}`, {
     classroom_name: classroomName,
+    note: note,
   })
 }
 
@@ -25,27 +27,27 @@ const putDataRoom = (id, classroomName) => {
 const getDataUser = () => {
   return instance.get(`/user`)
 }
-const postDataUser = (userId, fullName, subject, role, email, phoneNumber) => {
+const postDataUser = (userName, password, fullName, subject, role, email, phone) => {
   return instance.post('/user', {
-    user_id: userId,
+    username: userName,
+    password: password,
     full_name: fullName,
     subject: subject,
     role: role,
     email: email,
-    phonenumber: phoneNumber,
+    phone: phone,
   })
 }
 const deleteDataUser = (id) => {
   return instance.delete(`/user/${id}`)
 }
-const putDataUser = (id, userId, fullName, subject, role, email, phoneNumber) => {
-  return instance.put(`/user/${id}`, {
-    user_id: userId,
+const putDataUser = (id, fullName, subject_id, role, email, phone) => {
+  return instance.post(`/user/${id}`, {
     full_name: fullName,
-    subject: subject,
+    subject_id: subject_id,
     role: role,
     email: email,
-    phonenumber: phoneNumber,
+    phone: phone,
   })
 }
 

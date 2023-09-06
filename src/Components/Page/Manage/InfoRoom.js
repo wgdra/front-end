@@ -6,9 +6,7 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
     <>
       <form className="text-gray-900 text-lg bg-white shadow-md rounded p-8">
         <div className="mb-10">
-          <label className="block font-bold mb-2" htmlFor="id">
-            Mã Phòng
-          </label>
+          <label className="block font-bold mb-2">Mã Phòng</label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             id="id"
@@ -38,11 +36,14 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
             Ghi Chú
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className={clsx(
+              !isUpdate ? 'text-[#9CA3AF]' : '',
+              'shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+            )}
             id="note"
             rows={4}
             type="text"
-            placeholder={dataRoom.note}
+            value={dataRoom.note}
             onChange={(e) => setDataRoom({ ...dataRoom, note: e.target.value })}
             disabled={!isUpdate}
           />

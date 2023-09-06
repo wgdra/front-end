@@ -28,7 +28,12 @@ export default function Modal(props) {
         return <ModalAddUser open={open} setOpen={setOpen} fetchDataUser={fetchDataUser} />
       case 'delete-user':
         return (
-          <ModalDeleteUser setOpen={setOpen} inforUser={inforUser} fetchDataUser={fetchDataUser} />
+          <ModalDeleteUser
+            setOpen={setOpen}
+            inforUser={inforUser}
+            fetchDataUser={fetchDataUser}
+            setIsShowData={setIsShowData}
+          />
         )
       case 'update-user':
         return (

@@ -6,7 +6,7 @@ export default function Manage() {
     <>
       <NavManage />
       {/* TODO: h-[calc(100vh-76px)] */}
-      <div className="content-container max-w-full pt-20 py-10 px-20 bg-gray-200">
+      <div className="content-container max-w-full h-[calc(100vh-76px)] py-10 px-20 bg-gray-200">
         <Outlet />
       </div>
     </>
