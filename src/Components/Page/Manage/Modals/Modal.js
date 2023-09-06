@@ -3,12 +3,23 @@ import { Dialog, Transition } from '@headlessui/react'
 import ModalAddRoom from './ModalAddRoom'
 import ModalDeleteRoom from './ModalDeleteRoom'
 import ModalAddUser from './ModalAddUser'
-import ModalUpdateUser from './ModalUpdateUser'
 import ModalDeleteUser from './ModalDeleteUser'
+import ModalAddSubject from './ModalAddSubject'
+import ModalDeleteSubject from './ModalDeleteSubject'
 
 export default function Modal(props) {
-  const { open, setOpen, name, dataRoom, inforUser, fetchListRoom, fetchDataUser, setIsShowData } =
-    props
+  const {
+    open,
+    setOpen,
+    name,
+    dataRoom,
+    dataSubject,
+    inforUser,
+    fetchListRoom,
+    fetchDataUser,
+    fetchDataSubject,
+    setIsShowData,
+  } = props
   const cancelButtonRef = useRef(null)
 
   const DataModal = () => {
@@ -35,9 +46,22 @@ export default function Modal(props) {
             setIsShowData={setIsShowData}
           />
         )
-      case 'update-user':
+      case 'add-subject':
         return (
-          <ModalUpdateUser setOpen={setOpen} inforUser={inforUser} fetchDataUser={fetchDataUser} />
+          <ModalAddSubject
+            setOpen={setOpen}
+            dataSubject={dataSubject}
+            fetchDataSubject={fetchDataSubject}
+          />
+        )
+      case 'delete-subject':
+        return (
+          <ModalDeleteSubject
+            setOpen={setOpen}
+            setIsShowData={setIsShowData}
+            dataSubject={dataSubject}
+            fetchDataSubject={fetchDataSubject}
+          />
         )
       default:
         return

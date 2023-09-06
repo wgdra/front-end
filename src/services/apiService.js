@@ -51,6 +51,26 @@ const putDataUser = (id, fullName, subject_id, role, email, phone) => {
   })
 }
 
+// Data Subject
+const getDataSubject = () => {
+  return instance.get(`/subject`)
+}
+
+const postDataSubject = (subjectName) => {
+  return instance.post(`/subject)`, {
+    subject_name: subjectName,
+  })
+}
+const deleteDataSubject = (id) => {
+  return instance.delete(`/subject/${id}`)
+}
+
+const putDataSubject = (id, subjectName) => {
+  return instance.post(`/subject/${id}`, {
+    subject_name: subjectName,
+  })
+}
+
 export {
   getDataRoom,
   postDataRoom,
@@ -58,6 +78,10 @@ export {
   putDataRoom,
   getDataUser,
   postDataUser,
-  deleteDataUser,
   putDataUser,
+  deleteDataUser,
+  getDataSubject,
+  postDataSubject,
+  deleteDataSubject,
+  putDataSubject,
 }

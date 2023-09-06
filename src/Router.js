@@ -9,7 +9,9 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ManageRoom from './Components/Page/Manage/ManageRoom'
 import ManageUser from './Components/Page/Manage/ManageUser'
+import ManageSubject from './Components/Page/Manage/ManageSubject'
 import RoomRegister from './Components/Page/Manage/RoomRegister'
+import Profile from './Components/Page/Profile'
 
 export default function Router() {
   return (
@@ -23,9 +25,11 @@ export default function Router() {
             <Route path="/manage/room-register" element={<RoomRegister />} />
             <Route path="/manage/manage-room" element={<ManageRoom />} />
             <Route path="/manage/manage-user" element={<ManageUser />} />
+            <Route path="/manage/manage-subject" element={<ManageSubject />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>

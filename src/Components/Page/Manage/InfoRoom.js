@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 
 const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
-  console.log('dataRoom', dataRoom)
   return (
     <>
       <form className="text-gray-900 text-lg bg-white shadow-md rounded p-8">

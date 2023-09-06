@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
 import { toast } from 'react-toastify'
-import { getDataUser } from '../../../services/apiService'
+import { getDataUser, putDataUser } from '../../../services/apiService'
 import InforUser from './InforUser'
 import { Button } from '../../ui/Button'
 import { SvgIconUser, SvgInfo, SvgList, SvgMinus, SvgPencilUpdate, SvgPlus } from '../../ui/Svg'
-import { putDataUser } from '../../../services/apiService'
 
 export default function ManageUser() {
   const [open, setOpen] = useState(false)
@@ -67,7 +66,7 @@ export default function ManageUser() {
     await putDataUser(
       inforUser.id,
       inforUser.full_name,
-      inforUser.subject,
+      inforUser.subject_id,
       inforUser.role,
       inforUser.email,
       inforUser.phone
@@ -103,7 +102,7 @@ export default function ManageUser() {
         <div className="flex items-center h-12 px-5 text-gray-200 text-lg bg-primary">
           <SvgInfo />
           <span className="font-semibold">
-            THÔNG TIN GIẢNG VIÊN - {inforUser?.full_name?.toUpperCase()}
+            THÔNG TIN GIẢNG VIÊN {inforUser?.full_name?.toUpperCase()}
           </span>
         </div>
 
@@ -136,7 +135,6 @@ export default function ManageUser() {
                 ) : (
                   <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
                     <Button
-                      name="delete-user"
                       className="rounded-md bg-gray-600"
                       onClick={() => {
                         setIsUpdate(false)

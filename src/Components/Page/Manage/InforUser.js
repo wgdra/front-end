@@ -2,6 +2,7 @@ import clsx from 'clsx'
 
 const InforUser = (props) => {
   const { inforUser, setInforUser, isUpdate } = props
+  console.log(inforUser)
   return (
     <form className="text-gray-900 text-lg bg-white shadow-md rounded px-8 py-16 mb-20">
       <div className="mb-5 flex items-center justify-between">

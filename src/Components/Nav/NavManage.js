@@ -62,6 +62,19 @@ export default function NavManage() {
                       </NavLink>
                     )}
                   </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        to="/manage/manage-subject"
+                        className={classNames(
+                          active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                          'block px-4 my-2 py-3 text-sm'
+                        )}
+                      >
+                        Quản lý môn học
+                      </NavLink>
+                    )}
+                  </Menu.Item>
                 </div>
               </Menu.Items>
             </Transition>
