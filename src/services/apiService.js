@@ -6,7 +6,7 @@ const getDataRoom = () => {
 }
 
 const postDataRoom = (classroomName, note) => {
-  return instance.post(`/classrooms)`, {
+  return instance.post(`/classrooms`, {
     classroom_name: classroomName,
     note: note,
   })
