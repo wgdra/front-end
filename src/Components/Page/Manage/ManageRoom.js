@@ -100,6 +100,7 @@ export default function ManageRoom() {
 
         <div className="max-h-full p-5 font-bold">
           <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
+
           {isShowData && (
             <>
               <div className="flex flex-col mt-10">

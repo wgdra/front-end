@@ -3,7 +3,6 @@ import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgMinus, SvgPencilUpdate } from '../../ui/Svg'
-
 import InputWithValidation from '../../ui/InputWithValidation'
 import { putDataRoom } from '../../../services/apiService'
 import { toast } from 'react-toastify'
@@ -35,20 +34,21 @@ const InforRoom = ({
     resolver: yupResolver(schema),
   })
 
-  console.log('dataRoom', dataRoom)
-  console.log('errors', errors)
-  const handleUpdateRoom = async () => {
-    await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
-    toast.success('Cập nhật thành công')
-    setIsUpdate(false)
-    fetchListRoom()
+  const handleUpdateRoom = async (data) => {
+    console.log('Dât', data)
+    if (data) {
+      await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
+      toast.success('Cập nhật thành công')
+      setIsUpdate(false)
+      fetchListRoom()
+    }
   }
 
   return (
     <>
       <form
         id="contact-form"
-        className="text-gray-900 text-lg bg-white shadow-md rounded p-8"
+        className="text-gray-900 text-lg bg-white shadow-md rounded px-8 pt-8"
         onSubmit={handleSubmit(handleUpdateRoom)}
         noValidate
       >
@@ -142,13 +142,6 @@ const InforRoom = ({
           <>
             <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
               <Button
-                name="delete-room"
-                className="border-red-600 bg-red-600"
-                onClick={() => handleModal('delete-room')}
-                text="Xóa phòng"
-                Svg={SvgMinus}
-              />
-              <Button
                 name="update-room"
                 className="border-yellow-600 bg-yellow-600"
                 onClick={() => setIsUpdate(true)}
@@ -177,6 +170,13 @@ const InforRoom = ({
           </div>
         )}
       </form>
+      <Button
+        name="delete-room"
+        className="w-[130px] border-red-600 bg-red-600 mt-5"
+        onClick={() => handleModal('delete-room')}
+        text="Xóa phòng"
+        Svg={SvgMinus}
+      />
     </>
   )
 }
