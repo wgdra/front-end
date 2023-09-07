@@ -11,7 +11,7 @@ export default function Modal(props) {
   const {
     open,
     setOpen,
-    name,
+    btnName,
     dataRoom,
     dataSubject,
     inforUser,
@@ -23,7 +23,7 @@ export default function Modal(props) {
   const cancelButtonRef = useRef(null)
 
   const DataModal = () => {
-    switch (name) {
+    switch (btnName) {
       case 'add-room':
         return <ModalAddRoom setOpen={setOpen} fetchListRoom={fetchListRoom} />
       case 'delete-room':

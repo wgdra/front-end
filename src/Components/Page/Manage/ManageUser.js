@@ -159,7 +159,7 @@ export default function ManageUser() {
         open={open}
         setOpen={setOpen}
         setIsShowData={setIsShowData}
-        name={btnName}
+        btnName={btnName}
         inforUser={inforUser}
         fetchDataUser={fetchDataUser}
       />

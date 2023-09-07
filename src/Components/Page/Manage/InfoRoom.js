@@ -2,10 +2,22 @@ import clsx from 'clsx'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { SvgMinus, SvgPencilUpdate } from '../../ui/Svg'
+
 import InputWithValidation from '../../ui/InputWithValidation'
 import { putDataRoom } from '../../../services/apiService'
 import { toast } from 'react-toastify'
-const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
+import { Button } from '../../ui/Button'
+
+const InforRoom = ({
+  dataRoom,
+  isUpdate,
+  setDataRoom,
+  handleModal,
+  setIsUpdate,
+  dataRoominit,
+  fetchListRoom,
+}) => {
   const schema = yup.object().shape({
     classroomName: yup
       .string()
@@ -25,19 +37,19 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
 
   console.log('dataRoom', dataRoom)
   console.log('errors', errors)
-  const onUpdated = async (data) => {
-    if (data) {
-      console.log('data', data)
-      await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
-      toast.success('Cập nhật thành công')
-    }
+  const handleUpdateRoom = async () => {
+    await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
+    toast.success('Cập nhật thành công')
+    setIsUpdate(false)
+    fetchListRoom()
   }
 
   return (
     <>
       <form
+        id="contact-form"
         className="text-gray-900 text-lg bg-white shadow-md rounded p-8"
-        onSubmit={handleSubmit(onUpdated)}
+        onSubmit={handleSubmit(handleUpdateRoom)}
         noValidate
       >
         <div className="mb-10">
@@ -49,19 +61,17 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
             render={({ field }) => (
               <input
                 {...field}
-                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow text-[#9CA3AF] appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="id"
                 type="text"
-                placeholder={dataRoom.id}
+                value={dataRoom.id}
                 disabled
               />
             )}
           />
         </div>
         <div className="mb-10">
-          <label className="block font-bold mb-2" htmlFor="roomname">
-            Tên Phòng
-          </label>
+          <label className="block font-bold mb-2">Tên Phòng</label>
           <Controller
             name="classroomName"
             control={control}
@@ -110,7 +120,7 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
           <Controller
             name="note"
             control={control}
-            defaultValue={dataRoom.note}
+            defaultValue={dataRoom.note ? dataRoom.note : ''}
             render={({ field }) => (
               <textarea
                 {...field}
@@ -121,14 +131,51 @@ const InforRoom = ({ dataRoom, isUpdate, setDataRoom }) => {
                 id="note"
                 rows={4}
                 type="text"
-                value={dataRoom.note}
+                value={dataRoom.note ? dataRoom.note : ''}
                 onChange={(e) => setDataRoom({ ...dataRoom, note: e.target.value })}
                 disabled={!isUpdate}
               />
             )}
           />
         </div>
-        <button type="submit">Submit</button>
+        {!isUpdate ? (
+          <>
+            <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
+              <Button
+                name="delete-room"
+                className="border-red-600 bg-red-600"
+                onClick={() => handleModal('delete-room')}
+                text="Xóa phòng"
+                Svg={SvgMinus}
+              />
+              <Button
+                name="update-room"
+                className="border-yellow-600 bg-yellow-600"
+                onClick={() => setIsUpdate(true)}
+                text="Sửa phòng"
+                Svg={SvgPencilUpdate}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
+            <Button
+              name="delete-room"
+              className="rounded-md bg-gray-600"
+              onClick={() => {
+                setIsUpdate(false)
+                setDataRoom(dataRoominit)
+              }}
+              text="Hủy"
+            />
+            <Button
+              type="submit"
+              name="update-room"
+              className="rounded-md bg-emerald-600"
+              text="Lưu"
+            />
+          </div>
+        )}
       </form>
     </>
   )

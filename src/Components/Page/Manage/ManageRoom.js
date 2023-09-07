@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
-import { getDataRoom, putDataRoom } from '../../../services/apiService'
+import { getDataRoom } from '../../../services/apiService'
 import InforRoom from './InfoRoom'
 import { Button } from '../../ui/Button'
-import { SvgInfo, SvgList, SvgMinus, SvgPencilUpdate, SvgPlus } from '../../ui/Svg'
-import { toast } from 'react-toastify'
+import { SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
 
 export default function ManageRoom() {
   const [open, setOpen] = useState(false)
@@ -64,15 +63,15 @@ export default function ManageRoom() {
     )
   }
 
-  const handleUpdateRoom = async () => {
-    await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
-    toast.success('Cập nhật thành công')
-    setIsUpdate(false)
-    fetchListRoom()
-  }
+  // const handleUpdateRoom = async () => {
+  //   await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
+  //   toast.success('Cập nhật thành công')
+  //   setIsUpdate(false)
+  //   fetchListRoom()
+  // }
 
   return (
-    <div className="flex h-[80vh]">
+    <div className="flex min-h-[80vh]">
       <div className="w-1/3 mr-10 border bg-white border-primary">
         <div className="flex items-center h-12 px-5 text-gray-200 text-lg bg-primary">
           <SvgList />
@@ -99,51 +98,20 @@ export default function ManageRoom() {
           <span className="font-semibold">{dataRoom?.classroom_name?.toUpperCase()}</span>
         </div>
 
-        <div className="p-5 font-bold">
+        <div className="max-h-full p-5 font-bold">
           <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
-
           {isShowData && (
             <>
-              <div className="mt-10">
-                <InforRoom dataRoom={dataRoom} isUpdate={isUpdate} setDataRoom={setDataRoom} />
-                {!isUpdate ? (
-                  <>
-                    <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
-                      <Button
-                        name="delete-room"
-                        className="border-red-600 bg-red-600"
-                        onClick={() => handleModal('delete-room')}
-                        text="Xóa phòng"
-                        Svg={SvgMinus}
-                      />
-                      <Button
-                        name="update-room"
-                        className="border-yellow-600 bg-yellow-600"
-                        onClick={() => setIsUpdate(true)}
-                        text="Sửa phòng"
-                        Svg={SvgPencilUpdate}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
-                    <Button
-                      name="delete-room"
-                      className="rounded-md bg-gray-600"
-                      onClick={() => {
-                        setIsUpdate(false)
-                        setDataRoom(dataRoominit)
-                      }}
-                      text="Hủy"
-                    />
-                    <Button
-                      name="update-room"
-                      className="rounded-md bg-emerald-600"
-                      onClick={() => handleUpdateRoom()}
-                      text="Lưu"
-                    />
-                  </div>
-                )}
+              <div className="flex flex-col mt-10">
+                <InforRoom
+                  dataRoom={dataRoom}
+                  isUpdate={isUpdate}
+                  setDataRoom={setDataRoom}
+                  handleModal={handleModal}
+                  setIsUpdate={setIsUpdate}
+                  dataRoominit={dataRoominit}
+                  fetchListRoom={fetchListRoom}
+                />
               </div>
             </>
           )}
@@ -152,7 +120,7 @@ export default function ManageRoom() {
       <Modal
         open={open}
         setOpen={setOpen}
-        name={btnName}
+        btnName={btnName}
         setIsShowData={setIsShowData}
         dataRoom={dataRoom}
         fetchListRoom={fetchListRoom}

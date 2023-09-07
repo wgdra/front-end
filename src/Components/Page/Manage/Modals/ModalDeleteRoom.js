@@ -4,7 +4,6 @@ import { deleteRoom } from '../../../../services/apiService'
 
 export default function ModalDeleteRoom(props) {
   const { setOpen, dataRoom, fetchListRoom, setIsShowData } = props
-
   const cancelButtonRef = useRef(null)
 
   const handleDeleteRoom = async () => {

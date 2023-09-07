@@ -35,7 +35,7 @@ export default function ModalAddRoom(props) {
 
   const onSubmitHandler = async (data) => {
     if (data) {
-      await postDataRoom(data.classroomName)
+      await postDataRoom(data.classroomName, data.note)
       toast.success('Thêm phòng thành công')
       setOpen(false)
       fetchListRoom()
@@ -66,10 +66,11 @@ export default function ModalAddRoom(props) {
 
         <div className="">
           <label className="block mb-2">Ghi Chú</label>
-          <textarea
+          <InputWithValidation
+            name="note"
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="note"
-            type="text"
+            errors={errors}
+            register={register}
           />
         </div>
         <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end">

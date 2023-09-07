@@ -157,7 +157,7 @@ export default function ManageSubject() {
         open={open}
         setOpen={setOpen}
         setIsShowData={setIsShowData}
-        name={btnName}
+        btnName={btnName}
         dataSubject={dataSubject}
         fetchDataSubject={fetchDataSubject}
       />
