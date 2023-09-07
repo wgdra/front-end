@@ -142,8 +142,16 @@ const InforRoom = ({
           <>
             <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
               <Button
+                name="delete-room"
+                type="button"
+                className="border-red-600 bg-red-600"
+                onClick={() => handleModal('delete-room')}
+                text="Xóa phòng"
+                Svg={SvgMinus}
+              />
+              <Button
                 name="update-room"
-                className="border-yellow-600 bg-yellow-600"
+                className="border-emerald-600 bg-emerald-600"
                 onClick={() => setIsUpdate(true)}
                 text="Sửa phòng"
                 Svg={SvgPencilUpdate}
@@ -170,15 +178,6 @@ const InforRoom = ({
           </div>
         )}
       </form>
-      <div className="flex justify-end pr-8">
-        <Button
-          name="delete-room"
-          className="text-lg border-red-600 bg-red-600 mt-5"
-          onClick={() => handleModal('delete-room')}
-          text="Xóa phòng"
-          Svg={SvgMinus}
-        />
-      </div>
     </>
   )
 }

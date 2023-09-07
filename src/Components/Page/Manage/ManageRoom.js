@@ -20,6 +20,7 @@ export default function ManageRoom() {
   const handleClickRoom = (data) => {
     setIsShowData(true)
     setDataRoom(data)
+    setIsUpdate(false)
     setDataRoomInit(data)
   }
 
@@ -38,6 +39,7 @@ export default function ManageRoom() {
     setListRoom(res)
   }
 
+  console.log('listRoom', listRoom);
   const showListRoom = () => {
     if (!listRoom) return <span className="text-primary">Loading...</span>
 
