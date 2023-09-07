@@ -170,13 +170,15 @@ const InforRoom = ({
           </div>
         )}
       </form>
-      <Button
-        name="delete-room"
-        className="w-[130px] border-red-600 bg-red-600 mt-5"
-        onClick={() => handleModal('delete-room')}
-        text="Xóa phòng"
-        Svg={SvgMinus}
-      />
+      <div className="flex justify-end pr-8">
+        <Button
+          name="delete-room"
+          className="text-lg border-red-600 bg-red-600 mt-5"
+          onClick={() => handleModal('delete-room')}
+          text="Xóa phòng"
+          Svg={SvgMinus}
+        />
+      </div>
     </>
   )
 }

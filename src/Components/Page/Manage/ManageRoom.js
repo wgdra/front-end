@@ -95,11 +95,13 @@ export default function ManageRoom() {
       <div className="w-2/3 border bg-white border-primary">
         <div className="flex items-center h-12 px-5 text-gray-200 text-lg bg-primary">
           <SvgInfo />
-          <span className="font-semibold">{dataRoom?.classroom_name?.toUpperCase()}</span>
+          <span className="font-semibold">
+            {isShowData ? dataRoom?.classroom_name?.toUpperCase() : 'CHỌN PHÒNG ĐỂ XEM THÔNG TIN'}
+          </span>
         </div>
 
         <div className="max-h-full p-5 font-bold">
-          <h1 className="text-xl text-gray-900">Thông Tin Chung</h1>
+          <h1 className="text-xl text-gray-900">{isShowData ? 'Thông Tin Chung' : ''}</h1>
 
           {isShowData && (
             <>
