@@ -8,18 +8,7 @@ import { Table } from './Table'
  * Schedule views sample
  */
 
-const DATA_ROOM = [
-  'Phòng 1',
-  'Phòng 2',
-  'Phòng 3',
-  'Phòng 4',
-  'Phòng 5',
-  'Phòng 6',
-  'Phòng 7',
-  'Phòng 8',
-  'Phòng 9',
-  'Phòng 10',
-]
+const DATA_ROOM = ['Phòng 1', 'Phòng 2', 'Phòng 3', 'Phòng 4', 'Phòng 5', 'Phòng 6', 'Phòng 7']
 const DATA_SESSION = ['Ca 1', 'Ca 2', 'Ca 3']
 const DATA_DAY = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật']
 
@@ -31,9 +20,13 @@ const DATA_TABLE = [
   ['1', '2', '3'],
   ['1', '2', '3'],
   ['1', '2', '3'],
+  ['1', '2', '3'],
+  ['1', '2', '3'],
 ]
 
-const Views = () => {
+const Views = (props) => {
+  const { optionWeek } = props
+
   return (
     <section className={clsx(['min-w-[635px] overflow-hidden'])}>
       <div className="flex overflow-x-auto">
