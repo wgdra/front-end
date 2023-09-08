@@ -71,6 +71,12 @@ const putDataSubject = (id, subjectName) => {
   })
 }
 
+// Data Profile
+
+const getDataOneUser = (id) => {
+  return instance.get(`/user/3`)
+}
+
 export {
   getDataRoom,
   postDataRoom,
@@ -84,4 +90,5 @@ export {
   postDataSubject,
   deleteDataSubject,
   putDataSubject,
+  getDataOneUser,
 }

@@ -12,7 +12,6 @@ import ManageUser from './Components/Page/Manage/ManageUser'
 import ManageSubject from './Components/Page/Manage/ManageSubject'
 import RoomRegister from './Components/Page/Manage/RoomRegister'
 import Profile from './Components/Page/Profile'
-import Views from './Views'
 
 export default function Router() {
   return (
@@ -27,7 +26,6 @@ export default function Router() {
             <Route path="/manage/manage-room" element={<ManageRoom />} />
             <Route path="/manage/manage-user" element={<ManageUser />} />
             <Route path="/manage/manage-subject" element={<ManageSubject />} />
-            <Route path="/manage/test" element={<Views />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

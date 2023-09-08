@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Calendar from './Calendar'
+import Views from './Calendar/Views'
 
 export default function RoomRegister() {
   const [isOption, setIsOption] = useState('Aug')
@@ -53,8 +53,8 @@ export default function RoomRegister() {
           </div>
         </div>
       </header>
-      <div class="w-full border-solid border-2 border-primary">
-        <Calendar isOption={isOption} />
+      <div class="bg-white border-solid border-2 border-primary">
+        <Views isOption={isOption} />
       </div>
     </>
   )
