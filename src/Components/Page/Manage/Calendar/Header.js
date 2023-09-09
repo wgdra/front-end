@@ -1,21 +1,35 @@
-const Header = ({ dataRoom, dataSession }) => {
+import clsx from 'clsx'
+
+const Header = ({ dataRoom, dataSession, listRoom, listSession }) => {
+  console.log('listSession', listSession.length)
+
+  const classSession = () => {
+    if (listSession.length === 1) {
+      return 'w-full'
+    }
+
+    return `w-1/${listSession.length}`
+  }
   return (
     <>
       <div className="flex text-base font-semibold w-full">
-        {dataRoom.map((item) => {
+        {listRoom?.map((item) => {
           return (
-            <div key={item} className="w-[640px] h-32">
+            <div key={item?.id} className="w-[640px] h-32">
               <div className="flex items-center justify-center border border-solid border-primary h-1/2">
-                {item}
+                {item?.classroom_name}
               </div>
               <div className="flex items-center h-1/2">
-                {dataSession.map((item) => {
+                {listSession?.map((item) => {
                   return (
                     <div
-                      key={item}
-                      className="w-1/3 h-full flex items-center justify-center border border-solid border-primary"
+                      key={item.id}
+                      className={clsx([
+                        classSession(),
+                        'h-full flex items-center justify-center border border-solid border-primary',
+                      ])}
                     >
-                      {item}
+                      {item.session_name}
                     </div>
                   )
                 })}

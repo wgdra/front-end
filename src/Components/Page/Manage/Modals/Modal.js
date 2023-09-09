@@ -6,6 +6,7 @@ import ModalAddUser from './ModalAddUser'
 import ModalDeleteUser from './ModalDeleteUser'
 import ModalAddSubject from './ModalAddSubject'
 import ModalDeleteSubject from './ModalDeleteSubject'
+import ModalAddTimeTable from './ModalAddTimeTable'
 
 export default function Modal(props) {
   const {
@@ -63,6 +64,8 @@ export default function Modal(props) {
             fetchDataSubject={fetchDataSubject}
           />
         )
+      case 'add-timeTable':
+        return <ModalAddTimeTable setOpen={setOpen} fetchListRoom={fetchListRoom} />
       default:
         return
     }

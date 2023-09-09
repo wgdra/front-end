@@ -27,15 +27,15 @@ const putDataRoom = (id, classroomName, note) => {
 const getDataUser = () => {
   return instance.get(`/user`)
 }
-const postDataUser = (userName, password, fullName, subject_id, role, email, phone) => {
+const postDataUser = (userName, password, fullName, role, subject_id, email, phone) => {
   return instance.post('/user', {
     username: userName,
     password: password,
     full_name: fullName,
-    subject_id: subject_id,
-    role: role,
-    email: email,
+    role: parseInt(role),
+    subject_id: parseInt(subject_id),
     phone: phone,
+    email: email,
   })
 }
 const deleteDataUser = (id) => {
@@ -79,6 +79,11 @@ const getDataOneUser = (id) => {
   return instance.get(`/user/3`)
 }
 
+//Data Session
+const getDataSession = () => {
+  return instance.get(`/session`)
+}
+
 export {
   getDataRoom,
   postDataRoom,
@@ -93,4 +98,5 @@ export {
   deleteDataSubject,
   putDataSubject,
   getDataOneUser,
+  getDataSession
 }

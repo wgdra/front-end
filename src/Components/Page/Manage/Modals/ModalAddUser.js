@@ -31,6 +31,7 @@ export default function ModalAddUser(props) {
 
   const onSubmitHandler = async (data) => {
     if (data) {
+      console.log('data', data);
       await postDataUser(
         data.username,
         data.password,
@@ -79,6 +80,15 @@ export default function ModalAddUser(props) {
           <label className="block mb-2">Họ và Tên</label>
           <InputWithValidation
             name="fullName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block mb-2">Vai trò</label>
+          <InputWithValidation
+            name="role"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
