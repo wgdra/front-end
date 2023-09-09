@@ -39,7 +39,7 @@ export default function ManageRoom() {
     setListRoom(res)
   }
 
-  console.log('listRoom', listRoom);
+  console.log('listRoom', listRoom)
   const showListRoom = () => {
     if (!listRoom) return <span className="text-primary">Loading...</span>
 
@@ -104,7 +104,6 @@ export default function ManageRoom() {
 
         <div className="max-h-full p-5 font-bold">
           <h1 className="text-xl text-gray-900">{isShowData ? 'Thông Tin Chung' : ''}</h1>
-
           {isShowData && (
             <>
               <div className="flex flex-col mt-10">

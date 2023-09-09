@@ -3,20 +3,23 @@ import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgMinus, SvgPencilUpdate } from '../../ui/Svg'
-import InputWithValidation from '../../ui/InputWithValidation'
 import { putDataRoom } from '../../../services/apiService'
 import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
+import { useState } from 'react'
 
 const InforRoom = ({
   dataRoom,
-  isUpdate,
   setDataRoom,
-  handleModal,
+  isUpdate,
   setIsUpdate,
+  handleModal,
   dataRoominit,
   fetchListRoom,
 }) => {
+  // Validate
+  const [isValidate, setIsValidate] = useState(false)
+
   const schema = yup.object().shape({
     classroomName: yup
       .string()
@@ -34,8 +37,8 @@ const InforRoom = ({
     resolver: yupResolver(schema),
   })
 
+  // Handle Update Room
   const handleUpdateRoom = async (data) => {
-    console.log('Dât', data)
     if (data) {
       await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
       toast.success('Cập nhật thành công')
@@ -84,7 +87,9 @@ const InforRoom = ({
                   value={dataRoom.classroom_name}
                   className={clsx(
                     !isUpdate ? 'text-[#9CA3AF]' : '',
-                    errors['classroomName'] ? 'border border-red-500' : '',
+                    errors['classroomName'] && isValidate && isUpdate
+                      ? 'border border-red-500'
+                      : '',
                     'shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline'
                   )}
                   disabled={!isUpdate}
@@ -95,7 +100,7 @@ const InforRoom = ({
                   errors={errors}
                   register={register}
                 />
-                {errors['classroomName'] && (
+                {errors['classroomName'] && isValidate && isUpdate && (
                   <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
                 )}
               </>
@@ -113,7 +118,7 @@ const InforRoom = ({
             disabled={!isUpdate}
           /> */}
         </div>
-        <div className="">
+        <div className="mb-10">
           <label className="block font-bold mb-2" htmlFor="note">
             Ghi Chú
           </label>
@@ -152,7 +157,10 @@ const InforRoom = ({
               <Button
                 name="update-room"
                 className="border-emerald-600 bg-emerald-600"
-                onClick={() => setIsUpdate(true)}
+                onClick={() => {
+                  setIsUpdate(true)
+                  setIsValidate(false)
+                }}
                 text="Sửa phòng"
                 Svg={SvgPencilUpdate}
               />
@@ -166,6 +174,7 @@ const InforRoom = ({
               onClick={() => {
                 setIsUpdate(false)
                 setDataRoom(dataRoominit)
+                setIsValidate(false)
               }}
               text="Hủy"
             />
@@ -174,6 +183,7 @@ const InforRoom = ({
               name="update-room"
               className="rounded-md bg-emerald-600"
               text="Lưu"
+              onClick={() => setIsValidate(true)}
             />
           </div>
         )}

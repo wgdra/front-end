@@ -12,23 +12,19 @@ export default function ModalAddUser(props) {
   const cancelButtonRef = useRef(null)
 
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .trim()
-      .required('Vui lòng nhập tên người dùng')
-      .min(3, 'Tên người dùng phải trên 3 ký tự'),
     fullName: yup
       .string()
       .trim()
       .required('Vui lòng nhập tên')
-      .min(3, 'Tên giảng viên phải trên 3 ký tự'),
+      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
   })
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -48,7 +44,6 @@ export default function ModalAddUser(props) {
       setOpen(false)
       fetchDataUser()
     }
-    reset()
   }
 
   return (
@@ -118,27 +113,27 @@ export default function ModalAddUser(props) {
             type="number"
           />
         </div>
+        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <button
+            id="contact-submit"
+            type="submit"
+            name="contact-send"
+            className={clsx(
+              'inline-flex w-full justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 sm:ml-3 sm:w-auto'
+            )}
+          >
+            Lưu
+          </button>
+          <button
+            type="button"
+            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            onClick={() => setOpen(false)}
+            ref={cancelButtonRef}
+          >
+            Hủy
+          </button>
+        </div>
       </form>
-      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-        <button
-          id="contact-submit"
-          type="submit"
-          name="contact-send"
-          className={clsx(
-            'inline-flex w-full justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 sm:ml-3 sm:w-auto'
-          )}
-        >
-          Lưu
-        </button>
-        <button
-          type="button"
-          className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-          onClick={() => setOpen(false)}
-          ref={cancelButtonRef}
-        >
-          Hủy
-        </button>
-      </div>
     </>
   )
 }

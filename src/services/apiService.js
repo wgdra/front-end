@@ -27,12 +27,12 @@ const putDataRoom = (id, classroomName, note) => {
 const getDataUser = () => {
   return instance.get(`/user`)
 }
-const postDataUser = (userName, password, fullName, subject, role, email, phone) => {
+const postDataUser = (userName, password, fullName, subject_id, role, email, phone) => {
   return instance.post('/user', {
     username: userName,
     password: password,
     full_name: fullName,
-    subject: subject,
+    subject_id: subject_id,
     role: role,
     email: email,
     phone: phone,
@@ -41,8 +41,10 @@ const postDataUser = (userName, password, fullName, subject, role, email, phone)
 const deleteDataUser = (id) => {
   return instance.delete(`/user/${id}`)
 }
-const putDataUser = (id, fullName, subject_id, role, email, phone) => {
+const putDataUser = (id, username, password, fullName, subject_id, role, email, phone) => {
   return instance.post(`/user/${id}`, {
+    username: username,
+    password: password,
     full_name: fullName,
     subject_id: subject_id,
     role: role,

@@ -4,9 +4,8 @@ import { SvgArrowDown } from '../../ui/Svg'
 
 export default function RoomRegister() {
   const [optionMonth, setOptionMonth] = useState('Aug')
-  const [optionWeek, setOptionWeek] = useState('')
+  const [isOptionWeek, setIsOptionWeek] = useState('')
 
-  console.log(optionWeek)
   const showOptionWeek = () => {
     switch (optionMonth) {
       case 'Aug':
@@ -71,7 +70,7 @@ export default function RoomRegister() {
             <div className="inline-block relative w-64">
               <select
                 className="block font-bold appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setOptionWeek(e.target.value)}
+                onChange={(e) => setIsOptionWeek(e.target.value)}
               >
                 {showOptionWeek()}
               </select>
@@ -83,7 +82,7 @@ export default function RoomRegister() {
         </div>
       </header>
       <div class="bg-white border-solid border-2 border-primary">
-        <Views optionWeek={optionWeek} />
+        <Views isOptionWeek={isOptionWeek} />
       </div>
     </>
   )

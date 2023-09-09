@@ -25,7 +25,7 @@ const DATA_TABLE = [
 ]
 
 const Views = (props) => {
-  const { optionWeek } = props
+  const { isOptionWeek } = props
 
   return (
     <section className={clsx(['min-w-[635px] overflow-hidden'])}>
