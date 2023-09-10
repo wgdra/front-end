@@ -32,8 +32,8 @@ const postDataUser = (userName, password, fullName, role, subject_id, phone, ema
     username: userName,
     password: password,
     full_name: fullName,
-    role: parseInt(role),
-    subject_id: parseInt(subject_id),
+    role: role,
+    subject_id: subject_id,
     phone: phone,
     email: email,
   })

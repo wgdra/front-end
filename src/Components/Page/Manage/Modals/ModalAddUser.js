@@ -6,14 +6,31 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import SelectWithValidation from '../../../ui/SelectWithValidation'
+import Select from '../../../ui/Select'
+import { transformData } from '../../../../utils/transformData'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser } = props
 
-  const [dataSubject, setDataSubject] = useState('')
+  const [dataSubject, setDataSubject] = useState()
+  const [dataRole] = useState([
+    {
+      id: 0,
+      role: 'Admin',
+    },
+    {
+      id: 1,
+      role: 'Teacher',
+    },
+  ])
+
   const cancelButtonRef = useRef(null)
-  console.log('data subject', dataSubject)
+
+  // Hàm để thực hiện biến đổi giá trị fullName
+  const transformFullName = (fullName) => {
+    // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
+    return fullName.replace(/\s+/g, ' ')
+  }
 
   const schema = yup.object().shape({
     username: yup
@@ -23,19 +40,11 @@ export default function ModalAddUser(props) {
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
     fullName: yup
       .string()
-      .trim()
       .required('Vui lòng nhập tên')
-      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
-    password: yup
-      .string()
       .trim()
-      .required('Vui lòng nhập mật khẩu')
-      .min(6, 'Mật khẩu phải trên 6 ký tự'),
-    subject_id: yup
-      .string()
-      .trim()
-      .required('Vui lòng nhập tên')
+      .transform(transformFullName)
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
     email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
   })
 
@@ -65,7 +74,7 @@ export default function ModalAddUser(props) {
         data.password,
         data.fullName,
         data.role,
-        data.subject_id,
+        data.subject_id ?? null,
         data.phone,
         data.email
       )
@@ -116,21 +125,23 @@ export default function ModalAddUser(props) {
         </div>
         <div className="mb-5">
           <label className="block mb-2">Vai trò</label>
-          {/* <SelectWithValidation
+          <Select
             name="role"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
-            options={dataSubject}
-          /> */}
+            isMustChoose={true}
+            options={transformData(dataRole, 'role')}
+          />
         </div>
         <div className="mb-5">
           <label className="block mb-2">Môn dạy</label>
-          <InputWithValidation
+          <Select
             name="subject_id"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
+            options={transformData(dataSubject, 'subject_name')}
           />
         </div>
         <div className="mb-5">
