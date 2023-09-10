@@ -7,6 +7,8 @@ import ModalDeleteUser from './ModalDeleteUser'
 import ModalAddSubject from './ModalAddSubject'
 import ModalDeleteSubject from './ModalDeleteSubject'
 import ModalAddTimeTable from './ModalAddTimeTable'
+import ModalAddSession from './ModalAddSession'
+import ModalDeleteSession from './ModalDeleteSession'
 
 export default function Modal(props) {
   const {
@@ -15,10 +17,12 @@ export default function Modal(props) {
     btnName,
     dataRoom,
     dataSubject,
+    dataSession,
     inforUser,
     fetchListRoom,
     fetchDataUser,
     fetchDataSubject,
+    fetchDataSession,
     setIsShowData,
   } = props
   const cancelButtonRef = useRef(null)
@@ -62,6 +66,23 @@ export default function Modal(props) {
             setIsShowData={setIsShowData}
             dataSubject={dataSubject}
             fetchDataSubject={fetchDataSubject}
+          />
+        )
+      case 'add-session':
+        return (
+          <ModalAddSession
+            setOpen={setOpen}
+            dataSession={dataSession}
+            fetchDataSession={fetchDataSession}
+          />
+        )
+      case 'delete-session':
+        return (
+          <ModalDeleteSession
+            setOpen={setOpen}
+            setIsShowData={setIsShowData}
+            dataSession={dataSession}
+            fetchDataSession={fetchDataSession}
           />
         )
       case 'add-timeTable':

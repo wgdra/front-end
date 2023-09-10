@@ -39,7 +39,7 @@ export default function ManageRoom() {
     setListRoom(res)
   }
 
-  console.log('listRoom', listRoom)
+  // Show list Room
   const showListRoom = () => {
     if (!listRoom) return <span className="text-primary">Loading...</span>
 
@@ -64,13 +64,6 @@ export default function ManageRoom() {
       </>
     )
   }
-
-  // const handleUpdateRoom = async () => {
-  //   await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
-  //   toast.success('Cập nhật thành công')
-  //   setIsUpdate(false)
-  //   fetchListRoom()
-  // }
 
   return (
     <div className="flex min-h-[80vh]">
@@ -109,10 +102,10 @@ export default function ManageRoom() {
               <div className="flex flex-col mt-10">
                 <InforRoom
                   dataRoom={dataRoom}
-                  isUpdate={isUpdate}
                   setDataRoom={setDataRoom}
-                  handleModal={handleModal}
+                  isUpdate={isUpdate}
                   setIsUpdate={setIsUpdate}
+                  handleModal={handleModal}
                   dataRoominit={dataRoominit}
                   fetchListRoom={fetchListRoom}
                 />

@@ -27,7 +27,7 @@ const putDataRoom = (id, classroomName, note) => {
 const getDataUser = () => {
   return instance.get(`/user`)
 }
-const postDataUser = (userName, password, fullName, role, subject_id, email, phone) => {
+const postDataUser = (userName, password, fullName, role, subject_id, phone, email) => {
   return instance.post('/user', {
     username: userName,
     password: password,
@@ -38,19 +38,21 @@ const postDataUser = (userName, password, fullName, role, subject_id, email, pho
     email: email,
   })
 }
-const deleteDataUser = (id) => {
-  return instance.delete(`/user/${id}`)
-}
-const putDataUser = (id, username, password, fullName, subject_id, role, email, phone) => {
+
+const putDataUser = (id, username, password, fullName, subject_id, role, phone, email) => {
   return instance.post(`/user/${id}`, {
     username: username,
     password: password,
     full_name: fullName,
     subject_id: subject_id,
     role: role,
-    email: email,
     phone: phone,
+    email: email,
   })
+}
+
+const deleteDataUser = (id) => {
+  return instance.delete(`/user/${id}`)
 }
 
 // Data Subject
@@ -59,12 +61,9 @@ const getDataSubject = () => {
 }
 
 const postDataSubject = (subjectName) => {
-  return instance.post(`/subject)`, {
+  return instance.post(`/subject`, {
     subject_name: subjectName,
   })
-}
-const deleteDataSubject = (id) => {
-  return instance.delete(`/subject/${id}`)
 }
 
 const putDataSubject = (id, subjectName) => {
@@ -73,15 +72,38 @@ const putDataSubject = (id, subjectName) => {
   })
 }
 
-// Data Profile
-
-const getDataOneUser = (id) => {
-  return instance.get(`/user/3`)
+const deleteDataSubject = (id) => {
+  return instance.delete(`/subject/${id}`)
 }
 
 //Data Session
 const getDataSession = () => {
   return instance.get(`/session`)
+}
+
+const postDataSession = (sessionName, timeStart, timeEnd) => {
+  return instance.post(`/session`, {
+    session_name: sessionName,
+    time_start: timeStart,
+    time_end: timeEnd,
+  })
+}
+
+const putDataSession = (id, sessionName, timeStart, timeEnd) => {
+  return instance.post(`/session/${id}`, {
+    session_name: sessionName,
+    time_start: timeStart,
+    time_end: timeEnd,
+  })
+}
+
+const deleteDataSession = (id) => {
+  return instance.delete(`/session/${id}`)
+}
+
+// Data Profile
+const getDataOneUser = (id) => {
+  return instance.get(`/user/3`)
 }
 
 export {
@@ -98,5 +120,8 @@ export {
   deleteDataSubject,
   putDataSubject,
   getDataOneUser,
-  getDataSession
+  getDataSession,
+  postDataSession,
+  putDataSession,
+  deleteDataSession,
 }

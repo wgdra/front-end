@@ -1,18 +1,37 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { postDataUser } from '../../../../services/apiService'
+import { postDataUser, getDataSubject } from '../../../../services/apiService'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import SelectWithValidation from '../../../ui/SelectWithValidation'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser } = props
+
+  const [dataSubject, setDataSubject] = useState('')
   const cancelButtonRef = useRef(null)
+  console.log('data subject', dataSubject)
 
   const schema = yup.object().shape({
+    username: yup
+      .string()
+      .trim()
+      .required('Vui lòng nhập tên')
+      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
     fullName: yup
+      .string()
+      .trim()
+      .required('Vui lòng nhập tên')
+      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    password: yup
+      .string()
+      .trim()
+      .required('Vui lòng nhập mật khẩu')
+      .min(6, 'Mật khẩu phải trên 6 ký tự'),
+    subject_id: yup
       .string()
       .trim()
       .required('Vui lòng nhập tên')
@@ -23,28 +42,38 @@ export default function ModalAddUser(props) {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
 
+  // Api
+  useEffect(() => {
+    fetchDataSubject()
+  }, [])
+
+  const fetchDataSubject = async () => {
+    let res = await getDataSubject()
+    setDataSubject(res)
+  }
+
   const onSubmitHandler = async (data) => {
     if (data) {
-      console.log('data', data);
       await postDataUser(
         data.username,
         data.password,
         data.fullName,
         data.role,
         data.subject_id,
-        data.email,
-        data.phone
+        data.phone,
+        data.email
       )
       toast.success('Thêm mới thành công')
       setOpen(false)
       fetchDataUser()
     }
+    reset()
   }
 
   return (
@@ -87,30 +116,21 @@ export default function ModalAddUser(props) {
         </div>
         <div className="mb-5">
           <label className="block mb-2">Vai trò</label>
-          <InputWithValidation
+          {/* <SelectWithValidation
             name="role"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
-          />
+            options={dataSubject}
+          /> */}
         </div>
         <div className="mb-5">
-          <label className="block mb-2">Môn giảng dạy</label>
+          <label className="block mb-2">Môn dạy</label>
           <InputWithValidation
             name="subject_id"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
-          />
-        </div>
-        <div className="mb-5">
-          <label className="block mb-2">Email</label>
-          <InputWithValidation
-            name="email"
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            errors={errors}
-            register={register}
-            type="email"
           />
         </div>
         <div className="mb-5">
@@ -121,6 +141,16 @@ export default function ModalAddUser(props) {
             errors={errors}
             register={register}
             type="number"
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block mb-2">Email</label>
+          <InputWithValidation
+            name="email"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+            type="email"
           />
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
-import { toast } from 'react-toastify'
-import { getDataUser, putDataUser } from '../../../services/apiService'
-import InforUser from './InforUser'
+import { getDataUser } from '../../../services/apiService'
+import InfoUser from './InfoUser'
 import { Button } from '../../ui/Button'
 import { SvgIconUser, SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
 
@@ -10,12 +9,12 @@ export default function ManageUser() {
   const [open, setOpen] = useState(false)
   const [btnName, setBtnName] = useState('')
 
+  const [isShowData, setIsShowData] = useState(false)
+  const [isUpdate, setIsUpdate] = useState(false)
+
   const [dataUser, setDataUser] = useState('')
   const [dataUserinit, setDataUserInit] = useState('')
   const [inforUser, setInforUser] = useState('')
-
-  const [isShowData, setIsShowData] = useState(false)
-  const [isUpdate, setIsUpdate] = useState(false)
 
   //Handle
 
@@ -40,6 +39,7 @@ export default function ManageUser() {
     setDataUser(res)
   }
 
+  // Show List User
   const listUser = () => {
     return (
       <ul className="border-t-2 border-primary ">
@@ -98,7 +98,7 @@ export default function ManageUser() {
           {isShowData && (
             <>
               <div className="flex flex-col mt-10">
-                <InforUser
+                <InfoUser
                   inforUser={inforUser}
                   setInforUser={setInforUser}
                   isUpdate={isUpdate}

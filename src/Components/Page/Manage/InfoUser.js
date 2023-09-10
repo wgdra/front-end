@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
 import { useState } from 'react'
 
-const InforUser = (props) => {
+const InfoUser = (props) => {
   const {
     inforUser,
     setInforUser,
@@ -44,13 +44,13 @@ const InforUser = (props) => {
     console.log('data update', data)
     if (data) {
       await putDataUser(
-        data.id,
-        data.username,
-        data.full_name,
-        data.subject_id,
-        data.role,
-        data.email,
-        data.phone
+        inforUser.id,
+        inforUser.username,
+        inforUser.full_name,
+        inforUser.subject_id,
+        inforUser.role,
+        inforUser.email,
+        inforUser.phone
       )
       console.log('data update id', data.id)
 
@@ -290,4 +290,4 @@ const InforUser = (props) => {
   )
 }
 
-export default InforUser
+export default InfoUser

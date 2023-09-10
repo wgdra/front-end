@@ -45,7 +45,7 @@ export default function NavManage() {
                           'block px-4 my-2 py-3 text-sm'
                         )}
                       >
-                        Quản lý phòng
+                        Quản lý phòng học
                       </NavLink>
                     )}
                   </Menu.Item>
@@ -72,6 +72,19 @@ export default function NavManage() {
                         )}
                       >
                         Quản lý môn học
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        to="/manage/manage-session"
+                        className={classNames(
+                          active ? 'dark:bg-gray-900 text-gray-200' : 'text-gray-200',
+                          'block px-4 my-2 py-3 text-sm'
+                        )}
+                      >
+                        Quản lý ca học
                       </NavLink>
                     )}
                   </Menu.Item>

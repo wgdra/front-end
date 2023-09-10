@@ -1,17 +1,17 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
-import { postDataSubject } from '../../../../services/apiService'
+import { postDataSession } from '../../../../services/apiService'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-export default function ModalAddSubject(props) {
-  const { setOpen, fetchDataSubject } = props
+export default function ModalAddSession(props) {
+  const { setOpen, fetchDataSession } = props
 
   const schema = yup.object().shape({
-    subjectName: yup.string().trim().required('Vui lòng nhập tên môn học'),
+    sessionName: yup.string().trim().required('Vui lòng nhập ca học'),
   })
 
   const cancelButtonRef = useRef(null)
@@ -27,10 +27,10 @@ export default function ModalAddSubject(props) {
 
   const onSubmitHandler = async (data) => {
     if (data) {
-      await postDataSubject(data.subjectName)
+      await postDataSession(data.sessionName, data.timeStart, data.timeEnd)
       toast.success('Thêm môn học thành công')
       setOpen(false)
-      fetchDataSubject()
+      fetchDataSession()
     }
 
     reset()
@@ -38,7 +38,7 @@ export default function ModalAddSubject(props) {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-2">Thêm môn học mới</h1>
+      <h1 className="text-xl font-bold mb-2">Thêm ca học mới</h1>
       <form
         id="contact-form"
         method="post"
@@ -47,12 +47,32 @@ export default function ModalAddSubject(props) {
         noValidate
       >
         <div className="mb-8">
-          <label className="block mb-2">Tên Môn Học</label>
+          <label className="block mb-2">Tên Ca</label>
           <InputWithValidation
-            name="subjectName"
+            name="sessionName"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
+          />
+        </div>
+        <div className="mb-8">
+          <label className="block mb-2">Thời gian bắt đầu</label>
+          <InputWithValidation
+            name="timeStart"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+            type="time"
+          />
+        </div>
+        <div className="mb-8">
+          <label className="block mb-2">Thời gian kết thúc</label>
+          <InputWithValidation
+            name="timeEnd"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+            type="time"
           />
         </div>
         <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end">

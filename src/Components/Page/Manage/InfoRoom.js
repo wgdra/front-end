@@ -106,17 +106,6 @@ const InforRoom = ({
               </>
             )}
           />
-          {/* <input
-            className={clsx(
-              !isUpdate ? 'text-[#9CA3AF]' : '',
-              'shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline'
-            )}
-            id="roomname"
-            type="text"
-            value={dataRoom.classroom_name}
-            onChange={(e) => setDataRoom({ ...dataRoom, classroom_name: e.target.value })}
-            disabled={!isUpdate}
-          /> */}
         </div>
         <div className="mb-10">
           <label className="block font-bold mb-2" htmlFor="note">
