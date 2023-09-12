@@ -7,6 +7,8 @@ import { putDataUser } from '../../../services/apiService'
 import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
 import { useState } from 'react'
+import Select from '../../ui/Select'
+import { transformData } from '../../../utils/transformData'
 
 const InfoUser = (props) => {
   const {
@@ -17,17 +19,25 @@ const InfoUser = (props) => {
     handleModal,
     dataUserinit,
     fetchDataUser,
+    subjectUser,
   } = props
 
+  // Hàm để thực hiện biến đổi giá trị fullName
+  const transformFullName = (fullName) => {
+    // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
+    return fullName.replace(/\s+/g, ' ')
+  }
   // Validate
   const [isValidate, setIsValidate] = useState(false)
 
   const schema = yup.object().shape({
     fullName: yup
       .string()
-      .trim()
       .required('Vui lòng nhập tên')
+      .trim()
+      .transform(transformFullName)
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
     email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
   })
 
@@ -40,17 +50,20 @@ const InfoUser = (props) => {
     resolver: yupResolver(schema),
   })
 
-  const handleUpdateUser = async (data) => {
+  console.log('data user', inforUser)
+
+  // Api
+  const onSubmitHandler = async (data) => {
     console.log('data update', data)
     if (data) {
       await putDataUser(
-        inforUser.id,
-        inforUser.username,
-        inforUser.full_name,
-        inforUser.subject_id,
-        inforUser.role,
-        inforUser.email,
-        inforUser.phone
+        data.id,
+        data.username,
+        data.full_name,
+        data.subject_id ?? null,
+        data.role,
+        data.email,
+        data.phone
       )
       console.log('data update id', data.id)
 
@@ -64,7 +77,7 @@ const InfoUser = (props) => {
     <form
       id="form-update"
       className="text-gray-900 text-lg bg-white shadow-md rounded px-8 pt-8"
-      onSubmit={handleSubmit(handleUpdateUser)}
+      onSubmit={handleSubmit(onSubmitHandler)}
       noValidate
     >
       <div className="mb-10 flex items-center">
@@ -139,7 +152,7 @@ const InfoUser = (props) => {
       </div>
 
       <div className="mb-10 flex items-center">
-        <label className="block w-1/5 font-bold">Chức Vụ</label>
+        <label className="block w-1/5 font-bold">Vai trò</label>
         <Controller
           name="role"
           control={control}
@@ -147,10 +160,10 @@ const InfoUser = (props) => {
           render={({ field }) => (
             <input
               {...field}
-              className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               id="role"
+              className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
-              value={inforUser.role}
+              value={inforUser.role === 0 ? 'Admin' : 'Giảng Viên'}
               disabled
             />
           )}
@@ -160,17 +173,20 @@ const InfoUser = (props) => {
       <div className="mb-10 flex items-center">
         <label className="block w-1/5 font-bold">Bộ Môn</label>
         <Controller
-          name="subjectId"
+          name="subject_id"
           control={control}
           defaultValue={inforUser.subject_id}
           render={({ field }) => (
-            <input
+            <Select
               {...field}
-              className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="role"
-              type="text"
-              value={inforUser.subject_id}
-              disabled
+              id="subject_id"
+              className={clsx(
+                !isUpdate ? 'text-[#9CA3AF]' : '',
+                'shadow w-4/5 appearance-auto border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+              )}
+              register={register}
+              options={transformData(subjectUser, 'subject_name')}
+              disabled={!isUpdate}
             />
           )}
         />

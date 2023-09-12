@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
-import { getDataUser } from '../../../services/apiService'
+import { getDataUser, getDataSubject } from '../../../services/apiService'
 import InfoUser from './InfoUser'
 import { Button } from '../../ui/Button'
 import { SvgIconUser, SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
@@ -15,6 +15,8 @@ export default function ManageUser() {
   const [dataUser, setDataUser] = useState('')
   const [dataUserinit, setDataUserInit] = useState('')
   const [inforUser, setInforUser] = useState('')
+
+  const [subjectUser, setSubjectUser] = useState()
 
   //Handle
 
@@ -32,11 +34,17 @@ export default function ManageUser() {
   //Api
   useEffect(() => {
     fetchDataUser()
+    fetchDataSubject()
   }, [])
 
   const fetchDataUser = async () => {
     let res = await getDataUser()
     setDataUser(res)
+  }
+
+  const fetchDataSubject = async () => {
+    let res = await getDataSubject()
+    setSubjectUser(res)
   }
 
   // Show List User
@@ -105,47 +113,9 @@ export default function ManageUser() {
                   setIsUpdate={setIsUpdate}
                   handleModal={handleModal}
                   dataUserinit={dataUserinit}
+                  subjectUser={subjectUser}
                   fetchDataUser={fetchDataUser}
                 />
-                {/* <div className="flex justify-end">
-                  {!isUpdate ? (
-                    <>
-                      <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
-                        <Button
-                          name="delete-user"
-                          className="border-red-600 bg-red-600"
-                          onClick={() => handleModal('delete-user')}
-                          text="Xóa giảng viên"
-                          Svg={SvgMinus}
-                        />
-                        <Button
-                          name="update-user"
-                          className="border-yellow-600 bg-yellow-600"
-                          onClick={() => setIsUpdate(true)}
-                          text="Chỉnh sửa"
-                          Svg={SvgPencilUpdate}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
-                      <Button
-                        className="rounded-md bg-gray-600"
-                        onClick={() => {
-                          setIsUpdate(false)
-                          setInforUser(dataUserinit)
-                        }}
-                        text="Hủy"
-                      />
-                      <Button
-                        name="update-user"
-                        className="rounded-md bg-emerald-600"
-                        onClick={() => handleUpdateUser()}
-                        text="Lưu"
-                      />
-                    </div>
-                  )}
-                </div> */}
               </div>
             </>
           )}
@@ -158,6 +128,7 @@ export default function ManageUser() {
         btnName={btnName}
         inforUser={inforUser}
         fetchDataUser={fetchDataUser}
+        subjectUser={subjectUser}
       />
     </div>
   )

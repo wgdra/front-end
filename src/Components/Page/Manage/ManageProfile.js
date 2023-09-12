@@ -252,7 +252,7 @@ export default function ManageProfile() {
                     name="update-profile"
                     className="border-yellow-600 bg-yellow-600"
                     onClick={() => setIsUpdate(true)}
-                    text="Sửa phòng"
+                    text="Chỉnh sửa"
                     Svg={SvgPencilUpdate}
                   />
                 </div>

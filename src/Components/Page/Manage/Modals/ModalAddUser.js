@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { postDataUser, getDataSubject } from '../../../../services/apiService'
+import { postDataUser } from '../../../../services/apiService'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -10,9 +10,10 @@ import Select from '../../../ui/Select'
 import { transformData } from '../../../../utils/transformData'
 
 export default function ModalAddUser(props) {
-  const { setOpen, fetchDataUser } = props
+  const { setOpen, fetchDataUser, subjectUser } = props
 
-  const [dataSubject, setDataSubject] = useState()
+  const [isAdmin, setIsAdmin] = useState()
+  console.log(isAdmin)
   const [dataRole] = useState([
     {
       id: 0,
@@ -20,7 +21,7 @@ export default function ModalAddUser(props) {
     },
     {
       id: 1,
-      role: 'Teacher',
+      role: 'Giảng Viên',
     },
   ])
 
@@ -58,16 +59,8 @@ export default function ModalAddUser(props) {
   })
 
   // Api
-  useEffect(() => {
-    fetchDataSubject()
-  }, [])
-
-  const fetchDataSubject = async () => {
-    let res = await getDataSubject()
-    setDataSubject(res)
-  }
-
   const onSubmitHandler = async (data) => {
+    console.log('dadtaa add', Number(data.role))
     if (data) {
       await postDataUser(
         data.username,
@@ -127,7 +120,7 @@ export default function ModalAddUser(props) {
           <label className="block mb-2">Vai trò</label>
           <Select
             name="role"
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-auto border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
             isMustChoose={true}
@@ -138,10 +131,10 @@ export default function ModalAddUser(props) {
           <label className="block mb-2">Môn dạy</label>
           <Select
             name="subject_id"
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-auto border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
-            options={transformData(dataSubject, 'subject_name')}
+            options={transformData(subjectUser, 'subject_name')}
           />
         </div>
         <div className="mb-5">

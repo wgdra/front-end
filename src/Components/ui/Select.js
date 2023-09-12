@@ -1,4 +1,13 @@
-const Select = ({ register, className, errors, options, name, isMustChoose = false, ...props }) => {
+const Select = ({
+  register,
+  className,
+  errors,
+  options,
+  onChange,
+  name,
+  isMustChoose = false,
+  ...props
+}) => {
   return (
     <select
       id={name}

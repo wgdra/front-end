@@ -117,7 +117,7 @@ const InfoSession = (props) => {
             <>
               <input
                 name="timeStart"
-                type="text"
+                type={isUpdate ? 'time' : 'text'}
                 value={dataSession.time_start}
                 className={clsx(
                   !isUpdate ? 'text-[#9CA3AF]' : '',
@@ -149,7 +149,7 @@ const InfoSession = (props) => {
             <>
               <input
                 name="timeEnd"
-                type="text"
+                type={isUpdate ? 'time' : 'text'}
                 value={dataSession.time_end}
                 className={clsx(
                   !isUpdate ? 'text-[#9CA3AF]' : '',

@@ -24,6 +24,7 @@ export default function Modal(props) {
     fetchDataSubject,
     fetchDataSession,
     setIsShowData,
+    subjectUser,
   } = props
   const cancelButtonRef = useRef(null)
 
@@ -41,7 +42,9 @@ export default function Modal(props) {
           />
         )
       case 'add-user':
-        return <ModalAddUser open={open} setOpen={setOpen} fetchDataUser={fetchDataUser} />
+        return (
+          <ModalAddUser setOpen={setOpen} fetchDataUser={fetchDataUser} subjectUser={subjectUser} />
+        )
       case 'delete-user':
         return (
           <ModalDeleteUser

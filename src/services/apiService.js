@@ -101,6 +101,11 @@ const deleteDataSession = (id) => {
   return instance.delete(`/session/${id}`)
 }
 
+// Data Time Table
+const getTimeTable = () => {
+  return instance.get('/timetable')
+}
+
 // Data Profile
 const getDataOneUser = (id) => {
   return instance.get(`/user/3`)
@@ -124,4 +129,5 @@ export {
   postDataSession,
   putDataSession,
   deleteDataSession,
+  getTimeTable,
 }

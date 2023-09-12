@@ -4,27 +4,50 @@ import clsx from 'clsx'
 import Day from './Day'
 import Header from './Header'
 import { Table } from './Table'
-import { getDataRoom, getDataSession } from '../../../../services/apiService'
+import { getTimeTable, getDataRoom, getDataSession } from '../../../../services/apiService'
 import Modal from '../Modals/Modal'
 /**
  * Schedule views sample
  */
-
-const DATA_ROOM = ['Phòng 1', 'Phòng 2', 'Phòng 3', 'Phòng 4', 'Phòng 5', 'Phòng 6', 'Phòng 7']
-const DATA_SESSION = ['Ca 1', 'Ca 2', 'Ca 3']
 const DATA_DAY = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật']
 
-const DATA_TABLE = [['1'], ['1'], ['1'], ['1'], ['1'], ['1'], ['1']]
+// const DATA_TABLE = [['', '4', '5', '6'], ['2'], ['3']]
 
 const Views = (props) => {
   const { isOptionWeek } = props
 
+  const [open, setOpen] = React.useState(false)
+  const [btnName, setBtnName] = React.useState('')
+
+  const [listTable, setListTable] = React.useState('')
   const [listRoom, setListRoom] = React.useState('')
   const [listSession, setListSession] = React.useState('')
 
+  const table = () => {
+    const table = []
+    for (let i = 0; i < listRoom.length; i++) {
+      table[i] = []
+      for (let j = 0; j < listSession.length * 7; j++) {
+        table[i][j] = ''
+      }
+    }
+    return table
+  }
+  const totalTable = table()
+
+  // handle
+  const handleModal = (name) => {
+    setOpen(true)
+    setBtnName(name)
+  }
+
+  // Api
   const fetchData = async () => {
+    let dataTable = await getTimeTable()
     let dataRoom = await getDataRoom()
     let dataSession = await getDataSession()
+
+    setListTable(dataTable)
     setListRoom(dataRoom)
     setListSession(dataSession)
   }
@@ -33,14 +56,7 @@ const Views = (props) => {
     fetchData()
   }, [])
 
-  const [open, setOpen] = React.useState(false)
-  const [btnName, setBtnName] = React.useState('')
-
-  const handleModal = (name) => {
-    setOpen(true)
-    setBtnName(name)
-  }
-
+  // console.log('listTable', listTable)
   return (
     <>
       <section className={clsx(['min-w-[635px] overflow-hidden'])}>
@@ -52,7 +68,11 @@ const Views = (props) => {
               </div>
               <div className="">
                 <Header listRoom={listRoom} listSession={listSession} />
-                <Table dataTable={DATA_TABLE} listSession={listSession} handleModal={handleModal} />
+                <Table
+                  totalTable={totalTable}
+                  listSession={listSession}
+                  handleModal={handleModal}
+                />
               </div>
             </div>
           </>

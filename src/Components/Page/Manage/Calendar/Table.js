@@ -1,17 +1,16 @@
 import clsx from 'clsx'
 
-export const Table = ({ dataTable, listSession, handleModal }) => {
+export const Table = ({ totalTable, listSession, handleModal }) => {
   const classSession = () => {
     if (listSession.length === 1) {
       return 'w-full'
     }
-
     return `w-1/${listSession.length}`
   }
 
   return (
     <div className="flex">
-      {dataTable.map((item, index) => (
+      {totalTable?.map((item, index) => (
         <div key={index} className="flex flex-wrap w-[640px] h-64">
           {item.map((value, index) => (
             <div
