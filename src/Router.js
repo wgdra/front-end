@@ -13,27 +13,30 @@ import ManageUser from './Components/Page/Manage/ManageUser'
 import ManageSubject from './Components/Page/Manage/ManageSubject'
 import ManageSession from './Components/Page/Manage/ManageSession'
 import Profile from './Components/Page/Profile'
+import { UserProvider } from './context/UserContext'
 
 export default function Router() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-          </Route>
-          <Route path="manage" element={<Manage />}>
-            <Route path="/manage/room-register" element={<RoomRegister />} />
-            <Route path="/manage/manage-room" element={<ManageRoom />} />
-            <Route path="/manage/manage-user" element={<ManageUser />} />
-            <Route path="/manage/manage-subject" element={<ManageSubject />} />
-            <Route path="/manage/manage-session" element={<ManageSession />} />
-          </Route>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
+        <UserProvider>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Home />} />
+            </Route>
+            <Route path="manage" element={<Manage />}>
+              <Route path="/manage/room-register" element={<RoomRegister />} />
+              <Route path="/manage/manage-room" element={<ManageRoom />} />
+              <Route path="/manage/manage-user" element={<ManageUser />} />
+              <Route path="/manage/manage-subject" element={<ManageSubject />} />
+              <Route path="/manage/manage-session" element={<ManageSession />} />
+            </Route>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </UserProvider>
       </BrowserRouter>
 
       <ToastContainer

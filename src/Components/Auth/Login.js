@@ -1,15 +1,46 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import InputWithValidation from '../ui/InputWithValidation'
+import { postLogin } from '../../services/apiService'
+import { login } from '../../services/AuthService'
+import { useContext } from 'react'
+import UserContext, { useAppContext } from '../../context/UserContext'
 
 export default function Login() {
   const navigate = useNavigate()
-  const location = useLocation()
 
-  console.log(location)
   const handleLogin = () => {
     //
     toast.success('Đăng nhập thành công')
     navigate('/manage')
+  }
+
+  const schema = yup.object().shape({
+    username: yup.string().trim().required('Vui lòng nhập tên tài khoản'),
+    password: yup.string().required('Vui lòng nhập mật khẩu'),
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
+
+  const { setCurrentUser } = useAppContext()
+
+  const onSubmitHandler = async (data) => {
+    if (data) {
+      setCurrentUser(await login(data.username, data.password))
+      toast.success('Đăng nhập thành công')
+      navigate('/manage')
+    }
+    reset()
   }
 
   return (
@@ -21,37 +52,40 @@ export default function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Đăng nhập tài khoản
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleSubmit(onSubmitHandler)}
+                noValidate
+              >
                 <div>
                   <label
-                    for="email"
+                    htmlFor="username"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Email
+                    username
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
+                  <InputWithValidation
+                    name="username"
+                    id="username"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
-                    required=""
+                    errors={errors}
+                    register={register}
                   />
                 </div>
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
-                  <input
+                  <InputWithValidation
                     type="password"
                     name="password"
                     id="password"
-                    placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    errors={errors}
+                    register={register}
                   />
                 </div>
                 <div className="flex items-center justify-between mb-4">
@@ -66,7 +100,7 @@ export default function Login() {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label for="remember" className="text-gray-500 dark:text-gray-300">
+                      <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">
                         Lưu mật khẩu
                       </label>
                     </div>
@@ -82,7 +116,7 @@ export default function Login() {
                   <button className="btn" onClick={() => navigate('/')}>
                     Hủy
                   </button>
-                  <button type="submit" className="btn mx-2" onClick={() => handleLogin()}>
+                  <button type="submit" className="btn mx-2">
                     Đăng Nhập
                   </button>
                 </div>

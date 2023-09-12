@@ -1,7 +1,9 @@
 import { Outlet } from 'react-router-dom'
 import NavManage from '../Nav/NavManage'
 
+
 export default function Manage() {
+
   return (
     <>
       <NavManage />

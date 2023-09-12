@@ -1,3 +1,4 @@
+import axios from 'axios'
 import instance from '../utils/axiosCustomize'
 
 //Data Room
@@ -111,6 +112,25 @@ const getDataOneUser = (id) => {
   return instance.get(`/user/3`)
 }
 
+// Login user
+const postLogin = async (username, password) => {
+  // return instance.post(`/user/login`, { username, password })
+  let data = []
+  await axios({
+    method: 'post',
+    url: `http://localhost:3002/user/login`,
+    data: { username, password },
+  })
+    .then((response) => {
+      data = response.data
+      console.log('data', data);
+    })
+    .catch((err) => {
+      console.log({ err })
+    })
+  return data
+}
+
 export {
   getDataRoom,
   postDataRoom,
@@ -130,4 +150,5 @@ export {
   putDataSession,
   deleteDataSession,
   getTimeTable,
+  postLogin,
 }

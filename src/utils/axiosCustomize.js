@@ -3,6 +3,9 @@ import NProgress from 'nprogress'
 
 const instance = axios.create({
   baseURL: 'http://localhost:3002',
+  headers: {
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+  },
 })
 
 NProgress.configure({

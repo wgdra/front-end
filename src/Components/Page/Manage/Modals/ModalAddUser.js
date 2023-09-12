@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { postDataUser } from '../../../../services/apiService'
 import clsx from 'clsx'
@@ -8,6 +8,7 @@ import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Select from '../../../ui/Select'
 import { transformData } from '../../../../utils/transformData'
+import UserContext from '../../../../context/UserContext'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser, subjectUser } = props
@@ -58,6 +59,12 @@ export default function ModalAddUser(props) {
     resolver: yupResolver(schema),
   })
 
+  const { token } = useContext(UserContext)
+
+  console.log('a', JSON.parse(localStorage.getItem('token')))
+
+  console.log({ token })
+
   // Api
   const onSubmitHandler = async (data) => {
     console.log('dadtaa add', Number(data.role))
@@ -69,7 +76,8 @@ export default function ModalAddUser(props) {
         data.role,
         data.subject_id ?? null,
         data.phone,
-        data.email
+        data.email,
+        token
       )
       toast.success('Thêm mới thành công')
       setOpen(false)
