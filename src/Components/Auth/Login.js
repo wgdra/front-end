@@ -1,23 +1,16 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import InputWithValidation from '../ui/InputWithValidation'
-import { postLogin } from '../../services/apiService'
 import { login } from '../../services/AuthService'
-import { useContext } from 'react'
-import UserContext, { useAppContext } from '../../context/UserContext'
+import { useAppContext } from '../../context/UserContext'
 
 export default function Login() {
   const navigate = useNavigate()
+  const { setCurrentUser } = useAppContext()
 
-  const handleLogin = () => {
-    //
-    toast.success('Đăng nhập thành công')
-    navigate('/manage')
-  }
-
+  // Validation
   const schema = yup.object().shape({
     username: yup.string().trim().required('Vui lòng nhập tên tài khoản'),
     password: yup.string().required('Vui lòng nhập mật khẩu'),
@@ -32,13 +25,12 @@ export default function Login() {
     resolver: yupResolver(schema),
   })
 
-  const { setCurrentUser } = useAppContext()
-
+  // Api
   const onSubmitHandler = async (data) => {
     if (data) {
       setCurrentUser(await login(data.username, data.password))
-      toast.success('Đăng nhập thành công')
-      navigate('/manage')
+      // toast.success('Đăng nhập thành công')
+      navigate('/manage/room-register')
     }
     reset()
   }

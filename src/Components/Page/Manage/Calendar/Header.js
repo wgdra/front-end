@@ -1,8 +1,6 @@
 import clsx from 'clsx'
 
-const Header = ({ dataRoom, dataSession, listRoom, listSession }) => {
-  console.log('listSession', listSession.length)
-
+const Header = ({ listRoom, listSession }) => {
   const classSession = () => {
     if (listSession.length === 1) {
       return 'w-full'

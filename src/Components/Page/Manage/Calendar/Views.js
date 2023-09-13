@@ -11,8 +11,6 @@ import Modal from '../Modals/Modal'
  */
 const DATA_DAY = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật']
 
-// const DATA_TABLE = [['', '4', '5', '6'], ['2'], ['3']]
-
 const Views = (props) => {
   const { isOptionWeek } = props
 
@@ -56,7 +54,6 @@ const Views = (props) => {
     fetchData()
   }, [])
 
-  // console.log('listTable', listTable)
   return (
     <>
       <section className={clsx(['min-w-[635px] overflow-hidden'])}>

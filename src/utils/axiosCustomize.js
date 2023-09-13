@@ -8,6 +8,7 @@ const instance = axios.create({
   },
 })
 
+// Loadbar
 NProgress.configure({
   showSpinner: false,
   trickleSpeed: 100,
@@ -20,6 +21,7 @@ instance.interceptors.request.use(
     return config
   },
   function (error) {
+    // console.log('err trong request custom', error)
     // Do something with request error
     return Promise.reject(error)
   }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
-import Login from '../Components/Auth/Login'
 import { isAuthenticated } from '../services/AuthService'
+import Login from '../Components/Auth/Login'
 
 const UserContext = createContext()
 

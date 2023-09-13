@@ -8,7 +8,7 @@ export default function ModalDeleteRoom(props) {
 
   const handleDeleteRoom = async () => {
     await deleteRoom(dataRoom.id)
-    toast.error(`Đã xóa ${dataRoom.classroom_name}`)
+    toast.success(`Đã xóa ${dataRoom.classroom_name}`)
     setIsShowData(false)
     setOpen(false)
     fetchListRoom()

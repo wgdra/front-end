@@ -19,9 +19,6 @@ export default function Navbar() {
           <NavLink className="font-semibold leading-6">Liên Hệ</NavLink>
         </div>
         <div className="w-1/5 text-center">
-          <button className="btn text-base mx-3.5" onClick={() => navigate('/register')}>
-            Đăng Ký
-          </button>
           <button className="btn text-base mx-3.5" onClick={() => navigate('/login')}>
             Đăng Nhập
           </button>

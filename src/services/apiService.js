@@ -40,13 +40,13 @@ const postDataUser = (userName, password, fullName, role, subject_id, phone, ema
   })
 }
 
-const putDataUser = (id, username, password, fullName, subject_id, role, phone, email) => {
+const putDataUser = (id, userName, password, fullName, role, subject_id, phone, email) => {
   return instance.post(`/user/${id}`, {
-    username: username,
+    username: userName,
     password: password,
     full_name: fullName,
-    subject_id: subject_id,
     role: role,
+    subject_id: subject_id,
     phone: phone,
     email: email,
   })
@@ -112,7 +112,7 @@ const getDataOneUser = (id) => {
   return instance.get(`/user/3`)
 }
 
-// Login user
+// Login
 const postLogin = async (username, password) => {
   // return instance.post(`/user/login`, { username, password })
   let data = []
@@ -123,10 +123,10 @@ const postLogin = async (username, password) => {
   })
     .then((response) => {
       data = response.data
-      console.log('data', data);
+      console.log(response)
     })
     .catch((err) => {
-      console.log({ err })
+      return err
     })
   return data
 }

@@ -38,12 +38,7 @@ const InfoSession = (props) => {
   // handle API Update Subject
   const handleUpdateSession = async (data) => {
     if (data) {
-      await putDataSession(
-        dataSession.id,
-        dataSession.session_name,
-        dataSession.time_start,
-        dataSession.time_end
-      )
+      await putDataSession(data.id, data.session_name, data.time_start, data.time_end)
       toast.success('Cập nhật thành công')
       setIsUpdate(false)
       fetchDataSession()

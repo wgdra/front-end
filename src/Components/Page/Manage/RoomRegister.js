@@ -63,7 +63,7 @@ export default function RoomRegister() {
                 <option value="Aug">Tháng 8</option>
                 <option value="Sep">Tháng 9</option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <SvgArrowDown />
               </div>
             </div>
@@ -74,14 +74,14 @@ export default function RoomRegister() {
               >
                 {showOptionWeek()}
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                 <SvgArrowDown />
               </div>
             </div>
           </div>
         </div>
       </header>
-      <div class="bg-white border-solid border-2 border-primary">
+      <div className="bg-white border-solid border-2 border-primary">
         <Views isOptionWeek={isOptionWeek} />
       </div>
     </>

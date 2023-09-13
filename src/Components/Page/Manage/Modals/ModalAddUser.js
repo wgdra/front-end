@@ -12,9 +12,12 @@ import UserContext from '../../../../context/UserContext'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser, subjectUser } = props
+  const cancelButtonRef = useRef(null)
+
+  const { token } = useContext(UserContext)
 
   const [isAdmin, setIsAdmin] = useState()
-  console.log(isAdmin)
+
   const [dataRole] = useState([
     {
       id: 0,
@@ -26,7 +29,7 @@ export default function ModalAddUser(props) {
     },
   ])
 
-  const cancelButtonRef = useRef(null)
+  // Validation
 
   // Hàm để thực hiện biến đổi giá trị fullName
   const transformFullName = (fullName) => {
@@ -59,15 +62,12 @@ export default function ModalAddUser(props) {
     resolver: yupResolver(schema),
   })
 
-  const { token } = useContext(UserContext)
-
   console.log('a', JSON.parse(localStorage.getItem('token')))
 
   console.log({ token })
 
   // Api
   const onSubmitHandler = async (data) => {
-    console.log('dadtaa add', Number(data.role))
     if (data) {
       await postDataUser(
         data.username,

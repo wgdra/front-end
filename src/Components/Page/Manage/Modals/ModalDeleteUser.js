@@ -1,14 +1,16 @@
-import { useRef } from 'react'
+import { useRef, useContext } from 'react'
 import { toast } from 'react-toastify'
 import { deleteDataUser } from '../../../../services/apiService'
+import UserContext from '../../../../context/UserContext'
 
 export default function ModalDeleteUser(props) {
   const { setOpen, inforUser, fetchDataUser, setIsShowData } = props
   const cancelButtonRef = useRef(null)
 
-  console.log(inforUser)
+  const { token } = useContext(UserContext)
+
   const handleDeleteUser = async () => {
-    await deleteDataUser(inforUser.id)
+    await deleteDataUser(inforUser.id, token)
     toast.error(`Đã xóa ${inforUser.full_name}`)
     setOpen(false)
     setIsShowData(false)

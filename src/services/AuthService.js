@@ -3,6 +3,7 @@ import { postLogin } from './apiService'
 export const login = async (username, password) => {
   const response = await postLogin(username, password)
 
+  console.log('response', response)
   const token = response.token
   if (token) {
     localStorage.setItem('user', JSON.stringify(response))

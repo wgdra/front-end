@@ -27,6 +27,7 @@ const InfoUser = (props) => {
     // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
     return fullName.replace(/\s+/g, ' ')
   }
+
   // Validate
   const [isValidate, setIsValidate] = useState(false)
 
@@ -50,27 +51,24 @@ const InfoUser = (props) => {
     resolver: yupResolver(schema),
   })
 
-  console.log('data user', inforUser)
-
   // Api
-  const onSubmitHandler = async (data) => {
-    console.log('data update', data)
-    if (data) {
-      await putDataUser(
-        data.id,
-        data.username,
-        data.full_name,
-        data.subject_id ?? null,
-        data.role,
-        data.email,
-        data.phone
-      )
-      console.log('data update id', data.id)
 
-      toast.success('Chỉnh sửa thành công')
-      setIsUpdate(false)
-      fetchDataUser()
-    }
+  const onSubmitHandler = async (data) => {
+    console.log('check submit', data)
+    // if (data) {
+    //   await putDataUser(
+    //     data.id,
+    //     data.username,
+    //     data.full_name,
+    //     data.subject_id ?? null,
+    //     data.role,
+    //     data.email,
+    //     data.phone
+    //   )
+    //   toast.success('Chỉnh sửa thành công')
+    //   setIsUpdate(false)
+    //   fetchDataUser()
+    // }
   }
 
   return (
@@ -172,7 +170,17 @@ const InfoUser = (props) => {
 
       <div className="mb-10 flex items-center">
         <label className="block w-1/5 font-bold">Bộ Môn</label>
-        <Controller
+        <Select
+          name="subject_id"
+          className={clsx(
+            !isUpdate ? 'text-[#9CA3AF]' : '',
+            'shadow w-4/5 appearance-auto border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+          )}
+          errors={errors}
+          register={register}
+          options={transformData(subjectUser, 'subject_name')}
+        />
+        {/* <Controller
           name="subject_id"
           control={control}
           defaultValue={inforUser.subject_id}
@@ -189,7 +197,7 @@ const InfoUser = (props) => {
               disabled={!isUpdate}
             />
           )}
-        />
+        /> */}
       </div>
       <div className="mb-10 flex items-center">
         <label className="block w-1/5 font-bold">Email</label>

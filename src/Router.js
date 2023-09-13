@@ -3,7 +3,6 @@ import App from './App'
 import Error from './Components/Page/Error'
 import Home from './Components/Page/Home'
 import Login from './Components/Auth/Login'
-import Register from './Components/Auth/Register'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import RoomRegister from './Components/Page/Manage/RoomRegister'
@@ -14,6 +13,9 @@ import ManageSubject from './Components/Page/Manage/ManageSubject'
 import ManageSession from './Components/Page/Manage/ManageSession'
 import Profile from './Components/Page/Profile'
 import { UserProvider } from './context/UserContext'
+import { useAppContext } from './context/UserContext'
+import { PrivateRoute } from './context/PrivateRoute'
+import NavManage from './Components/Nav/NavManage'
 
 export default function Router() {
   return (
@@ -24,15 +26,32 @@ export default function Router() {
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
             </Route>
-            <Route path="manage" element={<Manage />}>
-              <Route path="/manage/room-register" element={<RoomRegister />} />
+
+            <Route
+              path="/manage/room-register"
+              element={
+                <>
+                  <NavManage />
+                  <RoomRegister />
+                </>
+              }
+            />
+            <Route
+              path="manage"
+              element={
+                <PrivateRoute>
+                  <NavManage />
+                  <Manage />
+                </PrivateRoute>
+              }
+            >
               <Route path="/manage/manage-room" element={<ManageRoom />} />
               <Route path="/manage/manage-user" element={<ManageUser />} />
               <Route path="/manage/manage-subject" element={<ManageSubject />} />
               <Route path="/manage/manage-session" element={<ManageSession />} />
             </Route>
+
             <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
             <Route path="*" element={<Error />} />
           </Routes>
