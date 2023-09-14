@@ -50,7 +50,7 @@ export default function ManageProfile() {
 
   const fetchDataProfile = async () => {
     let res = await getDataOneUser(currentUser.id)
-    setDataProfile(res)
+    setDataProfile(res.data)
   }
 
   // Handle Update

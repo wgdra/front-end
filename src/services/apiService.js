@@ -114,6 +114,7 @@ const postTimeTable = (session_id, subject_id, classroom_id, date, teacher_id) =
     classroom_id: classroom_id,
     date: date,
     teacher_id: teacher_id,
+    status: 3
   })
 }
 

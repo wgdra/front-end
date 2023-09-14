@@ -14,14 +14,13 @@ export default function ModalAddTimeTable(props) {
   const [dataProfile, setDataProfile] = useState('')
 
   const { currentUser } = useAppContext()
-  console.log('currentUser', currentUser)
   // Validation
   const schema = yup.object().shape({
     classroomName: yup
       .string()
       .trim()
       .required('Vui lòng nhập tên phòng')
-      .min(3, 'Tên phòng phải trên 3 ký tự'),
+      .min(1, 'Tên phòng phải trên 3 ký tự'),
   })
 
   const cancelButtonRef = useRef(null)
@@ -46,8 +45,15 @@ export default function ModalAddTimeTable(props) {
   }
 
   const onSubmitHandler = async (data) => {
+    console.log('data', data)
     if (data) {
-      // await postTimeTable(session_id, subject_id, classroom_id, date, currentUser.id)
+      await postTimeTable(
+        data.sessionName,
+        data.subject,
+        data.classroomName,
+        new Date(data.date),
+        currentUser.id
+      )
       toast.success('Thêm phòng thành công')
       setOpen(false)
     }
@@ -86,7 +92,7 @@ export default function ModalAddTimeTable(props) {
         <div className="mb-5">
           <label className="block mb-2">Tên Giảng Viên</label>
           <InputWithValidation
-            name="sessionName"
+            name="teacher_id"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}

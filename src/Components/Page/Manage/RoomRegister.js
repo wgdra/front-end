@@ -1,39 +1,34 @@
 import { useState } from 'react'
 import Views from './Calendar/Views'
 import { SvgArrowDown } from '../../ui/Svg'
+import { dateDefault } from '../../../utils/dateDefault'
+import moment from 'moment'
 
 export default function RoomRegister() {
-  const [optionMonth, setOptionMonth] = useState('Aug')
-  const [isOptionWeek, setIsOptionWeek] = useState('')
+  const [isOptionWeek, setIsOptionWeek] = useState('11/09/2023')
+
+  var count = 1
+  var newDate = moment(new Date('2023-09-11'))
+
+  const handleWeek = (dateStr, number) => {
+    const firstDayofWeek = moment(new Date(dateStr))
+    const lastDayofWeek = moment(new Date(firstDayofWeek)).add('days', 6)
+    count++
+    newDate = moment(new Date(lastDayofWeek)).add('days', 1)
+
+    return `Tuần ${number} (${firstDayofWeek.format('DD/MM/YYYY')} - ${lastDayofWeek.format(
+      'DD/MM/YYYY'
+    )})`
+  }
+
+  const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
   const showOptionWeek = () => {
-    switch (optionMonth) {
-      case 'Aug':
-        // code block
-        return (
-          <>
-            <option value="Week-1">Tuần 1 - Ngày 01 - Ngày 06</option>
-            <option value="Week-2">Tuần 2 - Ngày 07 - Ngày 13</option>
-            <option value="Week-3">Tuần 3 - Ngày 14 - Ngày 20</option>
-            <option value="Week-4">Tuần 4 - Ngày 21 - Ngày 27</option>
-            <option value="Week-5">Tuần 5 - Ngày 28 - Ngày 31</option>
-          </>
-        )
-      case 'Sep':
-        // code block
-        return (
-          <>
-            <option value="Week-1">Tuần 1 - Ngày 01 - Ngày 03</option>
-            <option value="Week-2">Tuần 2 - Ngày 04 - Ngày 10</option>
-            <option value="Week-3">Tuần 3 - Ngày 11 - Ngày 17</option>
-            <option value="Week-4">Tuần 4 - Ngày 18 - Ngày 24</option>
-            <option value="Week-5">Tuần 5 - Ngày 25 - Ngày 30</option>
-          </>
-        )
-
-      default:
-      // code block
-    }
+    return a.map((_) => (
+      <option value={typeof newDate === 'string' ? newDate : newDate.format('DD/MM/YYYY')}>
+        {handleWeek(newDate, count)}
+      </option>
+    ))
   }
   return (
     <>
@@ -55,28 +50,13 @@ export default function RoomRegister() {
             </div>
           </div>
           <div>
-            <div className="inline-block relative w-28 mr-5">
-              <select
-                className="block font-bold appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setOptionMonth(e.target.value)}
-              >
-                <option value="Aug">Tháng 8</option>
-                <option value="Sep">Tháng 9</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <SvgArrowDown />
-              </div>
-            </div>
-            <div className="inline-block relative w-64">
+            <div className="inline-block relative">
               <select
                 className="block font-bold appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 onChange={(e) => setIsOptionWeek(e.target.value)}
               >
                 {showOptionWeek()}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <SvgArrowDown />
-              </div>
             </div>
           </div>
         </div>
