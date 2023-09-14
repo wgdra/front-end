@@ -38,7 +38,7 @@ export default function RoomRegister() {
   return (
     <>
       <header className="w-full">
-        <div className="flex items-center justify-between h-14 -mt-5 mb-5 px-10">
+        <div className="flex items-center justify-between h-14 mt-5 mb-5 px-10">
           <div className="flex items-center w-2/3 text-base">
             <span className="font-bold text-red-600">GHI CHÚ:</span>
             <div className="flex font-semibold ml-10">

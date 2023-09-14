@@ -13,7 +13,6 @@ import ManageSubject from './Components/Page/Manage/ManageSubject'
 import ManageSession from './Components/Page/Manage/ManageSession'
 import Profile from './Components/Page/Profile'
 import { UserProvider } from './context/UserContext'
-import { useAppContext } from './context/UserContext'
 import { PrivateRoute } from './context/PrivateRoute'
 import NavManage from './Components/Nav/NavManage'
 

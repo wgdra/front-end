@@ -1,15 +1,21 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { postDataRoom } from '../../../../services/apiService'
+import { postDataRoom, getDataOneUser, postTimeTable } from '../../../../services/apiService'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddTimeTable(props) {
   const { setOpen, fetchListRoom } = props
 
+  const [dataProfile, setDataProfile] = useState('')
+
+  const { currentUser } = useAppContext()
+  console.log('currentUser', currentUser)
+  // Validation
   const schema = yup.object().shape({
     classroomName: yup
       .string()
@@ -29,12 +35,21 @@ export default function ModalAddTimeTable(props) {
     resolver: yupResolver(schema),
   })
 
+  // Api
+  useEffect(() => {
+    fetchDataProfile()
+  }, [])
+
+  const fetchDataProfile = async () => {
+    let res = await getDataOneUser(currentUser.id)
+    setDataProfile(res)
+  }
+
   const onSubmitHandler = async (data) => {
     if (data) {
-      await postDataRoom(data.classroomName, data.note)
+      // await postTimeTable(session_id, subject_id, classroom_id, date, currentUser.id)
       toast.success('Thêm phòng thành công')
       setOpen(false)
-      fetchListRoom()
     }
 
     reset()
@@ -42,7 +57,7 @@ export default function ModalAddTimeTable(props) {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-2">Thêm phòng mới</h1>
+      <h1 className="text-xl font-bold mb-2">Đăng Ký Phòng Dạy</h1>
       <form
         id="contact-form"
         method="post"
@@ -50,8 +65,8 @@ export default function ModalAddTimeTable(props) {
         onSubmit={handleSubmit(onSubmitHandler)}
         noValidate
       >
-        <div className="mb-8">
-          <label className="block mb-2">Tên Phòng</label>
+        <div className="mb-5">
+          <label className="block mb-2">Phòng</label>
           <InputWithValidation
             name="classroomName"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -59,17 +74,44 @@ export default function ModalAddTimeTable(props) {
             register={register}
           />
         </div>
-
-        <div className="">
-          <label className="block mb-2">Ghi Chú</label>
+        <div className="mb-5">
+          <label className="block mb-2">Ca</label>
           <InputWithValidation
-            name="note"
+            name="sessionName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+          />
+        </div>
+        <div className="mb-5">
+          <label className="block mb-2">Tên Giảng Viên</label>
+          <InputWithValidation
+            name="sessionName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label className="block mb-2">Môn</label>
+          <InputWithValidation
+            name="subject"
             className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}
           />
         </div>
-        <div className="bg-gray-50 pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end">
+        <div className="mb-5">
+          <label className="block mb-2">Thời gian</label>
+          <InputWithValidation
+            name="date"
+            className="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            errors={errors}
+            register={register}
+          />
+        </div>
+        <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end">
           <button
             type="button"
             className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
@@ -86,7 +128,7 @@ export default function ModalAddTimeTable(props) {
               'inline-flex w-full justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 sm:ml-3 sm:w-auto'
             )}
           >
-            Lưu
+            Gửi
           </button>
         </div>
       </form>

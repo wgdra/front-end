@@ -9,7 +9,7 @@ const InputWithValidation = ({ register, className, errors, ...props }) => {
         id={props.name}
         type={props.type !== undefined ? props.type : 'text'}
         className={clsx(className, isError ? 'border border-red-500' : '')}
-        // placeholder={props.placeholder}
+        placeholder={props.placeholder}
         {...props}
         name={props.name}
         value={props.value}

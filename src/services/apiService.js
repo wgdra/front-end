@@ -1,7 +1,7 @@
 import axios from 'axios'
 import instance from '../utils/axiosCustomize'
 
-//Data Room
+// Data Room
 const getDataRoom = () => {
   return instance.get(`/classrooms`)
 }
@@ -24,7 +24,7 @@ const putDataRoom = (id, classroomName, note) => {
   })
 }
 
-//Data User
+// Data User
 const getDataUser = () => {
   return instance.get(`/user`)
 }
@@ -77,7 +77,7 @@ const deleteDataSubject = (id) => {
   return instance.delete(`/subject/${id}`)
 }
 
-//Data Session
+// Data Session
 const getDataSession = () => {
   return instance.get(`/session`)
 }
@@ -107,9 +107,20 @@ const getTimeTable = () => {
   return instance.get('/timetable')
 }
 
+const postTimeTable = (session_id, subject_id, classroom_id, date, teacher_id) => {
+  return instance.post(`/timetable`, {
+    session_id: session_id,
+    subject_id: subject_id,
+    classroom_id: classroom_id,
+    date: date,
+    teacher_id: teacher_id,
+  })
+}
+
 // Data Profile
+
 const getDataOneUser = (id) => {
-  return instance.get(`/user/3`)
+  return instance.get(`/user/${id}`)
 }
 
 // Login
@@ -150,5 +161,6 @@ export {
   putDataSession,
   deleteDataSession,
   getTimeTable,
+  postTimeTable,
   postLogin,
 }

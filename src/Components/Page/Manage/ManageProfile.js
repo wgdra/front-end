@@ -1,4 +1,5 @@
 import AdminProfile from '../../../assets/Admin-Profile.png'
+import UserProfile from '../../../assets/User-Profile.png'
 import { useEffect, useState } from 'react'
 import { Button } from '../../ui/Button'
 import clsx from 'clsx'
@@ -6,18 +7,27 @@ import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgPencilUpdate } from '../../ui/Svg'
-import { getDataOneUser } from '../../../services/apiService'
+import { getDataOneUser, putDataUser } from '../../../services/apiService'
+import { useAppContext } from '../../../context/UserContext'
 
 export default function ManageProfile() {
   const [isUpdate, setIsUpdate] = useState(false)
   const [dataProfile, setDataProfile] = useState('')
 
+  const { currentUser } = useAppContext()
+
+  const transformFullName = (fullName) => {
+    return fullName.replace(/\s+/g, ' ')
+  }
   const schema = yup.object().shape({
-    validate_text: yup
+    fullName: yup
       .string()
+      .required('Vui lòng nhập tên')
       .trim()
-      .required('Không được để trống')
-      .min(3, 'Vui lòng nhập trên 3 ký tự'),
+      .transform(transformFullName)
+      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
+    email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
   })
 
   const {
@@ -32,15 +42,35 @@ export default function ManageProfile() {
   // Handle
 
   // Api
+
+  //GET one user
   useEffect(() => {
     fetchDataProfile()
   }, [])
 
   const fetchDataProfile = async () => {
-    let res = await getDataOneUser()
+    let res = await getDataOneUser(currentUser.id)
     setDataProfile(res)
   }
-  console.log(dataProfile)
+
+  // Handle Update
+  // const handleUpdateProfile = async (data) => {
+  //   console.log('check submit', data)
+  //   if (data) {
+  //     await putDataUser(
+  //       data.id,
+  //       data.username,
+  //       data.full_name,
+  //       data.subject_id ?? null,
+  //       data.role,
+  //       data.email,
+  //       data.phone
+  //     )
+  //     // toast.success('Chỉnh sửa thành công')
+  //     setIsUpdate(false)
+  //     // fetchDataUser()
+  //   }
+  // }
 
   return (
     <div className="flex min-h-[80vh]">
@@ -50,7 +80,11 @@ export default function ManageProfile() {
         </div>
         <div className="flex flex-col items-center p-8">
           <div className="w-[70%] mb-8">
-            <img className="w-full h-full" src={AdminProfile} />
+            {dataProfile?.role === 1 ? (
+              <img className="w-full h-full" src={UserProfile} />
+            ) : (
+              <img className="w-full h-full" src={AdminProfile} />
+            )}
           </div>
           <span className="text-2xl font-bold">{dataProfile?.full_name?.toUpperCase()}</span>
         </div>
@@ -64,12 +98,14 @@ export default function ManageProfile() {
         <div className="max-h-full p-5 font-bold">
           <form
             id="contact-form"
-            className="text-gray-900 text-lg bg-white shadow-md rounded px-8 pt-8"
-            // onSubmit={handleSubmit(handleUpdateRoom)}
+            className="text-gray-900 text-lg bg-white shadow-md rounded px-8 py-8"
+            // onSubmit={handleSubmit(handleUpdateProfile)}
             noValidate
           >
             <div className="mb-10 flex items-center">
-              <label className="block w-1/5 font-bold">Mã Giảng Viên</label>
+              <label className="block w-1/5 font-bold">
+                Mã {dataProfile?.role === 0 ? 'Admin' : 'Giảng Viên'}
+              </label>
               <Controller
                 name="id"
                 control={control}
@@ -93,65 +129,22 @@ export default function ManageProfile() {
                 control={control}
                 defaultValue={dataProfile.username}
                 render={({ field }) => (
-                  <>
-                    <input
-                      name="username"
-                      type="text"
-                      value={dataProfile.username}
-                      className={clsx(
-                        !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['classroomName'] ? 'border border-red-500' : '',
-                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
-                      )}
-                      disabled={!isUpdate}
-                      onChange={(e) => {
-                        field.onChange(e)
-                        setDataProfile({ ...dataProfile, username: e.target.value })
-                      }}
-                      errors={errors}
-                      register={register}
-                    />
-                    {errors['classroomName'] && (
-                      <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
-                    )}
-                  </>
+                  <input
+                    {...field}
+                    className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="username"
+                    type="text"
+                    value={dataProfile.username}
+                    disabled
+                  />
                 )}
               />
             </div>
+
             <div className="mb-10 flex items-center">
-              <label className="block w-1/5 font-bold">Mật Khẩu</label>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue={dataProfile.password}
-                render={({ field }) => (
-                  <>
-                    <input
-                      name="password"
-                      type="password"
-                      value={dataProfile.password}
-                      className={clsx(
-                        !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['classroomName'] ? 'border border-red-500' : '',
-                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
-                      )}
-                      disabled={!isUpdate}
-                      onChange={(e) => {
-                        field.onChange(e)
-                        setDataProfile({ ...dataProfile, password: e.target.value })
-                      }}
-                      errors={errors}
-                      register={register}
-                    />
-                    {errors['classroomName'] && (
-                      <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-            <div className="mb-10 flex items-center">
-              <label className="block w-1/5 font-bold">Tên Giảng Viên</label>
+              <label className="block w-1/5 font-bold">
+                Tên {dataProfile?.role === 0 ? 'Admin' : 'Giảng Viên'}
+              </label>
               <Controller
                 name="fullName"
                 control={control}
@@ -188,24 +181,68 @@ export default function ManageProfile() {
               <Controller
                 name="role"
                 control={control}
-                p={dataProfile.role}
+                defaultValue={dataProfile.role}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="role"
+                    type="text"
+                    value={dataProfile.role === 0 ? 'Admin' : 'Giảng Viên'}
+                    disabled
+                  />
+                )}
+              />
+            </div>
+
+            {dataProfile && dataProfile?.role === 1 && (
+              <div className="mb-10 flex items-center">
+                <label className="block w-1/5 font-bold">Bộ Môn</label>
+                <Controller
+                  name="subject_id"
+                  control={control}
+                  defaultValue={dataProfile.subject_id}
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                      id="subject_id"
+                      type="text"
+                      value={dataProfile.subject_id}
+                      disabled
+                    />
+                  )}
+                />
+              </div>
+            )}
+
+            <div className="mb-10 flex items-center">
+              <label className="block w-1/5 font-bold">Số Điện Thoại</label>
+              <Controller
+                name="phone"
+                control={control}
+                defaultValue={dataProfile.phone}
                 render={({ field }) => (
                   <>
                     <input
-                      name="role"
+                      name="phone"
                       type="text"
-                      value={dataProfile.role}
-                      className="shadow text-[#9CA3AF] w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                      disabled
+                      value={dataProfile.phone}
+                      className={clsx(
+                        !isUpdate ? 'text-[#9CA3AF]' : '',
+                        errors['phone'] ? 'border border-red-500' : '',
+                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+                      )}
+                      disabled={!isUpdate}
                       onChange={(e) => {
                         field.onChange(e)
-                        setDataProfile({ ...dataProfile, full_name: e.target.value })
+                        setDataProfile({ ...dataProfile, phone: e.target.value })
                       }}
                       errors={errors}
                       register={register}
                     />
-                    {errors['classroomName'] && (
-                      <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
+                    {errors['phone'] && (
+                      <label className="text-[#fe0001]">{errors['phone'].message}</label>
                     )}
                   </>
                 )}
@@ -213,39 +250,38 @@ export default function ManageProfile() {
             </div>
 
             <div className="mb-10 flex items-center">
-              <label className="block w-1/5 font-bold">Bộ Môn</label>
+              <label className="block w-1/5 font-bold">Email</label>
               <Controller
-                name="subject"
+                name="email"
                 control={control}
-                defaultValue={dataProfile.subject_id}
+                defaultValue={dataProfile.email}
                 render={({ field }) => (
                   <>
                     <input
-                      name="subject"
+                      name="email"
                       type="text"
-                      value={dataProfile.subject_id}
+                      value={dataProfile.email}
                       className={clsx(
                         !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['classroomName'] ? 'border border-red-500' : '',
+                        errors['email'] ? 'border border-red-500' : '',
                         'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
                       )}
                       disabled={!isUpdate}
                       onChange={(e) => {
                         field.onChange(e)
-                        setDataProfile({ ...dataProfile, subject_id: e.target.value })
+                        setDataProfile({ ...dataProfile, email: e.target.value })
                       }}
                       errors={errors}
                       register={register}
                     />
-                    {errors['classroomName'] && (
-                      <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
+                    {errors['email'] && (
+                      <label className="text-[#fe0001]">{errors['email'].message}</label>
                     )}
                   </>
                 )}
               />
             </div>
-
-            {!isUpdate ? (
+            {/* {!isUpdate ? (
               <>
                 <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
                   <Button
@@ -274,7 +310,7 @@ export default function ManageProfile() {
                   text="Lưu"
                 />
               </div>
-            )}
+            )} */}
           </form>
         </div>
       </div>

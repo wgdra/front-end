@@ -26,13 +26,14 @@ const Views = (props) => {
     for (let i = 0; i < listRoom.length; i++) {
       table[i] = []
       for (let j = 0; j < listSession.length * 7; j++) {
-        table[i][j] = ''
+        table[i][j] = ' '
       }
     }
     return table
   }
   const totalTable = table()
 
+  console.log('totalTable', totalTable)
   // handle
   const handleModal = (name) => {
     setOpen(true)
