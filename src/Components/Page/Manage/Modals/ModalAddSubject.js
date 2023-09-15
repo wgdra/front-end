@@ -14,7 +14,7 @@ export default function ModalAddSubject(props) {
   const { token, currentUser } = useAppContext()
 
   const schema = yup.object().shape({
-    subjectName: yup.string().trim().required('Vui lòng nhập tên môn học'),
+    subject_name: yup.string().trim().required('Vui lòng nhập tên môn học'),
   })
 
   const cancelButtonRef = useRef(null)
@@ -30,7 +30,7 @@ export default function ModalAddSubject(props) {
 
   const onSubmitHandler = async (data) => {
     if (data && currentUser.role === 0) {
-      let req = await postDataSubject(data.subjectName, token)
+      let req = await postDataSubject(data.subject_name, token)
 
       if (req.status === true) {
         toast.success(req.msg)
@@ -43,6 +43,7 @@ export default function ModalAddSubject(props) {
     }
     if (data && currentUser.role === 1) {
       toast.error('Bạn không có quyền thêm môn học')
+      setOpen(false)
     }
 
     reset()
@@ -61,7 +62,7 @@ export default function ModalAddSubject(props) {
         <div className="mb-8">
           <label className="block mb-2">Tên Môn Học</label>
           <InputWithValidation
-            name="subjectName"
+            name="subject_name"
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             errors={errors}
             register={register}

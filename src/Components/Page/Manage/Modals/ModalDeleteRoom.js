@@ -19,6 +19,7 @@ export default function ModalDeleteRoom(props) {
     }
     if (currentUser.role === 1) {
       toast.error('Bạn không có quyền xóa phòng')
+      setOpen(false)
     }
   }
   return (

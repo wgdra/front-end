@@ -40,11 +40,11 @@ const postDataUser = (userName, password, fullName, role, subject_id, phone, ema
   })
 }
 
-const putDataUser = (id, userName, password, fullName, role, subject_id, phone, email) => {
+const putDataUser = (id, username, password, full_name, role, subject_id, phone, email) => {
   return instance.post(`/user/${id}`, {
-    username: userName,
+    username: username,
     password: password,
-    full_name: fullName,
+    full_name: full_name,
     role: role,
     subject_id: subject_id,
     phone: phone,
@@ -61,15 +61,19 @@ const getDataSubject = () => {
   return instance.get(`/subject`)
 }
 
-const postDataSubject = (subjectName) => {
+const getOneDataSubject = (id) => {
+  return instance.get(`/subject/${id}`)
+}
+
+const postDataSubject = (subject_name) => {
   return instance.post(`/subject`, {
-    subject_name: subjectName,
+    subject_name: subject_name,
   })
 }
 
-const putDataSubject = (id, subjectName) => {
+const putDataSubject = (id, subject_name) => {
   return instance.post(`/subject/${id}`, {
-    subject_name: subjectName,
+    subject_name: subject_name,
   })
 }
 
@@ -145,24 +149,36 @@ const postLogin = async (username, password) => {
 }
 
 export {
+  // Data Room
   getDataRoom,
   postDataRoom,
   deleteRoom,
   putDataRoom,
+
+  // Data User
   getDataUser,
+  getDataOneUser,
   postDataUser,
   putDataUser,
   deleteDataUser,
+
+  // Data Subject
   getDataSubject,
+  getOneDataSubject,
   postDataSubject,
   deleteDataSubject,
   putDataSubject,
-  getDataOneUser,
+
+  // Data Session
   getDataSession,
   postDataSession,
   putDataSession,
   deleteDataSession,
+
+  // Data Table
   getTimeTable,
   postTimeTable,
+
+  // Login
   postLogin,
 }

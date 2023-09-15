@@ -9,25 +9,35 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgPencilUpdate } from '../../ui/Svg'
 import { getDataOneUser, putDataUser } from '../../../services/apiService'
 import { useAppContext } from '../../../context/UserContext'
+import { toast } from 'react-toastify'
 
 export default function ManageProfile() {
   const [isUpdate, setIsUpdate] = useState(false)
+
   const [dataProfile, setDataProfile] = useState('')
+  const [dataProfileInit, setDataProfileInit] = useState('')
 
   const { token, currentUser } = useAppContext()
+
+  // Validation
+  const [isValidate, setIsValidate] = useState(false)
 
   const transformFullName = (fullName) => {
     return fullName.replace(/\s+/g, ' ')
   }
   const schema = yup.object().shape({
-    fullName: yup
+    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
+    full_name: yup
       .string()
       .required('Vui lòng nhập tên')
       .trim()
       .transform(transformFullName)
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
-    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
     email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
+    phone: yup
+      .string()
+      .matches(/^[0-9]{10}$/, 'Số điện thoại phải gồm 10 chữ số.')
+      .required('Số điện thoại không được để trống'),
   })
 
   const {
@@ -51,26 +61,34 @@ export default function ManageProfile() {
   const fetchDataProfile = async () => {
     let res = await getDataOneUser(currentUser.id)
     setDataProfile(res.data)
+    setDataProfileInit(res.data)
   }
 
   // Handle Update
-  // const handleUpdateProfile = async (data) => {
-  //   console.log('check submit', data)
-  //   if (data) {
-  //     await putDataUser(
-  //       data.id,
-  //       data.username,
-  //       data.full_name,
-  //       data.subject_id ?? null,
-  //       data.role,
-  //       data.email,
-  //       data.phone
-  //     )
-  //     // toast.success('Chỉnh sửa thành công')
-  //     setIsUpdate(false)
-  //     // fetchDataUser()
-  //   }
-  // }
+  const handleUpdateProfile = async (data) => {
+    console.log('data', data)
+    if (data && currentUser.role === 1) {
+      let req = await putDataUser(
+        data.id,
+        data.username,
+        data.full_name,
+        data.role,
+        data.subject_id ?? null,
+        data.email,
+        data.phone,
+        token
+      )
+
+      if (req.status === 200) {
+        toast.success('Chỉnh sửa thành công')
+        setIsUpdate(false)
+        fetchDataProfile()
+      } else {
+        toast.error('Có lỗi !!!')
+        setIsUpdate(false)
+      }
+    }
+  }
 
   return (
     <div className="flex min-h-[80vh]">
@@ -86,7 +104,7 @@ export default function ManageProfile() {
               <img className="w-full h-full" src={AdminProfile} />
             )}
           </div>
-          <span className="text-2xl font-bold">{dataProfile?.full_name?.toUpperCase()}</span>
+          <span className="text-2xl font-bold">{dataProfileInit.full_name?.toUpperCase()}</span>
         </div>
       </div>
 
@@ -98,13 +116,13 @@ export default function ManageProfile() {
         <div className="max-h-full p-5 font-bold">
           <form
             id="contact-form"
-            className="text-gray-900 text-lg bg-white shadow-md rounded px-8 py-8"
-            // onSubmit={handleSubmit(handleUpdateProfile)}
+            className="text-gray-900 text-lg bg-white shadow-md rounded px-8"
+            onSubmit={handleSubmit(handleUpdateProfile)}
             noValidate
           >
             <div className="mb-10 flex items-center">
               <label className="block w-1/5 font-bold">
-                Mã {dataProfile?.role === 0 ? 'Admin' : 'Giảng Viên'}
+                Mã {dataProfile.role === 0 ? 'Admin' : 'Giảng Viên'}
               </label>
               <Controller
                 name="id"
@@ -142,23 +160,59 @@ export default function ManageProfile() {
             </div>
 
             <div className="mb-10 flex items-center">
+              <label className="block w-1/5 font-bold">Mật Khẩu</label>
+              <Controller
+                name="password"
+                control={control}
+                defaultValue={dataProfile.password}
+                render={({ field }) => (
+                  <div className="relative w-4/5">
+                    <input
+                      name="password"
+                      type="password"
+                      value={dataProfile.password}
+                      className={clsx(
+                        !isUpdate ? 'text-[#9CA3AF]' : '',
+                        errors['password'] && isValidate && isUpdate ? 'border border-red-500' : '',
+                        'shadow w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+                      )}
+                      disabled={!isUpdate}
+                      onChange={(e) => {
+                        field.onChange(e)
+                        setDataProfile({ ...dataProfile, password: e.target.value })
+                      }}
+                      errors={errors}
+                      register={register}
+                    />
+                    {errors['password'] && isValidate && isUpdate && (
+                      <span className="text-[#fe0001] absolute bottom-[-30px] left-0">
+                        {errors['password'].message}
+                      </span>
+                    )}
+                  </div>
+                )}
+              />
+            </div>
+            <div className="mb-10 flex items-center">
               <label className="block w-1/5 font-bold">
-                Tên {dataProfile?.role === 0 ? 'Admin' : 'Giảng Viên'}
+                Tên {dataProfile.role === 0 ? 'Admin' : 'Giảng Viên'}
               </label>
               <Controller
-                name="fullName"
+                name="full_name"
                 control={control}
                 defaultValue={dataProfile.full_name}
                 render={({ field }) => (
-                  <>
+                  <div className="relative w-4/5">
                     <input
-                      name="fullName"
+                      name="full_name"
                       type="text"
                       value={dataProfile.full_name}
                       className={clsx(
                         !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['classroomName'] ? 'border border-red-500' : '',
-                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+                        errors['full_name'] && isValidate && isUpdate
+                          ? 'border border-red-500'
+                          : '',
+                        'shadow w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
                       )}
                       disabled={!isUpdate}
                       onChange={(e) => {
@@ -168,10 +222,12 @@ export default function ManageProfile() {
                       errors={errors}
                       register={register}
                     />
-                    {errors['classroomName'] && (
-                      <label className="text-[#fe0001]">{errors['classroomName'].message}</label>
+                    {errors['full_name'] && isValidate && isUpdate && (
+                      <span className="text-[#fe0001] absolute bottom-[-30px] left-0">
+                        {errors['full_name'].message}
+                      </span>
                     )}
-                  </>
+                  </div>
                 )}
               />
             </div>
@@ -223,15 +279,15 @@ export default function ManageProfile() {
                 control={control}
                 defaultValue={dataProfile.phone}
                 render={({ field }) => (
-                  <>
+                  <div className="relative w-4/5">
                     <input
                       name="phone"
-                      type="text"
+                      type="number"
                       value={dataProfile.phone}
                       className={clsx(
                         !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['phone'] ? 'border border-red-500' : '',
-                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+                        errors['phone'] && isValidate && isUpdate ? 'border border-red-500' : '',
+                        'shadow w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
                       )}
                       disabled={!isUpdate}
                       onChange={(e) => {
@@ -241,10 +297,12 @@ export default function ManageProfile() {
                       errors={errors}
                       register={register}
                     />
-                    {errors['phone'] && (
-                      <label className="text-[#fe0001]">{errors['phone'].message}</label>
+                    {errors['phone'] && isValidate && isUpdate && (
+                      <span className="text-[#fe0001] absolute bottom-[-30px] left-0">
+                        {errors['phone'].message}
+                      </span>
                     )}
-                  </>
+                  </div>
                 )}
               />
             </div>
@@ -256,15 +314,15 @@ export default function ManageProfile() {
                 control={control}
                 defaultValue={dataProfile.email}
                 render={({ field }) => (
-                  <>
+                  <div className="relative w-4/5">
                     <input
                       name="email"
                       type="text"
                       value={dataProfile.email}
                       className={clsx(
                         !isUpdate ? 'text-[#9CA3AF]' : '',
-                        errors['email'] ? 'border border-red-500' : '',
-                        'shadow w-4/5 appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
+                        errors['email'] && isValidate && isUpdate ? 'border border-red-500' : '',
+                        'shadow w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
                       )}
                       disabled={!isUpdate}
                       onChange={(e) => {
@@ -274,14 +332,16 @@ export default function ManageProfile() {
                       errors={errors}
                       register={register}
                     />
-                    {errors['email'] && (
-                      <label className="text-[#fe0001]">{errors['email'].message}</label>
+                    {errors['email'] && isValidate && isUpdate && (
+                      <span className="text-[#fe0001] absolute bottom-[-30px] left-0">
+                        {errors['email'].message}
+                      </span>
                     )}
-                  </>
+                  </div>
                 )}
               />
             </div>
-            {/* {!isUpdate ? (
+            {!isUpdate ? (
               <>
                 <div className="pl-4 py-3 sm:flex sm:flex-row sm:pl-6 justify-end gap-3">
                   <Button
@@ -300,6 +360,8 @@ export default function ManageProfile() {
                   className="rounded-md bg-gray-600"
                   onClick={() => {
                     setIsUpdate(false)
+                    setIsValidate(false)
+                    setDataProfile(dataProfileInit)
                   }}
                   text="Hủy"
                 />
@@ -308,9 +370,10 @@ export default function ManageProfile() {
                   name="update-profile"
                   className="rounded-md bg-emerald-600"
                   text="Lưu"
+                  onClick={() => setIsValidate(true)}
                 />
               </div>
-            )} */}
+            )}
           </form>
         </div>
       </div>

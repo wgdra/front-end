@@ -9,7 +9,7 @@ import { Button } from '../../ui/Button'
 import { useState } from 'react'
 import { useAppContext } from '../../../context/UserContext'
 
-const InforSubject = (props) => {
+const InfoSubject = (props) => {
   const {
     dataSubject,
     setDataSubject,
@@ -26,7 +26,7 @@ const InforSubject = (props) => {
   const [isValidate, setIsValidate] = useState(false)
 
   const schema = yup.object().shape({
-    subjectName: yup.string().trim().required('Vui lòng nhập tên môn học'),
+    subject_name: yup.string().trim().required('Vui lòng nhập tên môn học'),
   })
 
   const {
@@ -40,14 +40,16 @@ const InforSubject = (props) => {
 
   // handle API Update Subject
   const handleUpdateSubject = async (data) => {
+    console.log('data', data)
     if (data && currentUser.role === 0) {
-      let req = await putDataSubject(dataSubject.id, dataSubject.subject_name, token)
+      let req = await putDataSubject(data.id, data.subject_name, token)
       if (req.status === true) {
         toast.success('Cập nhật thành công')
         setIsUpdate(false)
         fetchDataSubject()
       } else {
         toast.error(req.msg)
+        setIsUpdate(false)
       }
     }
     if (data && currentUser.role === 1) {
@@ -83,18 +85,18 @@ const InforSubject = (props) => {
       <div className="mb-40">
         <label className="block font-bold mb-2">Tên Môn Học</label>
         <Controller
-          name="subjectName"
+          name="subject_name"
           control={control}
           defaultValue={dataSubject.subject_name}
           render={({ field }) => (
             <>
               <input
-                name="subjectName"
+                name="subject_name"
                 type="text"
                 value={dataSubject.subject_name}
                 className={clsx(
                   !isUpdate ? 'text-[#9CA3AF]' : '',
-                  errors['subjectName'] && isValidate && isUpdate ? 'border border-red-500' : '',
+                  errors['subject_name'] && isValidate && isUpdate ? 'border border-red-500' : '',
                   'shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline'
                 )}
                 disabled={!isUpdate}
@@ -105,8 +107,8 @@ const InforSubject = (props) => {
                 errors={errors}
                 register={register}
               />
-              {errors['subjectName'] && isValidate && isUpdate && (
-                <label className="text-[#fe0001]">{errors['subjectName'].message}</label>
+              {errors['subject_name'] && isValidate && isUpdate && (
+                <label className="text-[#fe0001]">{errors['subject_name'].message}</label>
               )}
             </>
           )}
@@ -161,4 +163,4 @@ const InforSubject = (props) => {
   )
 }
 
-export default InforSubject
+export default InfoSubject

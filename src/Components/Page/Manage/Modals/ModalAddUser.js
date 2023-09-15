@@ -48,6 +48,10 @@ export default function ModalAddUser(props) {
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
     password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
     email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
+    phone: yup
+      .string()
+      .matches(/^[0-9]{10}$/, 'Số điện thoại phải gồm 10 chữ số.')
+      .required('Số điện thoại không được để trống'),
   })
 
   const {
@@ -84,6 +88,7 @@ export default function ModalAddUser(props) {
     }
     if (data && currentUser.role === 1) {
       toast.error('Bạn không có quyền chỉnh sửa')
+      setOpen(false)
     }
     reset()
   }

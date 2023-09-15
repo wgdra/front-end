@@ -20,6 +20,7 @@ export default function ModalDeleteUser(props) {
     }
     if (currentUser.role === 1) {
       toast.error('Bạn không có quyền xóa')
+      setOpen(false)
     }
   }
   return (

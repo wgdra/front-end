@@ -3,12 +3,13 @@ import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgMinus, SvgPencilUpdate } from '../../ui/Svg'
-import { putDataUser } from '../../../services/apiService'
+import { putDataUser, getOneDataSubject } from '../../../services/apiService'
 import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Select from '../../ui/Select'
 import { transformData } from '../../../utils/transformData'
+import { useAppContext } from '../../../context/UserContext'
 
 const InfoUser = (props) => {
   const {
@@ -22,17 +23,26 @@ const InfoUser = (props) => {
     subjectUser,
   } = props
 
-  // Hàm để thực hiện biến đổi giá trị fullName
-  const transformFullName = (fullName) => {
-    // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
-    return fullName.replace(/\s+/g, ' ')
-  }
+  const [oneSubject, setOneSubject] = useState('')
+
+  const { token, currentUser } = useAppContext()
 
   // Validate
+
+  // Hàm để thực hiện biến đổi giá trị fullName
+  const transformFullName = (full_name) => {
+    // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
+    return full_name.replace(/\s+/g, ' ')
+  }
   const [isValidate, setIsValidate] = useState(false)
 
   const schema = yup.object().shape({
-    fullName: yup
+    username: yup
+      .string()
+      .trim()
+      .required('Vui lòng nhập tên')
+      .min(3, 'Vui lòng nhập đầy đủ họ tên'),
+    full_name: yup
       .string()
       .required('Vui lòng nhập tên')
       .trim()
@@ -40,6 +50,10 @@ const InfoUser = (props) => {
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
     password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
     email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
+    phone: yup
+      .string()
+      .matches(/^[0-9]{10}$/, 'Số điện thoại phải gồm 10 chữ số.')
+      .required('Số điện thoại không được để trống'),
   })
 
   const {
@@ -53,29 +67,52 @@ const InfoUser = (props) => {
 
   // Api
 
-  const onSubmitHandler = async (data) => {
-    console.log('check submit', data)
-    // if (data) {
-    //   await putDataUser(
-    //     data.id,
-    //     data.username,
-    //     data.full_name,
-    //     data.subject_id ?? null,
-    //     data.role,
-    //     data.email,
-    //     data.phone
-    //   )
-    //   toast.success('Chỉnh sửa thành công')
-    //   setIsUpdate(false)
-    //   fetchDataUser()
-    // }
+  const onSubmitUpdateUser = async (data) => {
+    if (data && currentUser.role === 0) {
+      let req = await putDataUser(
+        data.id,
+        data.username,
+        data.full_name,
+        data.role,
+        data.subject_id ?? null,
+        data.email,
+        data.phone,
+        token
+      )
+
+      if (req.status === true) {
+        toast.success(req.msg)
+        setIsUpdate(false)
+        fetchDataUser()
+      } else {
+        toast.error(req.msg)
+        setIsUpdate(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền chỉnh sửa')
+    }
+  }
+
+  useEffect(() => {
+    fetchSubjectOfUser()
+  }, [inforUser.subject_id])
+
+  const fetchSubjectOfUser = async () => {
+    let res = await getOneDataSubject(inforUser.subject_id, token)
+
+    if (res.status === true) {
+      setOneSubject(res.data)
+    } else {
+      toast.error(res.msg)
+    }
   }
 
   return (
     <form
       id="form-update"
       className="text-gray-900 text-lg bg-white shadow-md rounded px-8 pt-8"
-      onSubmit={handleSubmit(onSubmitHandler)}
+      onSubmit={handleSubmit(onSubmitUpdateUser)}
       noValidate
     >
       <div className="mb-10 flex items-center">
@@ -117,18 +154,18 @@ const InfoUser = (props) => {
       <div className="mb-10 flex flex-wrap items-center">
         <label className="block w-1/5 font-bold">Tên Giảng Viên</label>
         <Controller
-          name="fullName"
+          name="full_name"
           control={control}
           defaultValue={inforUser.full_name}
           render={({ field }) => (
             <div className="relative w-4/5">
               <input
-                name="fullName"
+                name="full_name"
                 type="text"
                 value={inforUser.full_name}
                 className={clsx(
                   !isUpdate ? 'text-[#9CA3AF]' : '',
-                  errors['fullName'] && isValidate && isUpdate ? 'border border-red-500' : '',
+                  errors['full_name'] && isValidate && isUpdate ? 'border border-red-500' : '',
                   'shadow w-full appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
                 )}
                 disabled={!isUpdate}
@@ -139,9 +176,9 @@ const InfoUser = (props) => {
                 errors={errors}
                 register={register}
               />
-              {errors['fullName'] && isValidate && isUpdate && (
+              {errors['full_name'] && isValidate && isUpdate && (
                 <span className="text-[#fe0001] absolute bottom-[-30px] left-0">
-                  {errors['fullName'].message}
+                  {errors['full_name'].message}
                 </span>
               )}
             </div>
@@ -181,7 +218,7 @@ const InfoUser = (props) => {
                 className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="subject_id"
                 type="text"
-                value={inforUser.subject_id}
+                value={oneSubject.subject_name}
                 disabled
               />
             )}

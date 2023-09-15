@@ -43,6 +43,7 @@ export default function ModalAddSession(props) {
     }
     if (data && currentUser.role === 1) {
       toast.error('Bạn không có quyền thêm ca học')
+      setOpen(false)
     }
 
     reset()

@@ -47,6 +47,7 @@ export default function ModalAddRoom(props) {
     }
     if (data && currentUser.role === 1) {
       toast.error('Bạn không có quyền thêm phòng')
+      setOpen(false)
     }
     reset()
   }
