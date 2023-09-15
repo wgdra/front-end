@@ -4,6 +4,8 @@ import { getDataSubject } from '../../../services/apiService'
 import { Button } from '../../ui/Button'
 import { SvgDocumentPlus, SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
 import InfoSubject from './InfoSubject'
+import { toast } from 'react-toastify'
+import { useAppContext } from '../../../context/UserContext'
 
 export default function ManageSubject() {
   const [open, setOpen] = useState(false)
@@ -15,6 +17,8 @@ export default function ManageSubject() {
 
   const [isShowData, setIsShowData] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
+
+  const { token } = useAppContext()
 
   // Handle
   const handleClickListSubject = (data) => {
@@ -35,8 +39,14 @@ export default function ManageSubject() {
   }, [])
 
   const fetchDataSubject = async () => {
-    let res = await getDataSubject()
-    setListSubject(res)
+    let res = await getDataSubject(token)
+
+    if (res.status === true) {
+      setListSubject(res.data)
+    }
+    if (res.status === false) {
+      toast.error(res.msg)
+    }
   }
 
   // Show list subject

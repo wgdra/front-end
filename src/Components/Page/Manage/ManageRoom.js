@@ -5,6 +5,7 @@ import InforRoom from './InfoRoom'
 import { Button } from '../../ui/Button'
 import { SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
 import UserContext from '../../../context/UserContext'
+import { toast } from 'react-toastify'
 
 export default function ManageRoom() {
   const [open, setOpen] = useState(false)
@@ -17,6 +18,8 @@ export default function ManageRoom() {
   const [isShowData, setIsShowData] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
 
+  const { token } = useContext(UserContext)
+  console.log('token', token)
   // Handle
   const handleClickRoom = (data) => {
     setIsShowData(true)
@@ -36,11 +39,16 @@ export default function ManageRoom() {
   }, [])
 
   const fetchListRoom = async () => {
-    let res = await getDataRoom()
-    setListRoom(res)
+    let res = await getDataRoom(token)
+
+    if (res.status === true) {
+      setListRoom(res.data)
+    }
+    if (res.status === false) {
+      toast.error(res.msg)
+    }
   }
 
-  
   // Show list Room
   const showListRoom = () => {
     if (!listRoom) return <span className="text-primary">Loading...</span>

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { postDataUser } from '../../../../services/apiService'
 import clsx from 'clsx'
@@ -8,15 +8,11 @@ import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Select from '../../../ui/Select'
 import { transformData } from '../../../../utils/transformData'
-import UserContext from '../../../../context/UserContext'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser, subjectUser } = props
   const cancelButtonRef = useRef(null)
-
-  const { token } = useContext(UserContext)
-
-  const [isAdmin, setIsAdmin] = useState()
 
   const [dataRole] = useState([
     {
@@ -29,8 +25,9 @@ export default function ModalAddUser(props) {
     },
   ])
 
-  // Validation
+  const { token, currentUser } = useAppContext()
 
+  // Validation
   // Hàm để thực hiện biến đổi giá trị fullName
   const transformFullName = (fullName) => {
     // Thực hiện biến đổi ở đây, ví dụ: loại bỏ dấu cách thừa
@@ -62,14 +59,10 @@ export default function ModalAddUser(props) {
     resolver: yupResolver(schema),
   })
 
-  console.log('a', JSON.parse(localStorage.getItem('token')))
-
-  console.log({ token })
-
   // Api
   const onSubmitHandler = async (data) => {
-    if (data) {
-      await postDataUser(
+    if (data && currentUser.role === 0) {
+      let req = await postDataUser(
         data.username,
         data.password,
         data.fullName,
@@ -79,9 +72,18 @@ export default function ModalAddUser(props) {
         data.email,
         token
       )
-      toast.success('Thêm mới thành công')
-      setOpen(false)
-      fetchDataUser()
+
+      if (req.status === true) {
+        toast.success(req.msg)
+        setOpen(false)
+        fetchDataUser()
+      } else {
+        toast.error(req.msg)
+        setOpen(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền chỉnh sửa')
     }
     reset()
   }

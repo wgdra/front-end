@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
 import { getDataUser, getDataSubject } from '../../../services/apiService'
 import InfoUser from './InfoUser'
 import { Button } from '../../ui/Button'
 import { SvgIconUser, SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
+import UserContext from '../../../context/UserContext'
+import { toast } from 'react-toastify'
 
 export default function ManageUser() {
   const [open, setOpen] = useState(false)
@@ -17,6 +19,8 @@ export default function ManageUser() {
   const [inforUser, setInforUser] = useState('')
 
   const [subjectUser, setSubjectUser] = useState()
+
+  const { token } = useContext(UserContext)
 
   //Handle
 
@@ -34,17 +38,18 @@ export default function ManageUser() {
   //Api
   useEffect(() => {
     fetchDataUser()
-    fetchDataSubject()
   }, [])
 
   const fetchDataUser = async () => {
-    let res = await getDataUser()
-    setDataUser(res)
-  }
+    let resUser = await getDataUser(token)
+    let resSubject = await getDataSubject(token)
 
-  const fetchDataSubject = async () => {
-    let res = await getDataSubject()
-    setSubjectUser(res)
+    if (resUser.status === true && resSubject.status === true) {
+      setDataUser(resUser.data)
+      setSubjectUser(resSubject.data)
+    } else {
+      toast.error(resUser.msg)
+    }
   }
 
   // Show List User

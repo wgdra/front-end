@@ -14,7 +14,7 @@ export default function ManageProfile() {
   const [isUpdate, setIsUpdate] = useState(false)
   const [dataProfile, setDataProfile] = useState('')
 
-  const { currentUser } = useAppContext()
+  const { token, currentUser } = useAppContext()
 
   const transformFullName = (fullName) => {
     return fullName.replace(/\s+/g, ' ')

@@ -7,6 +7,7 @@ import { putDataSubject } from '../../../services/apiService'
 import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
 import { useState } from 'react'
+import { useAppContext } from '../../../context/UserContext'
 
 const InforSubject = (props) => {
   const {
@@ -18,6 +19,8 @@ const InforSubject = (props) => {
     handleModal,
     fetchDataSubject,
   } = props
+
+  const { token, currentUser } = useAppContext()
 
   // Validate
   const [isValidate, setIsValidate] = useState(false)
@@ -37,11 +40,18 @@ const InforSubject = (props) => {
 
   // handle API Update Subject
   const handleUpdateSubject = async (data) => {
-    if (data) {
-      await putDataSubject(dataSubject.id, dataSubject.subject_name)
-      toast.success('Cập nhật thành công')
-      setIsUpdate(false)
-      fetchDataSubject()
+    if (data && currentUser.role === 0) {
+      let req = await putDataSubject(dataSubject.id, dataSubject.subject_name, token)
+      if (req.status === true) {
+        toast.success('Cập nhật thành công')
+        setIsUpdate(false)
+        fetchDataSubject()
+      } else {
+        toast.error(req.msg)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền chỉnh sửa')
     }
   }
 

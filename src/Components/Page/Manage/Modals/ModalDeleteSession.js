@@ -1,17 +1,26 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { deleteDataSession } from '../../../../services/apiService'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalDeleteSession(props) {
   const { setOpen, dataSession, fetchDataSession, setIsShowData } = props
   const cancelButtonRef = useRef(null)
 
+  const { token, currentUser } = useAppContext()
+
   const handleDeleteSession = async () => {
-    await deleteDataSession(dataSession.id)
-    toast.error(`Đã xóa ${dataSession.session_name}`)
-    setIsShowData(false)
-    setOpen(false)
-    fetchDataSession()
+    if (currentUser.role === 0) {
+      await deleteDataSession(dataSession.id, token)
+      toast.error(`Đã xóa ${dataSession.session_name}`)
+      setIsShowData(false)
+      setOpen(false)
+      fetchDataSession()
+    }
+    if (currentUser.role === 1) {
+      toast.error('Bạn không có quyền xóa')
+      setOpen(false)
+    }
   }
   return (
     <>

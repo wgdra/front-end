@@ -114,7 +114,7 @@ const postTimeTable = (session_id, subject_id, classroom_id, date, teacher_id) =
     classroom_id: classroom_id,
     date: date,
     teacher_id: teacher_id,
-    status: 3
+    status: 3,
   })
 }
 
@@ -134,11 +134,12 @@ const postLogin = async (username, password) => {
     data: { username, password },
   })
     .then((response) => {
-      data = response.data
-      console.log(response)
+      data = response.data.data
+      // console.log('data in APi', data)
     })
     .catch((err) => {
-      return err
+      // console.log('err in APi', err)
+      return err.response
     })
   return data
 }

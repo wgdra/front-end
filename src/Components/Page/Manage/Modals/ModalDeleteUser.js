@@ -1,20 +1,26 @@
-import { useRef, useContext } from 'react'
+import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { deleteDataUser } from '../../../../services/apiService'
-import UserContext from '../../../../context/UserContext'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalDeleteUser(props) {
   const { setOpen, inforUser, fetchDataUser, setIsShowData } = props
   const cancelButtonRef = useRef(null)
 
-  const { token } = useContext(UserContext)
+  const { token, currentUser } = useAppContext()
 
   const handleDeleteUser = async () => {
-    await deleteDataUser(inforUser.id, token)
-    toast.error(`Đã xóa ${inforUser.full_name}`)
-    setOpen(false)
-    setIsShowData(false)
-    fetchDataUser()
+    if (currentUser.role === 0) {
+      await deleteDataUser(inforUser.id, token)
+
+      toast.error(`Đã xóa ${inforUser.full_name}`)
+      setOpen(false)
+      setIsShowData(false)
+      fetchDataUser()
+    }
+    if (currentUser.role === 1) {
+      toast.error('Bạn không có quyền xóa')
+    }
   }
   return (
     <>

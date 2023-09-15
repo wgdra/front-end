@@ -8,7 +8,8 @@ import { getTimeTable, getDataRoom, getDataSession } from '../../../../services/
 import Modal from '../Modals/Modal'
 import moment from 'moment'
 import { convertDateFormat } from '../../../../utils/convertDateFormat'
-
+import { useAppContext } from '../../../../context/UserContext'
+import { toast } from 'react-toastify'
 /**
  * Schedule views sample
  */
@@ -25,6 +26,8 @@ const Views = (props) => {
   const [listTable, setListTable] = React.useState('')
   const [listRoom, setListRoom] = React.useState([''])
   const [listSession, setListSession] = React.useState('')
+
+  const { token } = useAppContext()
 
   React.useEffect(() => {
     setDATADAY([
@@ -74,13 +77,18 @@ const Views = (props) => {
 
   // Api
   const fetchData = async () => {
-    let dataTable = await getTimeTable()
-    let dataRoom = await getDataRoom()
-    let dataSession = await getDataSession()
+    let dataTable = await getTimeTable(token)
+    let dataRoom = await getDataRoom(token)
+    let dataSession = await getDataSession(token)
 
-    setListTable(dataTable.data)
-    setListRoom(dataRoom.data)
-    setListSession(dataSession.data)
+    if (dataTable.status && dataRoom.status && dataSession.status === true) {
+      setListTable(dataTable.data)
+      setListRoom(dataRoom.data)
+      setListSession(dataSession.data)
+    }
+    if (dataTable.status && dataRoom.status && dataSession.status === false) {
+      toast.error('Lỗi dữ liệu...')
+    }
   }
 
   React.useEffect(() => {

@@ -6,9 +6,12 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddSubject(props) {
   const { setOpen, fetchDataSubject } = props
+
+  const { token, currentUser } = useAppContext()
 
   const schema = yup.object().shape({
     subjectName: yup.string().trim().required('Vui lòng nhập tên môn học'),
@@ -26,11 +29,20 @@ export default function ModalAddSubject(props) {
   })
 
   const onSubmitHandler = async (data) => {
-    if (data) {
-      await postDataSubject(data.subjectName)
-      toast.success('Thêm môn học thành công')
-      setOpen(false)
-      fetchDataSubject()
+    if (data && currentUser.role === 0) {
+      let req = await postDataSubject(data.subjectName, token)
+
+      if (req.status === true) {
+        toast.success(req.msg)
+        setOpen(false)
+        fetchDataSubject()
+      } else {
+        toast.error(req.msg)
+        setOpen(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền thêm môn học')
     }
 
     reset()

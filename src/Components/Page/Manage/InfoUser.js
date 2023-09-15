@@ -168,37 +168,26 @@ const InfoUser = (props) => {
         />
       </div>
 
-      <div className="mb-10 flex items-center">
-        <label className="block w-1/5 font-bold">Bộ Môn</label>
-        <Select
-          name="subject_id"
-          className={clsx(
-            !isUpdate ? 'text-[#9CA3AF]' : '',
-            'shadow w-4/5 appearance-auto border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
-          )}
-          errors={errors}
-          register={register}
-          options={transformData(subjectUser, 'subject_name')}
-        />
-        {/* <Controller
-          name="subject_id"
-          control={control}
-          defaultValue={inforUser.subject_id}
-          render={({ field }) => (
-            <Select
-              {...field}
-              id="subject_id"
-              className={clsx(
-                !isUpdate ? 'text-[#9CA3AF]' : '',
-                'shadow w-4/5 appearance-auto border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline'
-              )}
-              register={register}
-              options={transformData(subjectUser, 'subject_name')}
-              disabled={!isUpdate}
-            />
-          )}
-        /> */}
-      </div>
+      {inforUser.role === 1 && (
+        <div className="mb-10 flex items-center">
+          <label className="block w-1/5 font-bold">Bộ Môn</label>
+          <Controller
+            name="subject_id"
+            control={control}
+            defaultValue={inforUser.subject_id}
+            render={({ field }) => (
+              <input
+                {...field}
+                className="shadow w-4/5 text-[#9CA3AF] appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="subject_id"
+                type="text"
+                value={inforUser.subject_id}
+                disabled
+              />
+            )}
+          />
+        </div>
+      )}
       <div className="mb-10 flex items-center">
         <label className="block w-1/5 font-bold">Email</label>
         <Controller

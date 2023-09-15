@@ -7,6 +7,7 @@ import { putDataRoom } from '../../../services/apiService'
 import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
 import { useState } from 'react'
+import { useAppContext } from '../../../context/UserContext'
 
 const InforRoom = ({
   dataRoom,
@@ -17,6 +18,8 @@ const InforRoom = ({
   dataRoominit,
   fetchListRoom,
 }) => {
+  const { token, currentUser } = useAppContext()
+
   // Validate
   const [isValidate, setIsValidate] = useState(false)
 
@@ -39,11 +42,20 @@ const InforRoom = ({
 
   // Handle Update Room
   const handleUpdateRoom = async (data) => {
-    if (data) {
-      await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note)
-      toast.success('Cập nhật thành công')
-      setIsUpdate(false)
-      fetchListRoom()
+    if (data && currentUser.role === 0) {
+      let req = await putDataRoom(dataRoom.id, dataRoom.classroom_name, dataRoom.note, token)
+
+      if (req.status === true) {
+        toast.success('Cập nhật thành công')
+        setIsUpdate(false)
+        fetchListRoom()
+      } else {
+        toast.error('Lỗi !!!')
+        setIsUpdate(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền chỉnh sửa')
     }
   }
 

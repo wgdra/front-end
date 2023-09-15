@@ -1,17 +1,25 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { deleteRoom } from '../../../../services/apiService'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalDeleteRoom(props) {
   const { setOpen, dataRoom, fetchListRoom, setIsShowData } = props
   const cancelButtonRef = useRef(null)
 
+  const { token, currentUser } = useAppContext()
+
   const handleDeleteRoom = async () => {
-    await deleteRoom(dataRoom.id)
-    toast.success(`Đã xóa ${dataRoom.classroom_name}`)
-    setIsShowData(false)
-    setOpen(false)
-    fetchListRoom()
+    if (currentUser.role === 0) {
+      await deleteRoom(dataRoom.id, token)
+      toast.success(`Đã xóa ${dataRoom.classroom_name}`)
+      setIsShowData(false)
+      setOpen(false)
+      fetchListRoom()
+    }
+    if (currentUser.role === 1) {
+      toast.error('Bạn không có quyền xóa phòng')
+    }
   }
   return (
     <>

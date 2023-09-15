@@ -6,13 +6,12 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddRoom(props) {
   const { setOpen, fetchListRoom } = props
 
-  // const [data, setData] = useState({
-  //   classroomName: '',
-  // })
+  const { token, currentUser } = useAppContext()
 
   const schema = yup.object().shape({
     classroomName: yup
@@ -34,13 +33,21 @@ export default function ModalAddRoom(props) {
   })
 
   const onSubmitHandler = async (data) => {
-    if (data) {
-      await postDataRoom(data.classroomName, data.note)
-      toast.success('Thêm phòng thành công')
-      setOpen(false)
-      fetchListRoom()
-    }
+    if (data && currentUser.role === 0) {
+      let req = await postDataRoom(data.classroomName, data.note, token)
 
+      if (req.status === true) {
+        toast.success('Thêm phòng thành công')
+        setOpen(false)
+        fetchListRoom()
+      } else {
+        toast.error('Lỗi')
+        setOpen(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền thêm phòng')
+    }
     reset()
   }
 

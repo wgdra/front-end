@@ -6,9 +6,12 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputWithValidation from '../../../ui/InputWithValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddSession(props) {
   const { setOpen, fetchDataSession } = props
+
+  const { token, currentUser } = useAppContext()
 
   const schema = yup.object().shape({
     sessionName: yup.string().trim().required('Vui lòng nhập ca học'),
@@ -26,11 +29,20 @@ export default function ModalAddSession(props) {
   })
 
   const onSubmitHandler = async (data) => {
-    if (data) {
-      await postDataSession(data.sessionName, data.timeStart, data.timeEnd)
-      toast.success('Thêm môn học thành công')
-      setOpen(false)
-      fetchDataSession()
+    if (data && currentUser.role === 0) {
+      let req = await postDataSession(data.sessionName, data.timeStart, data.timeEnd, token)
+
+      if (req.status === true) {
+        toast.success('Thêm môn học thành công')
+        setOpen(false)
+        fetchDataSession()
+      } else {
+        toast.error(req.msg)
+        setOpen(false)
+      }
+    }
+    if (data && currentUser.role === 1) {
+      toast.error('Bạn không có quyền thêm ca học')
     }
 
     reset()

@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Modal from './Modals/Modal'
 import { getDataSession } from '../../../services/apiService'
 import { Button } from '../../ui/Button'
 import { SvgDocumentPlus, SvgInfo, SvgList, SvgPlus } from '../../ui/Svg'
 import InfoSession from './InfoSession'
+import UserContext from '../../../context/UserContext'
+import { toast } from 'react-toastify'
 
 export default function ManageSession() {
   const [open, setOpen] = useState(false)
@@ -16,6 +18,7 @@ export default function ManageSession() {
   const [isShowData, setIsShowData] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
 
+  const { token } = useContext(UserContext)
   // Handle
   const handleClickListSession = (data) => {
     setDataSession(data)
@@ -35,8 +38,14 @@ export default function ManageSession() {
   }, [])
 
   const fetchDataSession = async () => {
-    let res = await getDataSession()
-    setListSession(res)
+    let res = await getDataSession(token)
+
+    if (res.status === true) {
+      setListSession(res.data)
+    }
+    if (res.status === false) {
+      toast.error(res.msg)
+    }
   }
 
   // Show list subject
