@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useAppContext } from '../../../../context/UserContext'
 
 export default function ModalAddTimeTable(props) {
-  const { setOpen, fetchListRoom } = props
+  const { setOpen, abc } = props
 
   const [dataProfile, setDataProfile] = useState('')
 
@@ -22,6 +22,9 @@ export default function ModalAddTimeTable(props) {
       .required('Vui lòng nhập tên phòng')
       .min(1, 'Tên phòng phải trên 3 ký tự'),
   })
+
+  console.log('abc in modal', abc)
+  console.log('abc.date', abc.date)
 
   const cancelButtonRef = useRef(null)
 

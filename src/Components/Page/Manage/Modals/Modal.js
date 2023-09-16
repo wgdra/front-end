@@ -25,6 +25,7 @@ export default function Modal(props) {
     fetchDataSession,
     setIsShowData,
     subjectUser,
+    abc
   } = props
   const cancelButtonRef = useRef(null)
 
@@ -89,7 +90,7 @@ export default function Modal(props) {
           />
         )
       case 'add-timeTable':
-        return <ModalAddTimeTable setOpen={setOpen} fetchListRoom={fetchListRoom} />
+        return <ModalAddTimeTable setOpen={setOpen} abc={abc} />
       default:
         return
     }

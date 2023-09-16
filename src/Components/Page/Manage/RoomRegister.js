@@ -24,8 +24,11 @@ export default function RoomRegister() {
   const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
   const showOptionWeek = () => {
-    return a.map((_) => (
-      <option value={typeof newDate === 'string' ? newDate : newDate.format('DD/MM/YYYY')}>
+    return a.map((_, index) => (
+      <option
+        key={index}
+        value={typeof newDate === 'string' ? newDate : newDate.format('DD/MM/YYYY')}
+      >
         {handleWeek(newDate, count)}
       </option>
     ))

@@ -41,35 +41,23 @@ const Views = (props) => {
     ])
   }, [isOptionWeek, valueWeekFormat])
 
-  const ca1 = 1
-  const phong119 = 47
-  const date = '11/09/2023'
-  const giatri = '1'
+  const [abc, setAbc] = React.useState('')
 
-  const table = () => {
-    const table = []
-    for (let i = 0; i < listRoom.length; i++) {
-      table[i] = []
-      for (let j = 0; j < listSession.length * 7; j++) {
-        table[i][j] = ' '
-      }
-    }
-    table[0][0] = '1'
-    return table
-  }
-
-  const totalTable = table()
-
-  // const totalTable = [
-  //   ['1', '2', '3', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-  //   ['4', '5', '6'],
-  //   ['7', '8', '9'],
-  // ]
-
+  console.log('listRoom', listRoom)
+  console.log('abc', abc)
   // handle
-  const handleModal = (name) => {
-    setOpen(true)
-    setBtnName(name)
+  const handleModal = (e, id, name) => {
+    if (!e.target.outerText) {
+      const splitId = id.split('_')
+      const date = convertDateFormat(splitId[0])
+      const id_classRoom = splitId[1]
+      const id_session = splitId[2]
+      setAbc({ date, id_classRoom, id_session })
+      setOpen(true)
+      setBtnName(name)
+    } else {
+      console.log('huhahaha')
+    }
   }
 
   // Api
@@ -92,28 +80,90 @@ const Views = (props) => {
     fetchData()
   }, [])
 
+  const showData = (id) => {
+    const splitId = id.split('_')
+    const date = convertDateFormat(splitId[0])
+    const id_classRoom = splitId[1]
+    const id_session = splitId[2]
+    return listTable.map((data) => {
+      if (
+        date === data.date &&
+        id_classRoom === String(data.classroom.id) &&
+        id_session === String(data.session.id)
+      ) {
+        return data.subject.subject_name
+      }
+      return ''
+    })
+  }
   return (
     <>
+      {/* <div className="">
+  <Day dataDay={DATA_DAY} />
+</div>
+<div className="">
+  <Header listRoom={listRoom} listSession={listSession} />
+  <Table
+    totalTable={totalTable}
+    listSession={listSession}
+    handleModal={handleModal}
+  />
+</div> */}
       <section className={clsx(['min-w-[635px] overflow-hidden'])}>
         {listRoom && listSession && (
           <>
             <div className="flex overflow-x-auto">
-              <div className="">
-                <Day dataDay={DATA_DAY} />
-              </div>
-              <div className="">
-                <Header listRoom={listRoom} listSession={listSession} />
-                <Table
-                  totalTable={totalTable}
-                  listSession={listSession}
-                  handleModal={handleModal}
-                />
-              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th colSpan="1"></th>
+                    {listRoom?.map((listRoom) => (
+                      <th key={listRoom.id} colSpan={listSession.length}>
+                        {listRoom.classroom_name}
+                      </th>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th></th>
+                    {listRoom.map((room) =>
+                      listSession.map((session) => <th>{session.session_name}</th>)
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {DATA_DAY.map((day, index) => (
+                    <tr key={index}>
+                      <th id={day?.split('(')[1]?.split(')')[0]}>{day}</th>
+                      {listRoom.map((room) =>
+                        listSession.map((session) => (
+                          <>
+                            <td
+                              key={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
+                              id={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
+                              onClick={(e) =>
+                                handleModal(
+                                  e,
+                                  `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`,
+                                  'add-timeTable'
+                                )
+                              }
+                            >
+                              {showData(
+                                `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`
+                              )}
+                            </td>
+                          </>
+                        ))
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </>
         )}
       </section>
-      <Modal open={open} setOpen={setOpen} btnName={btnName} fetchListRoom={listRoom} />
+      <Modal open={open} setOpen={setOpen} btnName={btnName} abc={abc} />
     </>
   )
 }
