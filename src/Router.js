@@ -15,6 +15,7 @@ import Profile from './Components/Page/Profile'
 import { UserProvider } from './context/UserContext'
 import { PrivateRoute } from './context/PrivateRoute'
 import NavManage from './Components/Nav/NavManage'
+import ManageRegistForm from './Components/Page/ManageRegistForm'
 
 export default function Router() {
   return (
@@ -48,6 +49,7 @@ export default function Router() {
               <Route path="/manage/manage-user" element={<ManageUser />} />
               <Route path="/manage/manage-subject" element={<ManageSubject />} />
               <Route path="/manage/manage-session" element={<ManageSession />} />
+              <Route path="/manage/regist-form" element={<ManageRegistForm />} />
             </Route>
 
             <Route path="login" element={<Login />} />

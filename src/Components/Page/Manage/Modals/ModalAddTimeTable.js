@@ -45,7 +45,6 @@ export default function ModalAddTimeTable(props) {
   }
 
   const onSubmitHandler = async (data) => {
-    console.log('data', data)
     if (data) {
       await postTimeTable(
         data.sessionName,
@@ -65,7 +64,7 @@ export default function ModalAddTimeTable(props) {
     <>
       <h1 className="text-xl font-bold mb-2">Đăng Ký Phòng Dạy</h1>
       <form
-        id="contact-form"
+        id="form-add- timetible"
         method="post"
         className="text-gray-900 text-lg font-medium bg-white shadow-md rounded p-8"
         onSubmit={handleSubmit(onSubmitHandler)}

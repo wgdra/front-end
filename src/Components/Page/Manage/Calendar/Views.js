@@ -41,9 +41,6 @@ const Views = (props) => {
     ])
   }, [isOptionWeek, valueWeekFormat])
 
-  console.log('listRoom', listRoom)
-  console.log('listSession', listSession)
-
   const ca1 = 1
   const phong119 = 47
   const date = '11/09/2023'

@@ -19,7 +19,6 @@ export default function ManageRoom() {
   const [isUpdate, setIsUpdate] = useState(false)
 
   const { token } = useContext(UserContext)
-  console.log('token', token)
   // Handle
   const handleClickRoom = (data) => {
     setIsShowData(true)

@@ -33,7 +33,7 @@ export default function NavManage() {
           {currentUser && currentUser?.role === 0 && (
             <Menu as="div" className="relative">
               <div>
-                <Menu.Button className="flex items-center justify-evenly font-semibold leading-6">
+                <Menu.Button className="flex items-center justify-evenly font-semibold leading-6 mr-10">
                   Quản Lý
                   <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-200" aria-hidden="true" />
                 </Menu.Button>
@@ -106,6 +106,9 @@ export default function NavManage() {
               </Transition>
             </Menu>
           )}
+          <NavLink to="/manage/regist-form" className="mr-10 font-semibold leading-6">
+            Xét Duyệt Phiếu
+          </NavLink>
         </div>
         <Menu as="div" className="w-1/5 relative">
           <div className="flex items-center justify-center">

@@ -26,18 +26,14 @@ export default function ManageProfile() {
     return fullName.replace(/\s+/g, ' ')
   }
   const schema = yup.object().shape({
-    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải trên 6 ký tự'),
+    password: yup.string().min(6, 'Mật khẩu phải trên 6 ký tự'),
     full_name: yup
       .string()
-      .required('Vui lòng nhập tên')
       .trim()
       .transform(transformFullName)
       .min(3, 'Vui lòng nhập đầy đủ họ tên'),
-    email: yup.string().trim().required('Vui lòng nhập email').email('Vui lòng nhập đúng email'),
-    phone: yup
-      .string()
-      .matches(/^[0-9]{10}$/, 'Số điện thoại phải gồm 10 chữ số.')
-      .required('Số điện thoại không được để trống'),
+    email: yup.string().trim().email('Vui lòng nhập đúng email'),
+    phone: yup.string().matches(/^[0-9]{10}$/, 'Số điện thoại phải gồm 10 chữ số.'),
   })
 
   const {
@@ -66,7 +62,7 @@ export default function ManageProfile() {
 
   // Handle Update
   const handleUpdateProfile = async (data) => {
-    console.log('data', data)
+    console.log('data profile', data)
     if (data && currentUser.role === 1) {
       let req = await putDataUser(
         data.id,
@@ -115,7 +111,7 @@ export default function ManageProfile() {
 
         <div className="max-h-full p-5 font-bold">
           <form
-            id="contact-form"
+            id="form-update-profile"
             className="text-gray-900 text-lg bg-white shadow-md rounded px-8"
             onSubmit={handleSubmit(handleUpdateProfile)}
             noValidate

@@ -97,8 +97,8 @@ export default function ModalAddUser(props) {
     <>
       <h1 className="text-xl font-bold mb-2">Thêm người dùng</h1>
       <form
+        id="form-add-user"
         className="text-gray-900 text-lg font-medium bg-white shadow-md rounded p-8"
-        id="contact-form"
         method="post"
         onSubmit={handleSubmit(onSubmitHandler)}
         noValidate
