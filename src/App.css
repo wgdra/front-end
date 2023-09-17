@@ -27,28 +27,3 @@ code {
   appearance: auto;
 }
 
-th,
-td {
-  font-weight: normal;
-  padding: 5px;
-  width: 120px;
-  vertical-align: top;
-}
-th {
-  background: #00b0f0;
-}
-tr + tr th,
-tbody th {
-  background: #daeef3;
-}
-tr + tr,
-tbody {
-  text-align: left;
-}
-table,
-th,
-td {
-  border: solid 1px;
-  border-collapse: collapse;
-  table-layout: fixed;
-}

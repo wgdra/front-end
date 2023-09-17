@@ -22,7 +22,7 @@ export default function NavManage() {
   return (
     <div className="z-10 text-gray-200 dark:bg-gray-900">
       <nav className="text-lg flex items-center max-w-full p-6 lg:px-8" aria-label="Global">
-        <NavLink className="w-1/5 text-center font-semibold" to="/">
+        <NavLink className="w-1/5 text-center font-semibold" to="/manage">
           MANAGEROOM
         </NavLink>
 
@@ -106,9 +106,11 @@ export default function NavManage() {
               </Transition>
             </Menu>
           )}
-          <NavLink to="/manage/regist-form" className="mr-10 font-semibold leading-6">
-            Xét Duyệt Phiếu
-          </NavLink>
+          {currentUser && currentUser?.role === 0 && (
+            <NavLink to="/manage/regist-form" className="mr-10 font-semibold leading-6">
+              Xét Duyệt Phiếu
+            </NavLink>
+          )}
         </div>
         <Menu as="div" className="w-1/5 relative">
           <div className="flex items-center justify-center">

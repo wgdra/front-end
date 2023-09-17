@@ -55,24 +55,26 @@ export default function ManageUser() {
   // Show List User
   const listUser = () => {
     return (
-      <ul className="border-t-2 border-primary ">
-        {dataUser && dataUser.length > 0 ? (
-          dataUser.map((item, index) => {
-            return (
-              <li
-                className="flex items-center my-2 ml-2 cursor-pointer hover:text-primary"
-                key={index}
-                onClick={() => handleClickListUser(item)}
-              >
-                <SvgIconUser />
-                {item.full_name}
-              </li>
-            )
-          })
-        ) : (
-          <span>Not Data</span>
-        )}
-      </ul>
+      <>
+        <ul className="border-t-2 border-primary mb-5">
+          {dataUser && dataUser.length ? (
+            dataUser.map((item, index) => {
+              return (
+                <li
+                  className="flex items-center my-2 ml-2 cursor-pointer hover:text-primary"
+                  key={index}
+                  onClick={() => handleClickListUser(item)}
+                >
+                  <SvgIconUser />
+                  {item.full_name}
+                </li>
+              )
+            })
+          ) : (
+            <span>Not Data</span>
+          )}
+        </ul>
+      </>
     )
   }
 

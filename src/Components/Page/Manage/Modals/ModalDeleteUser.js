@@ -11,12 +11,17 @@ export default function ModalDeleteUser(props) {
 
   const handleDeleteUser = async () => {
     if (currentUser.role === 0) {
-      await deleteDataUser(inforUser.id, token)
+      let req = await deleteDataUser(inforUser.id, token)
 
-      toast.error(`Đã xóa ${inforUser.full_name}`)
-      setOpen(false)
-      setIsShowData(false)
-      fetchDataUser()
+      if (req.status === true) {
+        toast.error(`Đã xóa ${inforUser.full_name}`)
+        setOpen(false)
+        setIsShowData(false)
+        fetchDataUser()
+      } else {
+        toast.error(req.msg)
+        setOpen(false)
+      }
     }
     if (currentUser.role === 1) {
       toast.error('Bạn không có quyền xóa')

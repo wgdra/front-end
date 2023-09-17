@@ -48,7 +48,7 @@ export default function RoomRegister() {
               <span className="block bg-green-500 w-20 border-solid border border-green-500 ml-5"></span>
             </div>
             <div className="flex font-semibold ml-10">
-              Phòng đang bảo trì
+              Phòng đang chờ duyệt
               <span className="block bg-yellow-500 w-20 border-solid border border-yellow-500 ml-5"></span>
             </div>
           </div>

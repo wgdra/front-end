@@ -13,6 +13,8 @@ export default function ModalAddRoom(props) {
 
   const { token, currentUser } = useAppContext()
 
+  const cancelButtonRef = useRef(null)
+
   const schema = yup.object().shape({
     classroomName: yup
       .string()
@@ -20,8 +22,6 @@ export default function ModalAddRoom(props) {
       .required('Vui lòng nhập tên phòng')
       .min(3, 'Tên phòng phải trên 3 ký tự'),
   })
-
-  const cancelButtonRef = useRef(null)
 
   const {
     register,

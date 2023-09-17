@@ -1,10 +1,12 @@
 import * as React from 'react'
 // import './schedule-component.css'
 import clsx from 'clsx'
-import Day from './Day'
-import Header from './Header'
-import { Table } from './Table'
-import { getTimeTable, getDataRoom, getDataSession } from '../../../../services/apiService'
+import {
+  getTimeTable,
+  getDataRoom,
+  getDataSession,
+  getDataOneUser,
+} from '../../../../services/apiService'
 import Modal from '../Modals/Modal'
 import moment from 'moment'
 import { convertDateFormat } from '../../../../utils/convertDateFormat'
@@ -26,8 +28,11 @@ const Views = (props) => {
   const [listTable, setListTable] = React.useState('')
   const [listRoom, setListRoom] = React.useState([''])
   const [listSession, setListSession] = React.useState('')
+  const [dataOneUser, setDataOneUser] = React.useState('')
 
-  const { token } = useAppContext()
+  const [dataForm, setDataForm] = React.useState('')
+
+  const { token, currentUser } = useAppContext()
 
   React.useEffect(() => {
     setDATADAY([
@@ -41,10 +46,6 @@ const Views = (props) => {
     ])
   }, [isOptionWeek, valueWeekFormat])
 
-  const [abc, setAbc] = React.useState('')
-
-  console.log('listRoom', listRoom)
-  console.log('abc', abc)
   // handle
   const handleModal = (e, id, name) => {
     if (!e.target.outerText) {
@@ -52,7 +53,7 @@ const Views = (props) => {
       const date = convertDateFormat(splitId[0])
       const id_classRoom = splitId[1]
       const id_session = splitId[2]
-      setAbc({ date, id_classRoom, id_session })
+      setDataForm({ date, id_classRoom, id_session, dataOneUser })
       setOpen(true)
       setBtnName(name)
     } else {
@@ -61,109 +62,181 @@ const Views = (props) => {
   }
 
   // Api
+  React.useEffect(() => {
+    fetchData()
+    fetchDataTable()
+    fetchDataOneUser()
+  }, [])
+
   const fetchData = async () => {
-    let dataTable = await getTimeTable(token)
     let dataRoom = await getDataRoom(token)
     let dataSession = await getDataSession(token)
 
-    if (dataTable.status && dataRoom.status && dataSession.status === true) {
-      setListTable(dataTable.data)
+    if (dataRoom.status === true) {
       setListRoom(dataRoom.data)
-      setListSession(dataSession.data)
+    } else {
+      toast.error('Lỗi!!! Không lấy được dữ liệu phòng học...')
     }
-    if (dataTable.status && dataRoom.status && dataSession.status === false) {
-      toast.error('Lỗi dữ liệu...')
+
+    if (dataSession.status === true) {
+      setListSession(dataSession.data)
+    } else {
+      toast.error('Lỗi!!! Không lấy được dữ liệu ca học...')
     }
   }
 
-  React.useEffect(() => {
-    fetchData()
-  }, [])
+  const fetchDataTable = async () => {
+    let res = await getTimeTable(token)
+
+    if (res.status === true) {
+      setListTable(res.data)
+    } else {
+      toast.error('Lỗi!!! Không lấy được dữ liệu lịch học...')
+    }
+  }
+
+  const fetchDataOneUser = async () => {
+    let res = await getDataOneUser(currentUser.id)
+
+    if (res.status === true) {
+      setDataOneUser(res.data)
+    } else {
+      return toast.error(res.msg)
+    }
+  }
 
   const showData = (id) => {
     const splitId = id.split('_')
     const date = convertDateFormat(splitId[0])
     const id_classRoom = splitId[1]
     const id_session = splitId[2]
-    return listTable.map((data) => {
+
+    return listTable?.map((data) => {
       if (
         date === data.date &&
         id_classRoom === String(data.classroom.id) &&
         id_session === String(data.session.id)
       ) {
-        return data.subject.subject_name
+        return (
+          <>
+            <div
+              className={clsx(
+                data.status === 3 ? 'bg-yellow-400' : 'bg-green-500',
+                'flex flex-col w-full h-full m-1 p-2'
+              )}
+            >
+              <span
+                className={clsx(
+                  data.status === 3 ? 'text-gray-500' : 'text-green-500',
+                  'block text-base mb-3'
+                )}
+              >
+                Trạng thái: {data.status === 3 ? 'Đang duyệt' : 'Đã duyệt'}
+              </span>
+
+              <div className="mb-2">
+                <span className="text-base">Giảng Viên:</span>
+                <h4 class="text-xl font-bold text-gray-900">{data.user.full_name}</h4>
+              </div>
+
+              <p class="mb-3 font-bold text-gray-900">Bộ Môn: {data.subject.subject_name}</p>
+            </div>
+          </>
+        )
       }
       return ''
     })
   }
+
+  const classSession = () => {
+    if (listSession.length === 1) {
+      return 'w-full'
+    }
+
+    return `w-1/${listSession.length}`
+  }
+
   return (
     <>
-      {/* <div className="">
-  <Day dataDay={DATA_DAY} />
-</div>
-<div className="">
-  <Header listRoom={listRoom} listSession={listSession} />
-  <Table
-    totalTable={totalTable}
-    listSession={listSession}
-    handleModal={handleModal}
-  />
-</div> */}
-      <section className={clsx(['min-w-[635px] overflow-hidden'])}>
+      <section className="overflow-scroll w-full">
         {listRoom && listSession && (
           <>
-            <div className="flex overflow-x-auto">
-              <table>
-                <thead>
-                  <tr>
-                    <th colSpan="1"></th>
-                    {listRoom?.map((listRoom) => (
-                      <th key={listRoom.id} colSpan={listSession.length}>
-                        {listRoom.classroom_name}
+            <table className="text-base font-semibold">
+              <thead className="h-32">
+                <tr className="flex h-16">
+                  <th className="min-w-[200px]" colSpan="1"></th>
+                  {listRoom?.map((listRoom) => (
+                    <th
+                      className="w-[620px] flex items-center justify-center border border-solid border-primary "
+                      key={listRoom.id}
+                      colSpan={listSession.length}
+                    >
+                      {listRoom.classroom_name}
+                    </th>
+                  ))}
+                </tr>
+                <tr className="flex h-16">
+                  <th className="min-w-[200px]" colSpan="1"></th>
+                  {listRoom.map((room) =>
+                    listSession.map((session) => (
+                      <th
+                        className={clsx([
+                          classSession(),
+                          'h-full flex items-center justify-center border border-solid border-primary',
+                        ])}
+                      >
+                        {session.session_name}
                       </th>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th></th>
+                    ))
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {DATA_DAY.map((day, index) => (
+                  <tr key={index} className="flex h-64">
+                    <td
+                      className="min-w-[200px] flex items-center justify-center border border-solid border-primary"
+                      id={day?.split('(')[1]?.split(')')[0]}
+                    >
+                      {day}
+                    </td>
                     {listRoom.map((room) =>
-                      listSession.map((session) => <th>{session.session_name}</th>)
+                      listSession.map((session) => (
+                        <td
+                          className={clsx([
+                            classSession(),
+                            'h-64 flex items-center justify-center border border-solid border-primary',
+                          ])}
+                          key={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
+                          id={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
+                          onClick={(e) =>
+                            handleModal(
+                              e,
+                              `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`,
+                              'add-timeTable'
+                            )
+                          }
+                        >
+                          {showData(
+                            `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`
+                          )}
+                        </td>
+                      ))
                     )}
                   </tr>
-                </thead>
-                <tbody>
-                  {DATA_DAY.map((day, index) => (
-                    <tr key={index}>
-                      <th id={day?.split('(')[1]?.split(')')[0]}>{day}</th>
-                      {listRoom.map((room) =>
-                        listSession.map((session) => (
-                          <>
-                            <td
-                              key={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
-                              id={`${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`}
-                              onClick={(e) =>
-                                handleModal(
-                                  e,
-                                  `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`,
-                                  'add-timeTable'
-                                )
-                              }
-                            >
-                              {showData(
-                                `${day?.split('(')[1]?.split(')')[0]}_${room.id}_${session.id}`
-                              )}
-                            </td>
-                          </>
-                        ))
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </>
         )}
       </section>
-      <Modal open={open} setOpen={setOpen} btnName={btnName} abc={abc} />
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        btnName={btnName}
+        dataForm={dataForm}
+        fetchDataTable={fetchDataTable}
+      />
     </>
   )
 }

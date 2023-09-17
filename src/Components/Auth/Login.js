@@ -5,9 +5,11 @@ import { useForm } from 'react-hook-form'
 import InputWithValidation from '../ui/InputWithValidation'
 import { login } from '../../services/AuthService'
 import { useAppContext } from '../../context/UserContext'
+import { toast } from 'react-toastify'
 
 export default function Login() {
   const navigate = useNavigate()
+
   const { setCurrentUser } = useAppContext()
 
   // Validation
@@ -28,9 +30,14 @@ export default function Login() {
   // Api
   const onSubmitHandler = async (data) => {
     if (data) {
-      setCurrentUser(await login(data.username, data.password))
-      // toast.success('Đăng nhập thành công')
-      navigate('/manage/room-register')
+      let req = await login(data.username, data.password)
+      if (req.status === true) {
+        setCurrentUser(req)
+        toast.success(req.msg)
+        navigate('/manage')
+      } else {
+        toast.error(req.msg)
+      }
     }
     reset()
   }

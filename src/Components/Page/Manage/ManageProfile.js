@@ -56,22 +56,27 @@ export default function ManageProfile() {
 
   const fetchDataProfile = async () => {
     let res = await getDataOneUser(currentUser.id)
-    setDataProfile(res.data)
-    setDataProfileInit(res.data)
+
+    if (res.status === true) {
+      setDataProfile(res.data)
+      setDataProfileInit(res.data)
+    } else {
+      toast.error('Lỗi !!! Không lấy được dữ liệu hồ sơ')
+    }
   }
 
   // Handle Update
   const handleUpdateProfile = async (data) => {
-    console.log('data profile', data)
     if (data && currentUser.role === 1) {
       let req = await putDataUser(
         data.id,
         data.username,
+        data.password,
         data.full_name,
         data.role,
         data.subject_id ?? null,
-        data.email,
         data.phone,
+        data.email,
         token
       )
 

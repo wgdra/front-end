@@ -40,7 +40,6 @@ const InfoSubject = (props) => {
 
   // handle API Update Subject
   const handleUpdateSubject = async (data) => {
-    console.log('data subject', data)
     if (data && currentUser.role === 0) {
       let req = await putDataSubject(data.id, data.subject_name, token)
       if (req.status === true) {

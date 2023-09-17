@@ -1,9 +1,12 @@
-import axios from 'axios'
 import instance from '../utils/axiosCustomize'
 
 // Data Room
 const getDataRoom = () => {
   return instance.get(`/classrooms`)
+}
+
+const getDataOneRoom = (id) => {
+  return instance.get(`/classrooms/${id}`)
 }
 
 const postDataRoom = (classroomName, note) => {
@@ -28,6 +31,11 @@ const putDataRoom = (id, classroomName, note) => {
 const getDataUser = () => {
   return instance.get(`/user`)
 }
+
+const getDataOneUser = (id) => {
+  return instance.get(`/user/${id}`)
+}
+
 const postDataUser = (userName, password, fullName, role, subject_id, phone, email) => {
   return instance.post('/user', {
     username: userName,
@@ -61,7 +69,7 @@ const getDataSubject = () => {
   return instance.get(`/subject`)
 }
 
-const getOneDataSubject = (id) => {
+const getDataOneSubject = (id) => {
   return instance.get(`/subject/${id}`)
 }
 
@@ -84,6 +92,10 @@ const deleteDataSubject = (id) => {
 // Data Session
 const getDataSession = () => {
   return instance.get(`/session`)
+}
+
+const getDataOneSession = (id) => {
+  return instance.get(`/session/${id}`)
 }
 
 const postDataSession = (sessionName, timeStart, timeEnd) => {
@@ -122,35 +134,15 @@ const postTimeTable = (session_id, subject_id, classroom_id, date, teacher_id) =
   })
 }
 
-// Data Profile
-
-const getDataOneUser = (id) => {
-  return instance.get(`/user/${id}`)
-}
-
 // Login
 const postLogin = async (username, password) => {
-  // return instance.post(`/user/login`, { username, password })
-  let data = []
-  await axios({
-    method: 'post',
-    url: `http://localhost:3002/user/login`,
-    data: { username, password },
-  })
-    .then((response) => {
-      data = response.data.data
-      // console.log('data in APi', data)
-    })
-    .catch((err) => {
-      // console.log('err in APi', err)
-      return err.response
-    })
-  return data
+  return instance.post(`/user/login`, { username, password })
 }
 
 export {
   // Data Room
   getDataRoom,
+  getDataOneRoom,
   postDataRoom,
   deleteRoom,
   putDataRoom,
@@ -164,13 +156,14 @@ export {
 
   // Data Subject
   getDataSubject,
-  getOneDataSubject,
+  getDataOneSubject,
   postDataSubject,
   deleteDataSubject,
   putDataSubject,
 
   // Data Session
   getDataSession,
+  getDataOneSession,
   postDataSession,
   putDataSession,
   deleteDataSession,
