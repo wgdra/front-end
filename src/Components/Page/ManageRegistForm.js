@@ -1,118 +1,18 @@
 import clsx from 'clsx'
 import { Button } from '../ui/Button'
 import { useEffect, useState } from 'react'
-import { getTimeTable } from '../../services/apiService'
+import { acceptDataTimeTable, getTimeTable, rejectDataTimeTable } from '../../services/apiService'
 import { toast } from 'react-toastify'
 import { useAppContext } from '../../context/UserContext'
 
-// const TimeTable = [
-//   {
-//     id: 1,
-//     teacher_id: 1,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 1',
-//     subject_name: 'Tin học',
-//     date: '01/09/2023',
-//   },
-//   {
-//     id: 2,
-//     teacher_id: 1,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 2',
-//     subject_name: 'Tin học',
-//     date: '01/09/2023',
-//   },
-//   {
-//     id: 3,
-//     teacher_id: 1,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 3',
-//     subject_name: 'Tin học',
-//     date: '01/09/2023',
-//   },
-//   {
-//     id: 4,
-//     teacher_id: 2,
-//     full_name: 'Nguyễn Văn Tiến',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 1',
-//     subject_name: 'Tin học',
-//     date: '02/09/2023',
-//   },
-//   {
-//     id: 5,
-//     teacher_id: 2,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 2',
-//     subject_name: 'Tin học',
-//     date: '02/09/2023',
-//   },
-//   {
-//     id: 6,
-//     teacher_id: 2,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 3',
-//     subject_name: 'Tin học',
-//     date: '02/09/2023',
-//   },
-//   {
-//     id: 7,
-//     teacher_id: 3,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 1',
-//     subject_name: 'Tin học',
-//     date: '03/09/2023',
-//   },
-//   {
-//     id: 6,
-//     teacher_id: 2,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 3',
-//     subject_name: 'Tin học',
-//     date: '02/09/2023',
-//   },
-//   {
-//     id: 7,
-//     teacher_id: 3,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 1',
-//     subject_name: 'Tin học',
-//     date: '03/09/2023',
-//   },
-//   {
-//     id: 6,
-//     teacher_id: 2,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 3',
-//     subject_name: 'Tin học',
-//     date: '02/09/2023',
-//   },
-//   {
-//     id: 7,
-//     teacher_id: 3,
-//     full_name: 'Nguyễn Văn Tú',
-//     room_name: 'Phòng 101',
-//     session_name: 'Ca 1',
-//     subject_name: 'Tin học',
-//     date: '03/09/2023',
-//   },
-// ]
 const ManageRegistForm = () => {
   const [timeTable, setTimeTable] = useState()
 
   const { token, currentUser } = useAppContext()
 
-  console.log('timeTable', timeTable)
   // Api
+
+  // GET DATA TABLE
   useEffect(() => {
     fetchDataTable()
   }, [])
@@ -125,6 +25,40 @@ const ManageRegistForm = () => {
         setTimeTable(res.data)
       } else {
         toast.error('Lỗi!!! Không lấy được dữ liệu lịch học...')
+      }
+    }
+    if (currentUser.role === 1) {
+      toast.error('Bạn không có quyền duyệt phiếu')
+    }
+  }
+
+  // Accept DATA
+  const acceptDataTable = async (id) => {
+    if (currentUser.role === 0) {
+      let req = await acceptDataTimeTable(id)
+      if (req.status === true) {
+        toast.success(req.msg)
+        fetchDataTable()
+        return
+      } else {
+        toast.error(req.msg)
+      }
+    }
+    if (currentUser.role === 1) {
+      toast.error('Bạn không có quyền duyệt phiếu')
+    }
+  }
+
+  // Reject DATA
+  const rejectDataTable = async (id) => {
+    if (currentUser.role === 0) {
+      let req = await rejectDataTimeTable(id)
+      if (req.status === true) {
+        toast.success(req.msg)
+        fetchDataTable()
+        return
+      } else {
+        toast.error(req.msg)
       }
     }
     if (currentUser.role === 1) {
@@ -166,39 +100,50 @@ const ManageRegistForm = () => {
           </thead>
           <tbody className="text-gray-900 text-base font-medium pt-[56px]">
             {timeTable?.map((item, index) => {
+              console.log('item', item)
               return (
                 <>
-                  <tr
-                    className={clsx(
-                      index % 2 !== 0 ? 'bg-gray-50' : '',
-                      'border-b border-gray-200 hover:bg-gray-100'
-                    )}
-                    key={item}
-                  >
-                    <td className="whitespace-nowrap px-4 py-4">{item?.id}</td>
-                    <td className="whitespace-nowrap px-4 py-4">{item?.user?.id}</td>
-                    <td className="whitespace-nowrap px-4 py-4">{item?.user?.full_name}</td>
-                    <td className="whitespace-nowrap px-4 py-4">
-                      {item?.classroom?.classroom_name}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-4">{item?.session?.session_name}</td>
-                    <td className="whitespace-nowrap px-4 py-4">{item?.subject?.subject_name}</td>
-                    <td className="whitespace-nowrap px-4 py-4">{item?.date}</td>
-                    <td className="flex justify-center py-4">
-                      <Button
-                        name="delete-form"
-                        className="bg-gray-600 mr-5 -mb-1"
-                        onClick={() => {}}
-                        text="Hủy"
-                      />
-                      <Button
-                        name="update-form"
-                        className="bg-emerald-600 -mb-1"
-                        onClick={() => {}}
-                        text="Duyệt"
-                      />
-                    </td>
-                  </tr>
+                  {item && item.status === 3 ? (
+                    <tr
+                      className={clsx(
+                        index % 2 !== 0 ? 'bg-gray-50' : '',
+                        'border-b border-gray-200 hover:bg-gray-100'
+                      )}
+                      key={item}
+                    >
+                      <td className="whitespace-nowrap px-4 py-4">{item?.id}</td>
+                      <td className="whitespace-nowrap px-4 py-4">{item?.user?.id}</td>
+                      <td className="whitespace-nowrap px-4 py-4">{item?.user?.full_name}</td>
+                      <td className="whitespace-nowrap px-4 py-4">
+                        {item?.classroom?.classroom_name}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-4">{item?.session?.session_name}</td>
+                      <td className="whitespace-nowrap px-4 py-4">{item?.subject?.subject_name}</td>
+                      <td className="whitespace-nowrap px-4 py-4">{item?.date}</td>
+                      <td className="flex justify-center py-4">
+                        <Button
+                          name="delete-form"
+                          className="bg-gray-600 mr-5 -mb-1"
+                          onClick={() => {
+                            rejectDataTable(item.id)
+                          }}
+                          text="Hủy"
+                        />
+                        <Button
+                          name="update-form"
+                          className="bg-emerald-600 -mb-1"
+                          onClick={() => {
+                            acceptDataTable(item.id)
+                          }}
+                          text="Duyệt"
+                        />
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr className="">
+                      <p className="py-5 text-primary">Đợi Lịch Đăng Ký</p>
+                    </tr>
+                  )}
                 </>
               )
             })}

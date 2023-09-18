@@ -117,22 +117,22 @@ const Views = (props) => {
         id_classRoom === String(data.classroom.id) &&
         id_session === String(data.session.id)
       ) {
+        const allStatus = () => {
+          if (data.status === 1) return 'Đã duyệt'
+          if (data.status === 2) return 'Hủy bỏ'
+          if (data.status === 3) return 'Đang duyệt'
+        }
         return (
           <>
             <div
               className={clsx(
-                data.status === 3 ? 'bg-yellow-400' : 'bg-green-500',
+                data.status === 3 ? 'bg-yellow-400' : '',
+                data.status === 2 ? 'bg-red-400' : '',
+                data.status === 1 ? 'bg-green-400' : '',
                 'flex flex-col w-full h-full m-1 p-2'
               )}
             >
-              <span
-                className={clsx(
-                  data.status === 3 ? 'text-gray-500' : 'text-green-500',
-                  'block text-base mb-3'
-                )}
-              >
-                Trạng thái: {data.status === 3 ? 'Đang duyệt' : 'Đã duyệt'}
-              </span>
+              <span className="block text-base mb-3">Trạng thái: {allStatus()}</span>
 
               <div className="mb-2">
                 <span className="text-base">Giảng Viên:</span>

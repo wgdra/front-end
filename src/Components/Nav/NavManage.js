@@ -22,9 +22,7 @@ export default function NavManage() {
   return (
     <div className="z-10 text-gray-200 dark:bg-gray-900">
       <nav className="text-lg flex items-center max-w-full p-6 lg:px-8" aria-label="Global">
-        <NavLink className="w-1/5 text-center font-semibold" to="/manage">
-          MANAGEROOM
-        </NavLink>
+        <NavLink className="w-1/5 text-center font-semibold">MANAGEROOM</NavLink>
 
         <div className="w-3/5 flex">
           <NavLink to="/manage/room-register" className="mr-10 font-semibold leading-6">

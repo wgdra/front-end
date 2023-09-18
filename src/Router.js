@@ -26,7 +26,7 @@ export default function Router() {
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
             </Route>
-
+            <Route path="login" element={<Login />} />
             <Route
               path="/manage/room-register"
               element={
@@ -52,7 +52,6 @@ export default function Router() {
               <Route path="/manage/regist-form" element={<ManageRegistForm />} />
             </Route>
 
-            <Route path="login" element={<Login />} />
             <Route path="profile" element={<Profile />} />
             <Route path="*" element={<Error />} />
           </Routes>

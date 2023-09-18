@@ -34,7 +34,7 @@ export default function Login() {
       if (req.status === true) {
         setCurrentUser(req)
         toast.success(req.msg)
-        navigate('/manage')
+        navigate('/manage/room-register')
       } else {
         toast.error(req.msg)
       }

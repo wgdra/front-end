@@ -130,8 +130,15 @@ const postTimeTable = (session_id, subject_id, classroom_id, date, teacher_id) =
     classroom_id: classroom_id,
     date: date,
     teacher_id: teacher_id,
-    status: 3,
   })
+}
+
+const acceptDataTimeTable = (id) => {
+  return instance.post(`/timetable/accept/${id}`)
+}
+
+const rejectDataTimeTable = (id) => {
+  return instance.post(`/timetable/reject/${id}`)
 }
 
 // Login
@@ -171,6 +178,8 @@ export {
   // Data Table
   getTimeTable,
   postTimeTable,
+  acceptDataTimeTable,
+  rejectDataTimeTable,
 
   // Login
   postLogin,
