@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Select from '../../../ui/Select'
 import { transformData } from '../../../../utils/transformData'
 import { useAppContext } from '../../../../context/UserContext'
+import md5 from 'md5'
 
 export default function ModalAddUser(props) {
   const { setOpen, fetchDataUser, subjectUser } = props
@@ -68,7 +69,7 @@ export default function ModalAddUser(props) {
     if (data && currentUser.role === 0) {
       let req = await postDataUser(
         data.username,
-        data.password,
+        md5(data.password),
         data.fullName,
         data.role,
         data.subject_id ?? null,

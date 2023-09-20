@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { Button } from '../../ui/Button'
 import { useState, useEffect } from 'react'
 import { useAppContext } from '../../../context/UserContext'
+import md5 from 'md5'
 
 const InfoUser = (props) => {
   const {
@@ -70,7 +71,7 @@ const InfoUser = (props) => {
       let req = await putDataUser(
         data.id,
         data.username,
-        data.password,
+        md5(data.password),
         data.full_name,
         data.role,
         inforUser.subject_id ?? null,

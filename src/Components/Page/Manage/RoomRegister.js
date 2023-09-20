@@ -21,10 +21,10 @@ export default function RoomRegister() {
     )})`
   }
 
-  const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  const semester = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
   const showOptionWeek = () => {
-    return a.map((_, index) => (
+    return semester.map((_, index) => (
       <option
         key={index}
         value={typeof newDate === 'string' ? newDate : newDate.format('DD/MM/YYYY')}

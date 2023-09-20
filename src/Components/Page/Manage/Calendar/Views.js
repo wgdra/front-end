@@ -57,7 +57,7 @@ const Views = (props) => {
       setOpen(true)
       setBtnName(name)
     } else {
-      console.log('huhahaha')
+      return
     }
   }
 

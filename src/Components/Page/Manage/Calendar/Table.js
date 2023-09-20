@@ -8,8 +8,6 @@ export const Table = ({ totalTable, listSession, handleModal }) => {
     return `w-1/${listSession.length}`
   }
 
-  console.log('totalTable', totalTable)
-
   const itemLeng = [1, 2, 3, 4, 5, 6, 7]
   return (
     <div className="flex flex-wrap">
