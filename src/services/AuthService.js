@@ -3,8 +3,6 @@ import { postLogin } from './apiService'
 export const login = async (username, password) => {
   const response = await postLogin(username, password)
 
-  console.log('response in auth', response)
-
   if (response.status === true) {
     const token = response.data
     if (token) {

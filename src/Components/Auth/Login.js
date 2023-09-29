@@ -6,6 +6,7 @@ import InputWithValidation from '../ui/InputWithValidation'
 import { login } from '../../services/AuthService'
 import { useAppContext } from '../../context/UserContext'
 import { toast } from 'react-toastify'
+import md5 from 'md5'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -30,7 +31,7 @@ export default function Login() {
   // Api
   const onSubmitHandler = async (data) => {
     if (data) {
-      let req = await login(data.username, data.password)
+      let req = await login(data.username, md5(data.password))
       if (req.status === true) {
         setCurrentUser(req)
         toast.success(req.msg)

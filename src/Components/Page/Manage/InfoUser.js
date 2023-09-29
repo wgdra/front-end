@@ -66,7 +66,6 @@ const InfoUser = (props) => {
   // Api
 
   const handleUpdateUser = async (data) => {
-    console.log('aaaaaaa', data)
     if (data && currentUser.role === 0) {
       let req = await putDataUser(
         data.id,

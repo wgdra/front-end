@@ -100,10 +100,9 @@ const ManageRegistForm = () => {
           </thead>
           <tbody className="text-gray-900 text-base font-medium pt-[56px]">
             {timeTable?.map((item, index) => {
-              console.log('item', item)
               return (
                 <>
-                  {item && item.status === 3 ? (
+                  {item && item.status === 3 && (
                     <tr
                       className={clsx(
                         index % 2 !== 0 ? 'bg-gray-50' : '',
@@ -138,10 +137,6 @@ const ManageRegistForm = () => {
                           text="Duyệt"
                         />
                       </td>
-                    </tr>
-                  ) : (
-                    <tr className="">
-                      <p className="py-5 text-primary">Đợi Lịch Đăng Ký</p>
                     </tr>
                   )}
                 </>

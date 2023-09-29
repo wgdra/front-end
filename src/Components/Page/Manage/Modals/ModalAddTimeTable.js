@@ -23,7 +23,6 @@ export default function ModalAddTimeTable(props) {
     dataOneSubject: '',
   })
 
-  console.log('data', data)
   const { token, currentUser } = useAppContext()
 
   const cancelButtonRef = useRef(null)
@@ -92,6 +91,7 @@ export default function ModalAddTimeTable(props) {
   }
 
   // Submit form
+
   const onSubmitHandler = async (data) => {
     if (data) {
       let req = await postTimeTable(
