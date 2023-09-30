@@ -77,7 +77,6 @@ export default function ModalAddUser(props) {
         data.email,
         token
       )
-
       if (req.status === true) {
         toast.success(req.msg)
         setOpen(false)
@@ -88,7 +87,7 @@ export default function ModalAddUser(props) {
       }
     }
     if (data && currentUser.role === 1) {
-      toast.error('Bạn không có quyền chỉnh sửa')
+      toast.error('Bạn không có quyền')
       setOpen(false)
     }
     reset()

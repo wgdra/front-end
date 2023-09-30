@@ -7,14 +7,16 @@ import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SvgPencilUpdate } from '../../ui/Svg'
-import { getDataOneUser, putDataUser } from '../../../services/apiService'
+import { getDataOneSubject, getDataOneUser, putDataUser } from '../../../services/apiService'
 import { useAppContext } from '../../../context/UserContext'
 import { toast } from 'react-toastify'
+import md5 from 'md5'
 
 export default function ManageProfile() {
   const [isUpdate, setIsUpdate] = useState(false)
 
   const [dataProfile, setDataProfile] = useState('')
+
   const [dataProfileInit, setDataProfileInit] = useState('')
 
   const { token, currentUser } = useAppContext()
@@ -55,32 +57,41 @@ export default function ManageProfile() {
   }, [])
 
   const fetchDataProfile = async () => {
-    let res = await getDataOneUser(currentUser.id)
+    let resOneUser = await getDataOneUser(currentUser.id)
 
-    if (res.status === true) {
-      setDataProfile(res.data)
-      setDataProfileInit(res.data)
+    if (resOneUser.status === true) {
+      setDataProfile(resOneUser.data)
+      setDataProfileInit(resOneUser.data)
     } else {
       toast.error('Lỗi !!! Không lấy được dữ liệu hồ sơ')
     }
   }
 
+  // const fetchDataSubject = async () => {
+  //   let resOneSubject = await getDataOneSubject(dataProfile.subject_id)
+  //   if (resOneSubject.status === true) {
+  //     setDataSubject(resOneSubject.data)
+  //   } else {
+  //     toast.error('Lỗi !!! Không lấy được dữ liệu hồ sơ')
+  //   }
+  // }
+
   // Handle Update
   const handleUpdateProfile = async (data) => {
-    if (data && currentUser.role === 1) {
+    if (data) {
       let req = await putDataUser(
-        data.id,
-        data.username,
-        data.password,
-        data.full_name,
-        data.role,
-        data.subject_id ?? null,
-        data.phone,
-        data.email,
+        dataProfile.id,
+        dataProfile.username,
+        md5(data.password),
+        data.full_name ?? dataProfile.full_name,
+        dataProfile.role,
+        dataProfile.subject_id ?? null,
+        data.phone ?? dataProfile.phone,
+        data.email ?? dataProfile.email,
         token
       )
 
-      if (req.status === 200) {
+      if (req.status === true) {
         toast.success('Chỉnh sửa thành công')
         setIsUpdate(false)
         fetchDataProfile()
